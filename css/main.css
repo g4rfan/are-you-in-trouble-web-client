@@ -1,0 +1,22 @@
+.profile {
+	text-align: right;
+	float: right;
+	margin-right: 10px;
+}
+
+.profile a {
+	color: white;
+	text-decoration: underline;
+}
+
+.profile p {
+	color: whitesmoke;
+}
+
+
+.request {
+	border : 1px solid red;
+	box-shadow : 0 0 3px rgba(0,0,0,.35);
+	padding : 5px;
+	margin : 3px;
+}
