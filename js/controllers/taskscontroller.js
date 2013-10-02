@@ -17,6 +17,8 @@ function tasksCntrl($scope, $compile, networkManager){
     $scope.getTasks = function(){
         networkManager.request('tasks:retrieve', { offset : $scope.offset, limit : $scope.limit }, function(data){
             $scope.tasks.push(data);
+            $scope.offset += $scope.limit;
+            $scope.$apply();
         });
     };
 
