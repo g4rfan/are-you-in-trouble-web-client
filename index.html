@@ -8,6 +8,7 @@
 		<script src = "js/libs/jquery.js"></script>
 		<script src = "js/libs/angular.js"></script>
 		<script src = "bootstrap/js/bootstrap.min.js"></script>
+        <script src = "js/helpers/templatehelper.js"></script>
         <script src = "js/services/networkservice.js"></script>
 		<script src = "js/controllers/profilecontroller.js"></script>
         <script src = "js/scopes/taskscope.js"></script>
@@ -16,10 +17,14 @@
 	</head>
 	<body> 
         <div ng-controller = "tasksCntrl">
-            <button ng-click = 'save()'></button>
+            <button ng-click = 'newTask()'>addTask</button>
             <div ng-repeat = 'task in tasks'>
                 <div>{{ task.content }}</div>
+                <div>{{ task.timestamp }}</div>
+                <button ng-click = 'openTask(task.taskId)'>OpenTask + {{ task.taskId }}</button>
             </div>
         </div>
+
+        <div class="task-view"></div>
 	</body>
 </html>

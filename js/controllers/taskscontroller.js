@@ -5,20 +5,20 @@
 function tasksCntrl($scope, $compile, networkManager){
     $scope.offset = 0;
     $scope.limit = 10;
-    $scope.tasks = [{ title : '1', content : 'tsk1', timestamp : new Date() },
-        { title : '2', content : 'tsk2', timestamp : new Date() },
-        { title : '3', content : 'tsk3', timestamp : new Date() },
-        { title : '4', content : 'tsk4', timestamp : new Date() },
-        { title : '5', content : 'tsk5', timestamp : new Date() },
-        { title : '6', content : 'tsk6', timestamp : new Date() } ];
+    $scope.tasks = [
+        { taskId : 1, title : '1', content : 'tsk1', timestamp : new Date() },
+        { taskId : 2, title : '2', content : 'tsk2', timestamp : new Date() },
+        { taskId : 3, title : '3', content : 'tsk3', timestamp : new Date() },
+        { taskId : 4, title : '4', content : 'tsk4', timestamp : new Date() },
+        { taskId : 5, title : '5', content : 'tsk5', timestamp : new Date() },
+        { taskId : 6, title : '6', content : 'tsk6', timestamp : new Date() } ];
 
     $scope._domRef = $('.task-view');
 
     $scope.getTasks = function(){
-        networkManager.request('tasks:retrieve', { offset : $scope.offset, limit : $scope.limit }, function(data){
+        networkManager.request('tasks:retrieve', { offset : $scope.offset,  limit : $scope.limit, filters : [] }, function(data){
             $scope.tasks.push(data);
             $scope.offset += $scope.limit;
-            $scope.$apply();
         });
     };
 
@@ -35,13 +35,17 @@ function tasksCntrl($scope, $compile, networkManager){
             }
             ++i;
         }
-        var scope = new taskScope(task, networkManager);
-        $compile($scope._domRef)(scope);
+        var scope = $scope.$new();
+        scope.data = task;
+
+        var nElement = $compile(TemplateStorage.templates.task)(scope);
+        $scope._domRef.empty();
+        $scope._domRef.append(nElement);
     };
 
     $scope.newTask = function(){
-        var scope = new taskScope({ taskId : 0, description : 'hello' }, networkManager);
-        $compile($scope._domRef)(scope);
+        $scope.tasks.unshift({ taskId : 1, title : 'n', content : 'tskm', timestamp : new Date() });
+
     };
 
     $scope.save = function(){
@@ -52,8 +56,8 @@ function tasksCntrl($scope, $compile, networkManager){
 
     $scope.getTasks();
 
-    $(window).on('scroll', function(event){
-        if($(window).scrollTop() + $(window).height() == $(document).height()){
+    $('.request-lists').on('scroll', function(event){
+        if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight){
             $scope.getTasks();
         }
     });
