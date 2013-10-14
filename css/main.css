@@ -29,3 +29,24 @@ body {
     padding: 5px;
     display: inline-block;
 }
+
+.filters{
+    height: 904px;
+    float: left;
+    width: 300px;
+    background: #cbd0d6;
+    margin-top: -17px;
+}
+
+.open-filter-button{
+    position: relative;
+    background: #cbd0d6;
+    -webkit-transform: rotate(-90deg);
+    left: 230px;
+    top: 124px;
+    width: 95px;
+    height: 45px;
+    text-align: center;
+    padding: 15px 22px;
+    color: #ffffff;
+}
