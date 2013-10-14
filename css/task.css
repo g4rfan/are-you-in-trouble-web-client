@@ -1,0 +1,28 @@
+.task-list{
+    margin-top: 60px;
+    margin-left: 60px;
+}
+
+.task {
+    width: 300px;
+    height: 180px;
+    background: white;
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    line-height: 23px;
+    padding: 10px;
+}
+
+.task h3 {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.task header{
+    height: 10px;
+    width: 300px;
+    background: rgb(255,220,100);
+    margin-left: -10px;
+    margin-top: -10px;
+}

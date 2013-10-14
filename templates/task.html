@@ -1,4 +1,5 @@
-<h1>{{ data.title }}</h1>
-<span> {{ data.content }}</span>
-<br/>
-<input ng-model="data.content"/>
+<section class = 'task'>
+    <header></header>
+    <h3>{{ task.title }}</h3>
+    <div> {{ task.content.slice(0, 120) }}</div>
+</section>

@@ -1,0 +1,70 @@
+.login-background {
+    background: rgb(44, 62, 80);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    -webkit-transition: top .35s linear, opacity .2s linear;
+}
+
+.navbar.special {
+    background: rgb(44, 62, 80);
+    height: 45px;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.navbar .navbar-text {
+    color: white;
+    font-size: 14pt;
+    font-family: "DejaVu Sans Light";
+    border: none;
+}
+
+.login-form {
+    position: absolute;
+    top : 50%;
+    left : 50%;
+    width: 400px;
+    height: 200px;
+    margin-left: -155px;
+    margin-top: -100px;
+}
+
+.login-form h1 {
+    color: white;
+    font-family: "DejaVu Sans Light";
+    margin-left: -40px;
+}
+
+.login-form input {
+    margin-top: 15px;
+    display: block;
+    width: 300px;
+}
+
+.login-form .buttons {
+    margin-top: 15px;
+}
+
+.login-form .login-button {
+    display: inline-block;
+    width: 140px;
+    text-align: center;
+    font-family: "DejaVu Sans Mono";
+    font-size: 14pt;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.login-form .login-button.positive {
+    background: rgb(39, 174, 96);
+}
+
+.login-form .login-button.negative {
+    background: rgb(231, 76, 60);
+    margin-left: 16px;
+}

@@ -1,3 +1,7 @@
+body {
+    background: rgb(236, 238, 241);
+}
+
 .profile {
 	text-align: right;
 	float: right;
@@ -12,7 +16,6 @@
 .profile p {
 	color: whitesmoke;
 }
-
 
 .request {
 	border : 1px solid red;

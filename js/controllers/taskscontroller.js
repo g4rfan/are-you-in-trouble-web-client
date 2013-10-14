@@ -6,12 +6,12 @@ function tasksCntrl($scope, $compile, networkManager){
     $scope.offset = 0;
     $scope.limit = 10;
     $scope.tasks = [
-        { taskId : 1, title : '1', content : 'tsk1', timestamp : new Date() },
-        { taskId : 2, title : '2', content : 'tsk2', timestamp : new Date() },
-        { taskId : 3, title : '3', content : 'tsk3', timestamp : new Date() },
-        { taskId : 4, title : '4', content : 'tsk4', timestamp : new Date() },
-        { taskId : 5, title : '5', content : 'tsk5', timestamp : new Date() },
-        { taskId : 6, title : '6', content : 'tsk6', timestamp : new Date() } ];
+        { taskId : 1, title : 'Player Controls', content : 'Change the color, size, controls, and thumbnail of your video.', timestamp : new Date() },
+        { taskId : 2, title : 'Video SEO', content : 'Tools to improve your site’s SEO, not someone else’s.', timestamp : new Date() },
+        { taskId : 3, title : 'Video Heatmaps & Engagement Graphs', content : 'Track and analyze how individuals watch your video, second by second.', timestamp : new Date() },
+        { taskId : 4, title : 'Turnstile Email Collector', content : 'Turn your video into a lead generation machine.', timestamp : new Date() },
+        { taskId : 5, title : 'Private Sharing', content : 'Share and collaborate around video with password-protected security.', timestamp : new Date() },
+        { taskId : 6, title : 'Social Sharing', content : 'Share your videos and track their viewing on your favorite social services.', timestamp : new Date() } ];
 
     $scope._domRef = $('.task-view');
 
