@@ -1,7 +1,7 @@
 /**
  * Created by garffan on 10/2/13.
  */
-io = { connect : function(){ return { emit : function() { }, on : function(){ } } } };
+//io = { connect : function(){ return { emit : function() { }, on : function(){ } } } };
 angular.module('helpdesk.service', []).
     value('networkManager', {
         _socket : io.connect(window.location.origin + '/'),
