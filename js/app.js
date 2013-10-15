@@ -18,6 +18,9 @@ TemplateStorage.getTemplate('login', function(template){
 });
 
 $(document).ready(function(){
+    $(window).on('resize', function(){
+        console.log($('.filters').width());
+    });
 });
 
 TemplateStorage.getTemplate('task');

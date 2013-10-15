@@ -8,11 +8,13 @@
 		<link href = "css/main.css" rel = "stylesheet"/>
         <link href = "css/login.css" rel = "stylesheet"/>
         <link href = "css/task.css" rel = "stylesheet"/>
+
 		<script src = "/socket.io/socket.io.js"></script>
 		<script src = "js/libs/jquery.js"></script>
 		<script src = "js/libs/angular.js"></script>
 		<script src = "bootstrap/js/bootstrap.min.js"></script>
         <script src = "js/helpers/templatehelper.js"></script>
+        <script src = "js/helpers/interface.js"></script>
         <script src = "js/services/networkservice.js"></script>
 		<script src = "js/controllers/profilecontroller.js"></script>
         <script src = "js/scopes/taskscope.js"></script>
@@ -24,15 +26,13 @@
             <p class = "navbar-text">Заявки</p>
         </nav>
 
-        <div class="filters"> <div class = 'open-filter-button'>Фильтры</div></div>
+        <div class = "filters"> <div class = 'open-filter-button'></div></div>
         <div ng-controller = "tasksCntrl" class = "task-list">
-            <div ng-repeat = 'task in tasks'>
-                <section class = 'task'>
-                    <header></header>
-                    <h3>{{ task.title }}</h3>
-                    <div> {{ task.content.slice(0, 120) }}</div>
-                </section>
-            </div>
+            <section class = 'task' ng-repeat = 'task in tasks'>
+                <header></header>
+                <h3>{{ task.title }}</h3>
+                <div> {{ task.content.slice(0, 120) }}</div>
+            </section>
         </div>
         <div class="task-view"></div>
 	</body>
