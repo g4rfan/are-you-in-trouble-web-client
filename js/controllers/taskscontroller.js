@@ -53,9 +53,6 @@ function tasksCntrl($scope, $compile, networkManager){
         });
     };
 
-    if(tlogin)
-        $scope.getTasks();
-
     onlogin = function(){
         $scope.getTasks();
     };

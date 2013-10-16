@@ -20,6 +20,7 @@ function login(){
         },
 
         success : function(data){
+            console.log(angular.module('helpdesk.service').value('networkManager'));
             var back = $('.login-background');
             back.css({
                 height : $(document.body).height(),
@@ -31,8 +32,11 @@ function login(){
                 back.css('opacity', 0);
                 setTimeout(function(){
                     back.hide();
-                    onlogin();
-                    tlogin = true
+                    tlogin = true;
+                    setTimeout(function(){
+                        globalInitSocket();
+                        onlogin();
+                    }, 300);
                 }, 200);
             }, 300);
         }
