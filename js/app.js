@@ -48,9 +48,11 @@ $(document).ready(function(){
         console.log($('.filters').width());
     });
 
-
 });
 
 TemplateStorage.getTemplate('task');
+TemplateStorage.getTemplate('filters', function(template){
+    $('.filters').append(template);
+});
 
 angular.module('helpdesk', ['helpdesk.service']);
