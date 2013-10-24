@@ -1,10 +1,10 @@
 .filters li {
-    list-style : none;
-    width : 150px;
+    list-style: none;
+    width: 150px;
 }
 
 .filters li .color-label {
-    height : 20px;
-    width : 10px;
+    height: 20px;
+    width: 10px;
     display: inline-block;
 }

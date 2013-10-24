@@ -3,34 +3,34 @@ body {
 }
 
 .profile {
-	text-align: right;
-	float: right;
-	margin-right: 10px;
+    text-align: right;
+    float: right;
+    margin-right: 10px;
 }
 
 .profile a {
-	color: white;
-	text-decoration: underline;
+    color: white;
+    text-decoration: underline;
 }
 
 .profile p {
-	color: whitesmoke;
+    color: whitesmoke;
 }
 
 .request {
-	border : 1px solid red;
-	box-shadow : 0 0 3px rgba(0,0,0,.35);
-	padding : 5px;
-	margin : 3px;
+    border: 1px solid red;
+    box-shadow: 0 0 3px rgba(0, 0, 0, .35);
+    padding: 5px;
+    margin: 3px;
 }
 
-.task-view{
-    margin : 10px;
+.task-view {
+    margin: 10px;
     padding: 5px;
     display: inline-block;
 }
 
-.filters{
+.filters {
     height: 904px;
     float: left;
     width: 300px;
@@ -38,7 +38,7 @@ body {
     margin-top: -17px;
 }
 
-.open-filter-button{
+.open-filter-button {
     position: relative;
     background: #cbd0d6;
     -webkit-transform: rotate(-90deg);

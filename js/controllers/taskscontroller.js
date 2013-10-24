@@ -2,17 +2,17 @@
  * Created by garffan on 10/2/13.
  */
 
-function tasksCntrl($scope, $compile, networkManager){
+function tasksCntrl($scope, $compile, networkManager) {
     $scope.offset = 0;
     $scope.limit = 10;
     $scope.tasks = [];
 
     $scope._domRef = $('.task-view');
 
-    $scope.getTasks = function(){
-        networkManager.request('tasks:retrieve', { offset : $scope.offset,  limit : $scope.limit, filters : [] }, function(data){
+    $scope.getTasks = function () {
+        networkManager.request('tasks:retrieve', { offset: $scope.offset, limit: $scope.limit, filters: [] }, function (data) {
             var i = 0, len = data.length;
-            while(i < len){
+            while (i < len) {
                 $scope.tasks.push(data[i]);
                 ++i;
             }
@@ -21,14 +21,14 @@ function tasksCntrl($scope, $compile, networkManager){
         });
     };
 
-    networkManager.on('tasks:new', function(data){
+    networkManager.on('tasks:new', function (data) {
         $scope.unshift(data);
     });
 
-    $scope.openTask = function(taskId){
+    $scope.openTask = function (taskId) {
         var i = 0, len = $scope.tasks.length, task = null;
-        while(i < len){
-            if($scope.tasks[i].taskId == taskId){
+        while (i < len) {
+            if ($scope.tasks[i].taskId == taskId) {
                 task = $scope.tasks[i];
                 break;
             }
@@ -42,24 +42,30 @@ function tasksCntrl($scope, $compile, networkManager){
         $scope._domRef.append(nElement);
     };
 
-    $scope.newTask = function(){
-        $scope.tasks.unshift({ taskId : 1, title : 'n', content : 'tskm', timestamp : new Date() });
+    $scope.newTask = function () {
+        $scope.tasks.unshift({ taskId: 1, title: 'n', content: 'tskm', timestamp: new Date() });
 
     };
 
-    $scope.save = function(){
-        networkManager.request('tasks:save', $scope.tasks, function(data){
+    $scope.save = function () {
+        networkManager.request('tasks:save', $scope.tasks, function (data) {
             console.log('save' + new Date());
         });
     };
 
-    onlogin = function(){
+    onlogin = function () {
         $scope.getTasks();
     };
 
+    $scope.events = {};
 
-    $('.request-lists').on('scroll', function(event){
-        if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight){
+    $scope.events.click = function($event) {
+        console.log('Eve');
+        console.log($event);
+    };
+
+    $('.request-lists').on('scroll', function (event) {
+        if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
             $scope.getTasks();
         }
     });

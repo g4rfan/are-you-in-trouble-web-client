@@ -1,39 +1,43 @@
 var tlogin = false;
 
-TemplateStorage.getTemplate('login', function(template){
+TemplateStorage.getTemplate('login', function (template) {
     $(document.body).append(template);
-    $('.login-button').on('click', function(){
+    $('.login-button').on('click', function () {
         login();
     });
 });
 
 
-function login(){
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function login() {
     $.ajax({
-        url : '/login-internal/',
-        type : 'post',
-        data : { username : $('#username').val(), password : $('#password').val() },
-        complete : function(jqXhr, statusText){
-            if(jqXhr.status == 403){
+        url: '/login-internal/',
+        type: 'post',
+        data: { username: $('#username').val(), password: $('#password').val() },
+        complete: function (jqXhr, statusText) {
+            if (jqXhr.status == 403) {
                 $('.login-form input[type=text], .login-form input[type=password]').val('');
             }
         },
 
-        success : function(data){
-            console.log(angular.module('helpdesk.service').value('networkManager'));
+        success: function (data) {
             var back = $('.login-background');
             back.css({
-                height : $(document.body).height(),
-                bottom : '',
-                top : '-' + (back.height() - 45) + 'px'
+                height: $(document.body).height(),
+                bottom: '',
+                top: '-' + (back.height() - 45) + 'px'
             });
 
-            setTimeout(function(){
+            setTimeout(function () {
                 back.css('opacity', 0);
-                setTimeout(function(){
+                setTimeout(function () {
                     back.hide();
                     tlogin = true;
-                    setTimeout(function(){
+                    setTimeout(function () {
                         globalInitSocket();
                         onlogin();
                     }, 300);
@@ -43,15 +47,15 @@ function login(){
     });
 }
 
-$(document).ready(function(){
-    $(window).on('resize', function(){
+$(document).ready(function () {
+    $(window).on('resize', function () {
         console.log($('.filters').width());
     });
 
 });
 
 TemplateStorage.getTemplate('task');
-TemplateStorage.getTemplate('filters', function(template){
+TemplateStorage.getTemplate('filters', function (template) {
     $('.filters').append(template);
 });
 
