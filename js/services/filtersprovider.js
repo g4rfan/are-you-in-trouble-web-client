@@ -7,8 +7,8 @@
  */
 
 
-angular.module('helpdesk.service').service('filterProvider', function (networkManager) {
-    var serviceModel =  {
+angular.module('helpdesk.service').service('filtersProvider', function (networkManager) {
+    var serviceModel = {
         _storage : [],
 
         getFilters : function () {
@@ -24,7 +24,11 @@ angular.module('helpdesk.service').service('filterProvider', function (networkMa
             networkManager.emit('filter:save', function (data) {
                 self.insert(data);
             });
-        }
+        },
+
+        events : new EventEmitter({
+            'filters set changed' : []
+        })
     };
 
     var i = 0, len = 10;

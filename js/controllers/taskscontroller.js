@@ -2,7 +2,7 @@
  * Created by garffan on 10/2/13.
  */
 
-function tasksCntrl($scope, $compile, networkManager) {
+function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
     $scope.offset = 0;
     $scope.limit = 10;
     $scope.tasks = [];
@@ -57,12 +57,9 @@ function tasksCntrl($scope, $compile, networkManager) {
         $scope.getTasks();
     };
 
-    $scope.events = {};
-
-    $scope.events.click = function($event) {
-        console.log('Eve');
-        console.log($event);
-    };
+    filtersProvider.events.addEventListener('filters set changed', function () {
+        console.log('task controller : filters set changed');
+    });
 
     $('.request-lists').on('scroll', function (event) {
         if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {

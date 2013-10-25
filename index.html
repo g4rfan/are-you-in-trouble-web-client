@@ -15,6 +15,7 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/helpers/templatehelper.js"></script>
     <script src="js/helpers/interface.js"></script>
+    <script src="js/helpers/eventemitter.js"></script>
     <script src="js/services/service.js"></script>
     <script src="js/services/networkservice.js"></script>
     <script src="js/services/filtersprovider.js"></script>
@@ -35,7 +36,7 @@
     <h6>Кафедры</h6>
     <ul>              <!--myStyle = { background : filterItem.color, color : 'white' }-->
         <li ng-repeat='filterItem in filters | filter : filterName ' ng-style="myStyle"
-            ng-click="alert('bitch')"> <!-- events.click($event) -->
+            ng-click="events.click($event)" data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
             <span class="color-label" ng-style="{ background : filterItem.color }"></span> {{ filterItem.name }}
         </li>
     </ul>

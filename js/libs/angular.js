@@ -13419,6 +13419,7 @@
             ngEventDirectives[directiveName] = ['$parse', function ($parse) {
                 return function (scope, element, attr) {
                     var fn = $parse(attr[directiveName]);
+                    //  console.log('fn : ', fn(scope));
                     element.bind(lowercase(name), function (event) {
                         scope.$apply(function () {
                             fn(scope, {$event: event});
