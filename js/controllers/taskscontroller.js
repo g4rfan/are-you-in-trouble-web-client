@@ -57,8 +57,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
         $scope.getTasks();
     };
 
-    filtersProvider.events.addEventListener('filters set changed', function () {
-        console.log('task controller : filters set changed');
+    filtersProvider.events.addEventListener('filters set changed', function (data) {
+        console.log('task controller : filters set changed ', data);
     });
 
     $('.request-lists').on('scroll', function (event) {
