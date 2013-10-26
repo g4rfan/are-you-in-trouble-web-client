@@ -3,16 +3,16 @@
  */
 
 var TemplateStorage = {
-    templates : {},
+    templates: {},
 
-    getTemplate : function(templateName, callback){
+    getTemplate: function (templateName, callback) {
         var self = this;
         $.ajax({
-            url : 'templates/' + templateName + '.html',
-            type : 'get',
-            success : function(data){
+            url: 'templates/' + templateName + '.html',
+            type: 'get',
+            success: function (data) {
                 self.templates[templateName] = data;
-                if(callback){
+                if (callback) {
                     callback(data);
                 }
             }
