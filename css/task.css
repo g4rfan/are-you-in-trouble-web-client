@@ -27,6 +27,10 @@
     margin-top: -10px;
 }
 
+.task.new-task {
+    height: 378px;
+}
+
 .task.new-task header {
     height: auto;
     background: none;
@@ -46,4 +50,20 @@
 
 .task.new-task header h4 {
     color: rgb(161, 161, 161);
+}
+
+.task .button-save {
+    background: rgb(248, 163, 43);
+    width: 140px;
+    font-family: "DejaVu Sans Mono";
+    font-size: 12pt;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin-left: 80px;
+}
+
+.task textarea {
+    margin-bottom: 10px;
 }

@@ -4,27 +4,47 @@
 
 function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
     $scope.offset = 0;
-    $scope.limit = 10;
+    $scope.limit = 50;
     $scope.tasks = [];
+    $scope.filters = filtersProvider.getFilters();
 
     $scope._domRef = $('.task-view');
 
-    $scope.getTasks = function () {
+    $scope.getTasks = function (filters) {
+        var params = {};
+        if (!filters) {
+            params = {
+                offset: $scope.offset,
+                limit: $scope.limit,
+                filters: { /*'university_department_id' : []*/ closed_by_id : null }
+            };
+        } else {
+            params = {
+                offset: $scope.offset,
+                limit: $scope.limit
+            };
 
-        var params = {
-            offset: $scope.offset,
-            limit: $scope.limit,
-            filters: { /*'university_department_id' : []*/ closed_by_id : null }
-        };
+            var udi = [];
+
+            for (var key in filters) {
+                udi.push(key);
+            }
+
+            if (udi.length == 0) {
+                params.filters = { closed_by_id : null };
+            } else {
+                params.filters = { closed_by_id : null, university_department_id : udi };
+            }
+        }
 
         networkManager.request('tasks:retrieve', params, function (data) {
-            console.log(data);
             var i = 0, len = data.length;
+            $scope.tasks.length = 0;
             while (i < len) {
                 $scope.tasks.push(data[i]);
                 ++i;
             }
-            $scope.offset += $scope.limit;
+            //$scope.offset += $scope.limit;
             $scope.$digest();
         });
     };
@@ -56,7 +76,13 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
     };
 
     $scope.save = function () {
-        networkManager.request('tasks:save', $scope.tasks, function (data) {
+        var task = {
+            content: $('.new-task textarea').val(),
+            university_department_id: $scope.selectedUniDep,
+            type_id : $scope.selectedTaskType
+        };
+
+        networkManager.request('tasks:save', task, function (data) {
             console.log('save' + new Date());
         });
     };
@@ -67,7 +93,11 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
     };
 
     filtersProvider.events.addEventListener('filters set changed', function (data) {
-        console.log('task controller : filters set changed ', data);
+        $scope.getTasks(data);
+    });
+
+    filtersProvider.events.addEventListener('filters got', function (data) {
+        $scope.filters = filtersProvider.getFilters();
     });
 
     $('.request-lists').on('scroll', function (event) {

@@ -24,4 +24,9 @@ function filterCntrl($scope, filtersProvider) {
         }
         filtersProvider.events.fire('filters set changed', selectedFilters);
     };
+
+    filtersProvider.events.addEventListener('filters got', function () {
+        $scope.filters = filtersProvider.getFilters();
+        $scope.$digest();
+    });
 }

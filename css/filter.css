@@ -1,6 +1,7 @@
 .filters li {
     list-style: none;
     width: 150px;
+    cursor: default;
 }
 
 .filters li .color-label {
