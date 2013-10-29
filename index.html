@@ -36,7 +36,7 @@
     <h6>Кафедры</h6>
     <ul>
         <li ng-repeat='filterItem in filters.universityDep | filter : filterName ' ng-style="myStyle"
-            ng-click="events.click($event)" data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
+            ng-click="events.click($event)" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
             <span class="color-label" ng-style="{ background : filterItem.color }"></span> {{ filterItem.name }}
         </li>
     </ul>
@@ -44,7 +44,7 @@
     <h6>Тип заявки</h6>
     <ul>
         <li ng-repeat='filterItem in filters.taskTypes | filter : filterName ' ng-style="myStyle"
-            ng-click="events.click($event)" data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
+            ng-click="events.click($event)" data-section = 'taskTypes' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
             <span class="color-label" ng-style="{ background : filterItem.color }"></span> {{ filterItem.name }}
         </li>
     </ul>

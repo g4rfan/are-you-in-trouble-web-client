@@ -24,16 +24,23 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
                 limit: $scope.limit
             };
 
-            var udi = [];
+            var udi = [], ti = [];
 
-            for (var key in filters) {
+            for (var key in filters.universityDep) {
                 udi.push(key);
             }
 
-            if (udi.length == 0) {
-                params.filters = { closed_by_id : null };
-            } else {
-                params.filters = { closed_by_id : null, university_department_id : udi };
+            for (var key in filters.taskTypes) {
+		ti.push(key);
+	    }		
+	    
+            params.filters = { closed_by_id : null };
+            if (udi.length != 0) {
+                params.filters.university_department_id = udi;
+            }
+	    
+	    if (ti.length != 0) {
+		params.filters.type_id = ti;
             }
         }
 
