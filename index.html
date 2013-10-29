@@ -43,6 +43,13 @@
 </div>
 
 <div ng-controller="tasksCntrl" class="task-list">
+    <section class="task new-task">
+        <header>
+            <img src="resources/newtask.png"/>
+            <h4>НОВАЯ ЗАЯВКА</h4>
+        </header>
+        <textarea></textarea>
+    </section>
     <section class='task' ng-repeat='task in tasks'>
         <header></header>
         <!--<h3>{{ task.title }}</h3>-->

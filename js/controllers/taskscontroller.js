@@ -10,7 +10,15 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
     $scope._domRef = $('.task-view');
 
     $scope.getTasks = function () {
-        networkManager.request('tasks:retrieve', { offset: $scope.offset, limit: $scope.limit, filters: [] }, function (data) {
+
+        var params = {
+            offset: $scope.offset,
+            limit: $scope.limit,
+            filters: { /*'university_department_id' : []*/ closed_by_id : null }
+        };
+
+        networkManager.request('tasks:retrieve', params, function (data) {
+            console.log(data);
             var i = 0, len = data.length;
             while (i < len) {
                 $scope.tasks.push(data[i]);
@@ -37,7 +45,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
         var scope = $scope.$new();
         scope.data = task;
 
-        var nElement = $compile(TemplateStorage.templates.task)(scope);
+        var nElement = $compile(TemplateStorage.templates['task'])(scope);
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
     };
@@ -54,6 +62,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
     };
 
     onlogin = function () {
+        filtersProvider.getFiltersFromServer();
         $scope.getTasks();
     };
 

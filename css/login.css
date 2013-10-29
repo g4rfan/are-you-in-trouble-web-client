@@ -68,3 +68,7 @@
     background: rgb(231, 76, 60);
     margin-left: 16px;
 }
+
+.login-form input {
+    padding: 8px 10px;
+}

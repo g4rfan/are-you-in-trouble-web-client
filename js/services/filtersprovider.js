@@ -26,12 +26,26 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
             });
         },
 
+        getFiltersFromServer : getFiltersFromServer,
+
         events : new EventEmitter({
             'filters set changed' : []
         })
     };
 
-    var i = 0, len = 10;
+    function getFiltersFromServer() {
+        networkManager.request('university departments:retrieve', function(data) {
+            var i = 0, len = data.length;
+            while (i < len) {
+                var color = 'rgb(' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ')';
+                data[i].color = color;
+                serviceModel.insert(data[i]);
+                ++i;
+            }
+        });
+    }
+
+   /* var i = 0, len = 10;
     while (i < len) {
         serviceModel.insert({
             id : i,
@@ -40,7 +54,7 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
         });
         ++i;
     }
-
+*/
     networkManager.on('filter:added', function (data) {
         serviceModel.insert(data);
     });

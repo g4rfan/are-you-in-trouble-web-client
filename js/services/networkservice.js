@@ -7,6 +7,11 @@ angular.module('helpdesk.service').service('networkManager', function () {
 
     globalInitSocket = function () {
         _socket = io.connect(window.location.origin + '/');
+        if (_socket) {
+            _socket.on('err', function (data) {
+                console.log(data);
+            });
+        }
     };
 
     function getSocket() {

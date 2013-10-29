@@ -42,6 +42,7 @@ body {
     position: relative;
     background: #cbd0d6;
     -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
     left: 230px;
     top: 124px;
     width: 95px;
@@ -49,4 +50,25 @@ body {
     text-align: center;
     padding: 15px 22px;
     color: #ffffff;
+}
+
+input {
+    border-radius: 0;
+    outline: none;
+    border: 1px solid rgb(177, 177, 177);
+    padding: 3px 15px;
+}
+
+input:focus {
+    box-shadow: none;
+    border-color: rgb(177, 177, 177);
+}
+
+.task textarea {
+    border: 1px solid rgb(177, 177, 177);
+    outline: none;
+    min-width: 280px;
+    min-height: 100px;
+    max-height: 150px;
+    max-width: 280px;
 }

@@ -26,3 +26,24 @@
     margin-left: -10px;
     margin-top: -10px;
 }
+
+.task.new-task header {
+    height: auto;
+    background: none;
+    margin-left: -10px;
+    text-align: center;
+    padding-top: 10px;
+    vertical-align: bottom;
+}
+
+.task.new-task header img, .task.new-task header h4 {
+    display: inline-block;
+}
+
+.task.new-task header img {
+    margin-top: -5px;
+}
+
+.task.new-task header h4 {
+    color: rgb(161, 161, 161);
+}
