@@ -89,7 +89,7 @@ Validator.filters = {
           }
         }
       },
-      filter: {
+      filters: {
         type: 'object',
         properties: {
           closed_by_id: new Validator.types.SerialFilter(),
