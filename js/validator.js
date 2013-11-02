@@ -174,7 +174,7 @@ function validator(validate, entity, entry) {
   if (!legend) {
     return {
       valid: false,
-      errors: [ 'Invalid entity type' ]
+      errors: [ { message: 'invalid entity type' } ]
     };
   }
   cleanObject(entry, legend);
