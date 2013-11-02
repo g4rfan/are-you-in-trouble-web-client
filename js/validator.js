@@ -35,6 +35,12 @@ Validator.types.Enum = function (values, required) {
 };
 Validator.types.UserRole = new Validator.types.Enum([ 'client', 'helper', 'subdepartment chief', 'department chief' ]);
 Validator.types.OrderingDirection = new Validator.types.Enum([ 'ASC', 'DESC' ]);
+Validator.types.SerialFilter = {
+  type: [ 'integer', 'array', 'null' ],
+  minimum: 1,
+  minLength: 1,
+  items: new Validator.types.Integer(1)
+};
 
 for (var property in Validator.types) {
   if (!Validator.types.hasOwnProperty(property) || typeof Validator.types[property] === 'function') {
@@ -83,9 +89,14 @@ Validator.filters = {
           }
         }
       },
-      filters: {
-        type: 'object'
-        // FIXME: improve filters requirements and updated filters structure in the server code
+      filter: {
+        type: 'object',
+        properties: {
+          closed_by_id: new Validator.types.SerialFilter(),
+          type_id: new Validator.types.SerialFilter(),
+          university_department_id: new Validator.types.SerialFilter(),
+          subdepartment_id: new Validator.types.SerialFilter()
+        }
       }
     }
   },
@@ -194,7 +205,28 @@ function cleanObject(entry, legend) {
       if (propertyLegend == undefined) {
         delete entry[property];
       } else {
-        if ((propertyLegend.type === 'integer' || propertyLegend.type === 'number')
+        if (propertyLegend.type instanceof Array) {
+          // instructions inside that block are very dirty, implemented only for SerialFilter type
+          // FIXME: refactor that method to be universal
+          if ((propertyLegend.type.indexOf('null') === -1 || entry[property] !== null)) {
+            if (propertyLegend.type.indexOf('integer') !== -1 && entry[property] == +entry[property]) {
+              entry[property] = +entry[property];
+            } else if (propertyLegend.type.indexOf('array') !== -1 && propertyLegend.items
+              && entry[property] instanceof Array) {
+              if (propertyLegend.items.type === 'object') {
+                for (var k = 0; k < entry[property].length; ++k) {
+                  cleanObject(entry[property][k], propertyLegend.items);
+                }
+              } else if (propertyLegend.items.type === 'integer' || propertyLegend.items.type === 'number') {
+                for (var l = 0; l < entry[property].length; ++l) {
+                  if (entry[property][l] == +entry[property][l]) {
+                    entry[property][l] = +entry[property][l];
+                  }
+                }
+              }
+            }
+          }
+        } else if ((propertyLegend.type === 'integer' || propertyLegend.type === 'number')
           && entry[property] == +entry[property]) {
           entry[property] = +entry[property];
         } else if (propertyLegend.type === 'boolean') {
