@@ -100,6 +100,7 @@ Validator.filters = {
       id: new Validator.types.Serial(),
       content: new Validator.types.Text(true),
       type_id: new Validator.types.Serial(true),
+      client_id: new Validator.types.Serial(),
       university_department_id: new Validator.types.Serial(true),
       subdepartment_id: new Validator.types.Serial()
     }
