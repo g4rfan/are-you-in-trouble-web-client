@@ -230,9 +230,9 @@ function cleanObject(entry, legend) {
           && entry[property] == +entry[property]) {
           entry[property] = +entry[property];
         } else if (propertyLegend.type === 'boolean') {
-          if (entry[property] == '1' || entry[property] === 1 || entry[property] === 'true') {
+          if (entry[property] === '1' || entry[property] === 1 || entry[property] === 'true') {
             entry[property] = true;
-          } else if (entry[property] == '0' || entry[property] === 0 || entry[property] === 'false') {
+          } else if (entry[property] === '0' || entry[property] === 0 || entry[property] === 'false') {
             entry[property] = false;
           }
         } else if (propertyLegend.type === 'object') {
@@ -256,7 +256,7 @@ function cleanObject(entry, legend) {
       if (!legend.properties.hasOwnProperty(property)) {
         continue;
       }
-      if (entry[property] == undefined && legend.properties[property].default != undefined) {
+      if (entry[property] === undefined && legend.properties[property].default !== undefined) {
         entry[property] = legend.properties[property].default;
       }
     }
