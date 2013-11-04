@@ -134,6 +134,17 @@ Validator.filters = {
   },
   'tasks:close': Validator.presets.onlyTaskIdRequired,
   'tasks:remove': Validator.presets.onlyTaskIdRequired,
+  'tasks:get helpers': {
+    properties: {
+      taskIds: {
+        type: 'array',
+        uniqueItems: true,
+        required: true,
+        minLength: 1,
+        items: new Validator.types.Serial()
+      }
+    }
+  },
   'tasks:add helper': {
     properties: {
       taskId: new Validator.types.Serial(true),
