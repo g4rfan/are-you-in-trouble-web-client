@@ -41,6 +41,21 @@ Validator.types.SerialFilter = {
   minLength: 1,
   items: new Validator.types.Integer(1)
 };
+Validator.types.StringFilter = function (length, required) {
+  return {
+    type: [ 'string', 'array', 'null' ],
+    minLength: 1,
+    maxLength: length,
+    items: new Validator.types.String(length),
+    required: required || false
+  }
+};
+Validator.types.RoleFilter = {
+  type: [ 'string', 'array' ],
+  enum: [ 'client', 'helper', 'subdepartment chief', 'department chief' ],
+  minLength: 1,
+  items: new Validator.types.Enum([ 'client', 'helper', 'subdepartment chief', 'department chief' ])
+};
 
 for (var property in Validator.types) {
   if (!Validator.types.hasOwnProperty(property) || typeof Validator.types[property] === 'function') {
@@ -95,7 +110,8 @@ Validator.filters = {
           closed_by_id: new Validator.types.SerialFilter(),
           type_id: new Validator.types.SerialFilter(),
           university_department_id: new Validator.types.SerialFilter(),
-          subdepartment_id: new Validator.types.SerialFilter()
+          subdepartment_id: new Validator.types.SerialFilter(),
+          content: new Validator.types.StringFilter(128)
         }
       }
     }
@@ -171,6 +187,71 @@ Validator.filters = {
       id: new Validator.types.Serial(),
       name: new Validator.types.String(60, true)
     }
+  },
+  'profiles:retrieve': {
+    properties: {
+      limit: new Validator.types.Integer(1, 50),
+      offset: new Validator.types.Integer(0),
+      order: {
+        type: 'array',
+        uniqueItems: true,
+        items: {
+          type: 'object',
+          properties: {
+            column: new Validator.types.Enum([ 'displayname', 'created_at', 'updated_at' ], true),
+            direction: new Validator.types.OrderingDirection(true)
+          }
+        }
+      },
+      filters: {
+        type: 'object',
+        properties: {
+          id: new Validator.types.SerialFilter(),
+          displayname: new Validator.types.StringFilter(60),
+          email: new Validator.types.StringFilter(60),
+          phone: new Validator.types.StringFilter(60),
+          role: new Validator.types.RoleFilter(),
+          university_department_id: new Validator.types.SerialFilter(),
+          subdepartment_id: new Validator.types.SerialFilter()
+        }
+      }
+    }
+  },
+  'profiles:save': {
+    properties: {
+      displayname: new Validator.types.String(60, true),
+      phone: new Validator.types.String(15)
+    }
+  },
+  'profiles:save-department chief': {
+    properties: {
+      id: new Validator.types.Serial(),
+      displayname: new Validator.types.String(60, true),
+      phone: new Validator.types.String(15)
+    }
+  },
+  'profiles:remove': {
+    properties: {
+      profileId: new Validator.types.Serial(true)
+    }
+  },
+  'profiles:set role': {
+    properties: {
+      userId: new Validator.types.Serial(true),
+      role: new Validator.types.UserRole(true)
+    }
+  },
+  'profiles:set subdepartment': {
+    properties: {
+      userId: new Validator.types.Serial(true),
+      subdepartmentId: new Validator.types.Serial(true)
+    }
+  },
+  'profiles:set university department': {
+    properties: {
+      userId: new Validator.types.Serial(true),
+      universityDepartmentId: new Validator.types.Serial(true)
+    }
   }
 };
 
@@ -182,7 +263,11 @@ Validator.filters = {
  */
 function validator(validate, entity, entry) {
   var legend;
-  (typeof entity === 'string') ? (legend = Validator.filters[entity]) : (legend = entity);
+  if (typeof entity === 'string') {
+    legend = Validator.filters[entity];
+  } else {
+    legend = entity;
+  }
   if (!legend) {
     return {
       valid: false,
