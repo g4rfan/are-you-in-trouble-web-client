@@ -158,6 +158,7 @@ Validator.filters = {
     }
   },
   'task comments:retrieve': Validator.presets.onlyTaskIdRequired,
+  'task comments:unsubscribe': Validator.presets.onlyTaskIdRequired,
   'task comments:save-client': {
     properties: {
       content: new Validator.types.Text(true),
