@@ -27,7 +27,10 @@
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top special" role="navigation">
-    <p class="navbar-text">Заявки</p>
+    <div class="navbar-text">Заявки</div>
+    <div class="navbar-right">
+        <div class = "glyphicon glyphicon-edit add-new-task-button"></div>
+    </div>
 </nav>
 
 <div class="filters" ng-controller="filterCntrl">
@@ -51,9 +54,15 @@
 </div>
 
 <div ng-controller="tasksCntrl" class="task-list">
+    <section class='task' ng-repeat='task in tasks'>
+        <header></header>
+        <!--<h3>{{ task.title }}</h3>-->
+        <div> {{ task.content.slice(0, 120) }}</div>
+    </section>
+
     <section class="task new-task">
         <header>
-            <img src="resources/newtask.png"/>
+            <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
             <h4>НОВАЯ ЗАЯВКА</h4>
         </header>
         <textarea></textarea>
@@ -61,12 +70,10 @@
         <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
         <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
     </section>
-    <section class='task' ng-repeat='task in tasks'>
-        <header></header>
-        <!--<h3>{{ task.title }}</h3>-->
-        <div> {{ task.content.slice(0, 120) }}</div>
-    </section>
+
+
+    <div class="blackout"></div>
 </div>
-<div class="task-view"></div>
+
 </body>
 </html>

@@ -1,5 +1,10 @@
 var tlogin = false;
 
+var globalEvents = new EventEmitter({
+    'login' : []
+});
+
+
 TemplateStorage.getTemplate('login', function (template) {
     $(document.body).append(template);
     $('.login-button').on('click', function () {
@@ -37,8 +42,7 @@ function login() {
                     back.hide();
                     tlogin = true;
                     setTimeout(function () {
-                        globalInitSocket();
-                        onlogin();
+                        globalEvents.fire('login');
                     }, 300);
                 }, 200);
             }, 300);
@@ -48,9 +52,21 @@ function login() {
 
 $(document).ready(function () {
     $(window).on('resize', function () {
-        console.log($('.filters').width());
+        var bodyWidth = $('body').width(), bodyHeight = $('body').height();
+        $('.new-task').css({
+            left : bodyWidth / 2 - 150,
+            top : bodyHeight / 2 - 189
+        });
     });
 
+    $('.add-new-task-button').on('click', function (event) {
+        $('.blackout, .new-task').show();
+        var bodyWidth = $('body').width(), bodyHeight = $('body').height();
+        $('.new-task').css({
+            left : bodyWidth / 2 - 150,
+            top : bodyHeight / 2 - 189
+        });
+    });
 });
 
 TemplateStorage.getTemplate('task');

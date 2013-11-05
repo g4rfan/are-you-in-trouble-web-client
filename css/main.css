@@ -71,3 +71,31 @@ input:focus {
     max-width: 280px;
     height: 250px;
 }
+
+.add-new-task-inline, .add-new-task-button {
+    color: white;
+    font-size: 23px;
+    margin-top: 7px;
+    margin-right: 20px;
+}
+
+.add-new-task-inline {
+    color: rgb()
+}
+
+.blackout {
+    background: rgba(0, 0, 0, 0.35);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    display: none;
+}
+
+.new-task {
+    display: none;
+    position: fixed;
+    z-index: 2001;
+}
