@@ -62,17 +62,16 @@ for (var property in Validator.types) {
     continue;
   }
   Validator.types[property] = function () {
-    var type = {};
-    for (var typeProperty in Validator.types[property]) {
-      if (Validator.types[property].hasOwnProperty(typeProperty)) {
-        type[typeProperty] = Validator.types[property][typeProperty];
+    var type = Validator.types[property]
+      , typeR = {};
+    for (var typeProperty in type) {
+      if (type.hasOwnProperty(typeProperty)) {
+        typeR[typeProperty] = type[typeProperty];
       }
     }
+    typeR.required = true;
     return function (required) {
-      if (required) {
-        type.required = required;
-      }
-      return type;
+      return required ? typeR : type;
     };
   }();
 }
