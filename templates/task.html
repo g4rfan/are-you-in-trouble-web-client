@@ -2,6 +2,19 @@
     <h4># {{ data.id }}</h4>
     <div class = "glyphicon glyphicon-remove-circle close-button"></div>
 </header>
+<p>{{ data.content }}</p>
+
+Отдел : <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.name for uni in users'></select>
+
 <footer>
-    <span>Комментарии : </span>
+    <div>Комментарии ({{ comments.length }}):</div>
+    <div class = 'comments-container'>
+        <div ng-repeat = 'co in comments'>
+            <b>{{ co.id }}</b>
+            <span>{{ co.content }}</span>
+        </div>
+    </div>
+    <textarea class = 'comment-content' ng-model = 'ncomment'></textarea>
+    <button ng-click = 'saveComment()'>Добавить комментраий</button>
 </footer>

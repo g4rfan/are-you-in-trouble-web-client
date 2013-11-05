@@ -41,8 +41,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
                 params.filters.university_department_id = udi;
             }
 	    
-	    if (ti.length != 0) {
-		params.filters.type_id = ti;
+            if (ti.length != 0) {
+                params.filters.type_id = ti;
             }
         }
 
@@ -73,17 +73,38 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         }
         var scope = $scope.$new();
         scope.data = task;
+        scope.comments = [];
+        scope.subDeps = $scope.subDeps;
 
+        networkManager.request('task comments:retrieve', { taskId : taskId }, function (data) {
+            scope.comments = data;
+            scope.$digest();
+        });
 
-        console.log(task);
+        networkManager.request('profiles:retrieve', { filters: { role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+            console.log(data);
+        });
+
+        scope.saveComment = function() {
+            networkManager.request('task comments:save', { task_id : taskId, content : scope.ncomment }, function (data) {
+                scope.comments.push(data);
+                scope.$digest();
+            });
+            scope.ncomment = '';
+        };
 
         var nElement = $compile(TemplateStorage.templates['task'])(scope);
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
         $scope._domRef.css({
-            top : $('body').height()/2 - 300,
-            left : $('body').width()/2 - 300
+            top : $('body').height()/2 - 330,
+            left : $('body').width()/2 - 330
         }).show();
+
+        $('.close-button').on('click', function (event) {
+            $('.opened-task, .new-task, .blackout').hide();
+        });
+
         $('.blackout').show();
     };
 

@@ -77,11 +77,28 @@
 }
 
 .task.opened-task {
-    width: 600px;
-    height: 600px;
+    width: 660px;
+    height: 660px;
     padding-top: 10px;
     padding-left: 30px;
     padding-right: 30px;;
+}
+
+.task.opened-task footer .comments-container {
+    max-height: 265px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.task.opened-task .comment-content {
+    height : 70px;
+    width: 540px;
+    max-width: 540px;
+    min-width: 540px;
+}
+
+.task.opened-task footer {
+    max-height: 385px;
 }
 
 .task .button-save {
