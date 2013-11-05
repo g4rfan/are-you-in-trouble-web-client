@@ -21,6 +21,7 @@
     <script src="js/services/filtersprovider.js"></script>
     <script src="js/services/subdepartprovider.js"></script>
     <script src="js/services/universitydepservice.js"></script>
+    <script src="js/services/profileprovider.js"></script>
     <script src="js/controllers/profilecontroller.js"></script>
     <script src="js/scopes/taskscope.js"></script>
     <script src="js/controllers/taskscontroller.js"></script>
@@ -30,7 +31,8 @@
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top special" role="navigation">
-    <div class="navbar-text">Заявки</div>
+    <div class="navbar-text"><div class="glyphicon glyphicon-align-justify"></div> Заявки</div>
+    <div class="navbar-text"><div class="glyphicon glyphicon-user"></div> Команды</div>
     <div class="navbar-right">
         <div class = "glyphicon glyphicon-edit add-new-task-button"></div>
     </div>
@@ -56,28 +58,56 @@
     </ul>
 </div>
 
+<table ng-controller="tasksCntrl" class="table table-hover table-view" style="display: none">
+    <thead>
+        <th>#</th>
+        <th>Заявка</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="task in tasks">
+            <td>{{ task.id }}</td>
+            <td>{{ task.content.slice(0,120) }}</td>
+        </tr>
+    </tbody>
+</table>
+
 <div ng-controller="tasksCntrl" class="task-list">
     <section class='task' ng-repeat='task in tasks'>
         <header></header>
         <!--<h3>{{ task.title }}</h3>-->
         <div> {{ task.content.slice(0, 120) }}</div>
+        <div class='button-section view' ng-click = 'openTask(task.id)'>
+            <div class="glyphicon glyphicon-eye-open"></div>
+            <div>Показать</div>
+        </div>
+        <div class='button-section comments'>
+            <div class="glyphicon glyphicon-comment"></div>
+            <div>41</div>
+        </div>
+        <div class='button-section onit'>
+            <div class="glyphicon glyphicon-user"></div>
+            <div>Показать</div>
+        </div>
     </section>
 
     <section class="task new-task">
         <header>
             <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
             <h4>НОВАЯ ЗАЯВКА</h4>
+            <div class = "glyphicon glyphicon-remove-circle close-button"></div>
         </header>
         <textarea></textarea>
-        <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
-        <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
-        <select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+        <p>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
+        <p>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+        <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
         <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
     </section>
 
+    <section class="task opened-task">
+
+    </section>
 
     <div class="blackout"></div>
 </div>
-
 </body>
 </html>

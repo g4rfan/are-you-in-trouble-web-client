@@ -1,6 +1,6 @@
-.task-list {
+.table-view, .task-list {
     margin-top: 60px;
-    margin-left: 60px;
+    margin-left: 300px;
 }
 
 .task {
@@ -12,6 +12,7 @@
     margin-top: 20px;
     line-height: 23px;
     padding: 10px;
+    position: relative;
 }
 
 .task h3 {
@@ -28,7 +29,16 @@
 }
 
 .task.new-task {
-    height: 378px;
+    width: auto;
+    height: 455px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.task.new-task select {
+    width: 150px;
+    float: right;
 }
 
 .task.new-task header {
@@ -37,6 +47,20 @@
     margin-left: -10px;
     text-align: center;
     padding-top: 10px;
+    vertical-align: bottom;
+}
+
+.task.opened-task .close-button {
+    right: auto;
+    top: -30px;
+}
+
+.task.opened-task header {
+    width: 560px;
+    height: auto;
+    background: none;
+    margin-left: -10px;
+    text-align: center;
     vertical-align: bottom;
 }
 
@@ -52,9 +76,17 @@
     color: rgb(161, 161, 161);
 }
 
+.task.opened-task {
+    width: 600px;
+    height: 600px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;;
+}
+
 .task .button-save {
     background: rgb(248, 163, 43);
-    width: 140px;
+    width: 150px;
     font-family: "DejaVu Sans Mono";
     font-size: 12pt;
     color: white;
@@ -63,8 +95,37 @@
     text-align: center;
     margin-left: 80px;
     cursor: default;
+    float: right;
 }
 
 .task textarea {
     margin-bottom: 10px;
+}
+
+.task .button-section {
+    color: white;
+    width: 100px;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    float: left;
+    padding-top: 10px;
+}
+
+.task .button-section.view {
+    background: rgb(52, 152, 219);
+    left: 0px;
+}
+
+.task .button-section.comments {
+    background : rgb(230, 126, 34);
+    left: 100px;
+}
+
+.task .button-section.onit {
+    background: rgb(26, 188, 156);
+    margin-right: -36px;
+    left: 200px;
 }

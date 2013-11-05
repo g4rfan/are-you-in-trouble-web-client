@@ -2,7 +2,7 @@
  * Created by garffan on 10/2/13.
  */
 
-function tasksCntrl($scope, $compile, networkManager, filtersProvider, universityDepProvider, subDepartProvider) {
+function tasksCntrl($scope, $compile, networkManager, filtersProvider, universityDepProvider, subDepartProvider, profileProvider) {
     $scope.offset = 0;
     $scope.limit = 50;
     $scope.tasks = [];
@@ -10,7 +10,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
     $scope.subDeps = subDepartProvider.getSubDeps();
     /*$scope.univDeps = universityDepProvider.getUniversityDep();*/
 
-    $scope._domRef = $('.task-view');
+    $scope._domRef = $('.opened-task');
 
     $scope.getTasks = function (filters) {
         var params = {};
@@ -65,7 +65,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
     $scope.openTask = function (taskId) {
         var i = 0, len = $scope.tasks.length, task = null;
         while (i < len) {
-            if ($scope.tasks[i].taskId == taskId) {
+            if ($scope.tasks[i].id == taskId) {
                 task = $scope.tasks[i];
                 break;
             }
@@ -74,9 +74,17 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         var scope = $scope.$new();
         scope.data = task;
 
+
+        console.log(task);
+
         var nElement = $compile(TemplateStorage.templates['task'])(scope);
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
+        $scope._domRef.css({
+            top : $('body').height()/2 - 300,
+            left : $('body').width()/2 - 300
+        }).show();
+        $('.blackout').show();
     };
 
     $scope.newTask = function () {
@@ -93,11 +101,10 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         };
 
         networkManager.request('tasks:save', task, function (data) {
-            console.log(data);
+            $scope.tasks.unshift(data);
+            $scope.$digest();
             $('.new-task, .blackout').hide();
         });
-
-
     };
 
     globalEvents.addEventListener('login', function () {

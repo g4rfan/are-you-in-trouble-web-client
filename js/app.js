@@ -67,6 +67,9 @@ $(document).ready(function () {
             top : bodyHeight / 2 - 189
         });
     });
+    $('.new-task .close-button').on('click', function (event) {
+        $('.new-task, .blackout').hide();
+    });
 });
 
 TemplateStorage.getTemplate('task');

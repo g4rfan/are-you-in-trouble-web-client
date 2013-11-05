@@ -31,25 +31,13 @@ body {
 }
 
 .filters {
-    height: 904px;
-    float: left;
+    bottom: 0;
+    position: fixed;
+    top: 20px;
     width: 300px;
     background: #cbd0d6;
-    margin-top: -17px;
-}
-
-.open-filter-button {
-    position: relative;
-    background: #cbd0d6;
-    -webkit-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    left: 230px;
-    top: 124px;
-    width: 95px;
-    height: 45px;
-    text-align: center;
-    padding: 15px 22px;
-    color: #ffffff;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 input {
@@ -96,8 +84,15 @@ input:focus {
     display: none;
 }
 
-.new-task {
+.opened-task, .new-task {
     display: none;
-    position: fixed;
+    position: fixed !important;
     z-index: 2001;
+}
+
+.close-button {
+    font-size: 20px;
+    float: right;
+    color: #A54C4D;
+    right: -15px;
 }
