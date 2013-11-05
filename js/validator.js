@@ -362,5 +362,7 @@ Validator.cleanObject = function (entry, legend) {
 };
 
 if (module && module.exports) {
-  module.exports = Validator.validate;
+  module.exports = function (validate, entity, entry) {
+    return Validator.validate(validate, entity, entry);
+  };
 }
