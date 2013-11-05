@@ -268,12 +268,13 @@ Validator.filters = {
 };
 
 /**
- * @param {Function} validate
+ * @param {Function} validate Revalidator's validate function (window.validate in browser, and revalidator.validate in
+ * node.js)
  * @param {String|Object} entity
  * @param {Object} entry
  * @returns {Object}
  */
-function validator(validate, entity, entry) {
+Validator.validate = function (validate, entity, entry) {
   var legend;
   if (typeof entity === 'string') {
     legend = Validator.filters[entity];
@@ -286,11 +287,11 @@ function validator(validate, entity, entry) {
       errors: [ { message: 'invalid entity type' } ]
     };
   }
-  cleanObject(entry, legend);
+  this.cleanObject(entry, legend);
   return validate(entry, legend);
-}
+};
 
-function cleanObject(entry, legend) {
+Validator.cleanObject = function (entry, legend) {
   var propertyLegend;
   if (legend.properties) {
     var property;
@@ -312,7 +313,7 @@ function cleanObject(entry, legend) {
               && entry[property] instanceof Array) {
               if (propertyLegend.items.type === 'object') {
                 for (var k = 0; k < entry[property].length; ++k) {
-                  cleanObject(entry[property][k], propertyLegend.items);
+                  this.cleanObject(entry[property][k], propertyLegend.items);
                 }
               } else if (propertyLegend.items.type === 'integer' || propertyLegend.items.type === 'number') {
                 for (var l = 0; l < entry[property].length; ++l) {
@@ -333,11 +334,11 @@ function cleanObject(entry, legend) {
             entry[property] = false;
           }
         } else if (propertyLegend.type === 'object') {
-          cleanObject(entry[property], propertyLegend);
+          this.cleanObject(entry[property], propertyLegend);
         } else if (propertyLegend.type === 'array' && propertyLegend.items && entry[property] instanceof Array) {
           if (propertyLegend.items.type === 'object') {
             for (var i = 0; i < entry[property].length; ++i) {
-              cleanObject(entry[property][i], propertyLegend.items);
+              this.cleanObject(entry[property][i], propertyLegend.items);
             }
           } else if (propertyLegend.items.type === 'integer' || propertyLegend.items.type === 'number') {
             for (var j = 0; j < entry[property].length; ++j) {
@@ -358,8 +359,8 @@ function cleanObject(entry, legend) {
       }
     }
   }
-}
+};
 
 if (module && module.exports) {
-  module.exports = validator;
+  module.exports = Validator.validate;
 }
