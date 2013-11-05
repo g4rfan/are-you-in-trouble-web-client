@@ -51,8 +51,7 @@ Validator.types.StringFilter = function (length, required) {
   }
 };
 Validator.types.RoleFilter = {
-  type: [ 'string', 'array' ],
-  enum: [ 'client', 'helper', 'subdepartment chief', 'department chief' ],
+  type: [ 'array' ],
   minLength: 1,
   items: new Validator.types.Enum([ 'client', 'helper', 'subdepartment chief', 'department chief' ])
 };
