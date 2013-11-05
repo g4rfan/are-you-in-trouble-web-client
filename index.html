@@ -19,10 +19,13 @@
     <script src="js/services/service.js"></script>
     <script src="js/services/networkservice.js"></script>
     <script src="js/services/filtersprovider.js"></script>
+    <script src="js/services/subdepartprovider.js"></script>
+    <script src="js/services/universitydepservice.js"></script>
     <script src="js/controllers/profilecontroller.js"></script>
     <script src="js/scopes/taskscope.js"></script>
     <script src="js/controllers/taskscontroller.js"></script>
     <script src="js/controllers/filterscontroller.js"></script>
+    <script src="js/validator.js"></script>
     <script src="js/app.js"></script>
 </head>
 <body>
@@ -68,6 +71,7 @@
         <textarea></textarea>
         <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
         <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
+        <select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
         <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
     </section>
 

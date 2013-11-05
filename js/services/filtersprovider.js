@@ -64,5 +64,9 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
         serviceModel.insert(data);
     });
 
+    globalEvents.addEventListener('login', function () {
+        getFiltersFromServer();
+    });
+
     return serviceModel;
 });

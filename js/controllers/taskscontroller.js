@@ -2,11 +2,13 @@
  * Created by garffan on 10/2/13.
  */
 
-function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
+function tasksCntrl($scope, $compile, networkManager, filtersProvider, universityDepProvider, subDepartProvider) {
     $scope.offset = 0;
     $scope.limit = 50;
     $scope.tasks = [];
     $scope.filters = filtersProvider.getFilters();
+    $scope.subDeps = subDepartProvider.getSubDeps();
+    /*$scope.univDeps = universityDepProvider.getUniversityDep();*/
 
     $scope._domRef = $('.task-view');
 
@@ -16,7 +18,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
             params = {
                 offset: $scope.offset,
                 limit: $scope.limit,
-                filters: { /*'university_department_id' : []*/ closed_by_id : null }
+                filters: {  closed_by_id : null }
             };
         } else {
             params = {
@@ -31,8 +33,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
             }
 
             for (var key in filters.taskTypes) {
-		ti.push(key);
-	    }		
+		        ti.push(key);
+	        }
 	    
             params.filters = { closed_by_id : null };
             if (udi.length != 0) {
@@ -86,18 +88,22 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider) {
         var task = {
             content: $('.new-task textarea').val(),
             university_department_id: $scope.selectedUniDep,
-            type_id : $scope.selectedTaskType
+            type_id : $scope.selectedTaskType,
+            subdepartment_id : $scope.
         };
 
         networkManager.request('tasks:save', task, function (data) {
-            console.log('save' + new Date());
+            console.log(data);
+            $('.new-task, .blackout').hide();
         });
+
+
     };
 
-    onlogin = function () {
+    globalEvents.addEventListener('login', function () {
         filtersProvider.getFiltersFromServer();
         $scope.getTasks();
-    };
+    });
 
     filtersProvider.events.addEventListener('filters set changed', function (data) {
         $scope.getTasks(data);

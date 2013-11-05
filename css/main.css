@@ -72,7 +72,7 @@ input:focus {
     height: 250px;
 }
 
-.add-new-task-inline, .add-new-task-button {
+.add-new-task-button {
     color: white;
     font-size: 23px;
     margin-top: 7px;
@@ -80,7 +80,9 @@ input:focus {
 }
 
 .add-new-task-inline {
-    color: rgb()
+    color: rgb(202, 202, 202);
+    font-size: 22px;
+    top: 4px;
 }
 
 .blackout {
