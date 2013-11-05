@@ -147,7 +147,7 @@ Validator.filters = {
   },
   'task comments:retrieve': Validator.presets.onlyTaskIdRequired,
   'task comments:unsubscribe': Validator.presets.onlyTaskIdRequired,
-  'task comments:save-client': {
+  'task comments:save': {
     properties: {
       content: new Validator.types.Text(true),
       task_id: new Validator.types.Serial(true)
