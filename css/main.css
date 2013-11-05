@@ -71,6 +71,10 @@ input:focus {
     margin-right: 20px;
 }
 
+.add-new-task-button, .logout {
+    float: left;
+}
+
 .add-new-task-inline {
     color: rgb(202, 202, 202);
     font-size: 22px;
@@ -99,4 +103,8 @@ input:focus {
     float: right;
     color: #A54C4D;
     right: -15px;
+}
+
+.navbar-text {
+    cursor: default;
 }

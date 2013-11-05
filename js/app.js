@@ -1,12 +1,46 @@
 var tlogin = false;
 
 var globalEvents = new EventEmitter({
-    'login' : []
+    'login' : [],
+    'logout' : []
 });
 
+function logout() {
+    $.ajax({
+        url: '/logout/',
+        type: 'get',
+        success : function(data) {
+            var back = $('.login-background');
+            back.show();
+            tlogin = false;
+            back.css({
+                height : $(document).height(),
+                bottom: '',
+                top: 0,// back.height(),
+                opacity : 1
+            });
+
+            setTimeout(function () {
+                back.css({
+                    height: 'auto',
+                    bottom: 0,
+                    top : 0
+                });
+                location.reload();
+
+                globalEvents.fire('logout');
+            }, 300);
+        }
+    });
+}
 
 TemplateStorage.getTemplate('login', function (template) {
     $(document.body).append(template);
+    $('.login-background input').on('keyup', function (event) {
+        if (event.keyCode == 13) {
+            login();
+        }
+    });
     $('.login-button').on('click', function () {
         login();
     });
@@ -69,6 +103,20 @@ $(document).ready(function () {
     });
     $('.close-button').on('click', function (event) {
         $('.opened-task, .new-task, .blackout').hide();
+    });
+
+    $('.table-mode').on('click', function (event) {
+        $('.task-list').hide();
+        $('.table-view').show();
+    });
+
+    $('.grid-mode').on('click', function (event) {
+        $('.table-view').hide();
+        $('.task-list').show();
+    });
+
+    $('.logout').on('click', function (event) {
+        logout();
     });
 });
 

@@ -80,8 +80,30 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         scope.subDeps = $scope.subDeps;
 
         networkManager.request('task comments:retrieve', { taskId : taskId }, function (data) {
-            scope.comments = data;
-            scope.$digest();
+            if (data.length == 0) {
+                scope.comments = [];
+                scope.$digest();
+                return;
+            }
+
+            var ids = [];
+            for (var i = 0; i < data.length; ++i) {
+                ids.push(data[i].user_id);
+            }
+
+            networkManager.request('profiles:retrieve', { filters : { id : ids} }, function (userNames) {
+                for (var i = 0; i < data.length; ++i) {
+                    for (var j = 0; j < userNames.length; ++j) {
+                        if (data[i].user_id == userNames[j].id) {
+                            data[i].displayname = userNames[j].displayname;
+                            break;
+                        }
+                    }
+                }
+                scope.comments = data;
+                scope.$digest();
+            });
+
         });
 
         scope.getHelpers = function () {
@@ -152,6 +174,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
         scope.saveComment = function() {
             networkManager.request('task comments:save', { task_id : taskId, content : scope.ncomment }, function (data) {
+                task.comment_count++;
+                data.displayname = $scope.profile[0].displayname;
                 scope.comments.push(data);
                 scope.$digest();
             });
@@ -186,14 +210,16 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             type_id : $scope.selectedTaskType
         };
 
-        if ($scope.selectedSub) {
+        if (!$scope.selectedSub) {
             delete task['subdepartment_id'];
             delete task['university_department_id'];
         }
 
         networkManager.request('tasks:save', task, function (data) {
             $scope.tasks.unshift(data);
-            $scope.$digest();
+            setTimeout(function() {
+                $scope.$digest();
+            }, 200);
             $('.new-task, .blackout').hide();
         });
     };
@@ -201,6 +227,11 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
     globalEvents.addEventListener('login', function () {
         filtersProvider.getFiltersFromServer();
         $scope.getTasks();
+    });
+
+    globalEvents.addEventListener('logout', function () {
+        $scope.tasks = [];
+        $scope.$digest();
     });
 
     filtersProvider.events.addEventListener('filters set changed', function (data) {

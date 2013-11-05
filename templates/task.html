@@ -11,7 +11,7 @@
     <div>Комментарии ({{ comments.length }}):</div>
     <div class = 'comments-container'>
         <div ng-repeat = 'co in comments'>
-            <b>{{ co.id }}</b>
+            <b>{{ co.displayname }}: </b>
             <span>{{ co.content }}</span>
         </div>
     </div>
