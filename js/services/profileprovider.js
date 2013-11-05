@@ -33,7 +33,6 @@ angular.module('helpdesk.service').service('profileProvider', function (networkM
     function getProfilesFromServer () {
         networkManager.request('profiles:retrieve', {}, function (data) {
             var i = 0, len = data.length;
-            console.log(data);
             while (i < len) {
                 serviceModel.insert(data[i]);
                 ++i;

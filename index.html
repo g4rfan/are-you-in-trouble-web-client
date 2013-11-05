@@ -33,8 +33,8 @@
 <nav class="navbar navbar-default navbar-fixed-top special" role="navigation">
     <div class="navbar-text"><div class="glyphicon glyphicon-align-justify"></div> Заявки</div>
     <div class="navbar-text"><div class="glyphicon glyphicon-user"></div> Команды</div>
-    <div class="navbar-right">
-        <div class = "glyphicon glyphicon-edit add-new-task-button"></div>
+    <div ng-controller="tasksCntrl" class="navbar-right">
+        <div ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class = "glyphicon glyphicon-edit add-new-task-button"></div>
     </div>
 </nav>
 
@@ -82,23 +82,23 @@
         </div>
         <div class='button-section comments'>
             <div class="glyphicon glyphicon-comment"></div>
-            <div>41</div>
+            <div>{{ task.comment_count }}</div>
         </div>
         <div class='button-section onit'>
             <div class="glyphicon glyphicon-user"></div>
-            <div>Показать</div>
+            <div>{{ task.helper_ids.length }}</div>
         </div>
     </section>
 
-    <section class="task new-task">
+    <section class="task new-task" ng-class = '{ lite : profile[0].role != "department chief" }'>
         <header>
             <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
             <h4>НОВАЯ ЗАЯВКА</h4>
             <div class = "glyphicon glyphicon-remove-circle close-button"></div>
         </header>
         <textarea></textarea>
-        <p>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
-        <p>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+        <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
+        <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
         <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
         <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
     </section>

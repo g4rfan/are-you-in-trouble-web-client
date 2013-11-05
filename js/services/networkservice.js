@@ -6,7 +6,6 @@ angular.module('helpdesk.service').service('networkManager', function () {
     var _socket = null;
 
     globalEvents.addEventListener('login', function () {
-        console.log('ASDAS');
         _socket = io.connect(window.location.origin + '/');
         if (_socket) {
             _socket.on('err', function (data) {

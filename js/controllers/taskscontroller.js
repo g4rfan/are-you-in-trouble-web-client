@@ -6,6 +6,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
     $scope.offset = 0;
     $scope.limit = 50;
     $scope.tasks = [];
+    $scope.profile = profileProvider.getProfiles();
     $scope.filters = filtersProvider.getFilters();
     $scope.subDeps = subDepartProvider.getSubDeps();
     /*$scope.univDeps = universityDepProvider.getUniversityDep();*/
@@ -74,6 +75,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         var scope = $scope.$new();
         scope.data = task;
         scope.comments = [];
+        scope.profile = $scope.profile;
+
         scope.subDeps = $scope.subDeps;
 
         networkManager.request('task comments:retrieve', { taskId : taskId }, function (data) {
@@ -81,9 +84,71 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             scope.$digest();
         });
 
-        networkManager.request('profiles:retrieve', { filters: { role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
-            console.log(data);
-        });
+        scope.getHelpers = function () {
+            if (task.helper_ids.length == 0) {
+                setTimeout(function() {
+                    scope.onWork = 'Никто не назначен';
+                    scope.$digest();
+                }, 200);
+            } else {
+                networkManager.request('profiles:retrieve', { filters : { id : task.helper_ids } }, function (data) {
+                    var i = 0, len = data.length;
+                    scope.onWork = '';
+                    while (i < len) {
+                        if  (i == len - 1) {
+                            scope.onWork += data[i].displayname;
+                        } else {
+                            scope.onWork += data[i].displayname + ', ';
+                        }
+                        ++i;
+                    }
+                    scope.$digest();
+                });
+            }
+        };
+
+        scope.getUsersBySubDep = function () {
+            if (scope.selectedSubDep) {
+                networkManager.request('profiles:retrieve', { filters: { subdepartment_id : scope.selectedSubDep, role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+                    scope.users = data;
+                    scope.$digest();
+                });
+            }
+        };
+
+        scope.closeTask = function () {
+            networkManager.request('tasks:close', { taskId: taskId }, function (data) {
+                for(var i = 0; i < $scope.tasks.length; ++i) {
+                    if ($scope.tasks[i].id == taskId) {
+                        $scope.tasks.splice(i, 1);
+                        break;
+                    }
+                }
+                $scope.$digest();
+                $('.opened-task, .blackout').hide();
+            });
+        };
+
+        scope.addHelperToTask = function () {
+            if (scope.selectedUser) {
+                networkManager.request('tasks:add helper', { taskId: taskId, helperId: scope.selectedUser }, function (data) {
+                    scope.data.helper_ids.push(scope.selectedUser);
+                    scope.getHelpers();
+                });
+            }
+        };
+
+        if (task.subdepartment_id) {
+            scope.selectedSubDep = task.subdepartment_id;
+            scope.getUsersBySubDep();
+        } else {
+            networkManager.request('profiles:retrieve', { filters: { role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+                scope.users = data;
+                scope.$digest();
+            });
+        }
+
+        scope.getHelpers();
 
         scope.saveComment = function() {
             networkManager.request('task comments:save', { task_id : taskId, content : scope.ncomment }, function (data) {
@@ -117,9 +182,14 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         var task = {
             content: $('.new-task textarea').val(),
             university_department_id: $scope.selectedUniDep,
-            type_id : $scope.selectedTaskType,
-            subdepartment_id : $scope.selectedSub
+            subdepartment_id : $scope.selectedSub,
+            type_id : $scope.selectedTaskType
         };
+
+        if ($scope.selectedSub) {
+            delete task['subdepartment_id'];
+            delete task['university_department_id'];
+        }
 
         networkManager.request('tasks:save', task, function (data) {
             $scope.tasks.unshift(data);

@@ -37,6 +37,7 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
     function getFiltersFromServer() {
         networkManager.request('university departments:retrieve', {}, function(data) {
             var i = 0, len = data.length;
+            serviceModel._storage.universityDep.length = 0;
             while (i < len) {
                 var color = 'rgb(' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ')';
                 data[i].color = color;
@@ -49,6 +50,7 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
 
         networkManager.request('task types:retrieve', {}, function(data) {
             var i = 0, len = data.length;
+            serviceModel._storage.taskTypes.length = 0;
             while (i < len) {
                 var color = 'rgb(' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ')';
                 data[i].color = color;

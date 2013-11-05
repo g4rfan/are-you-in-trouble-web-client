@@ -36,6 +36,10 @@
     padding-right: 30px;
 }
 
+.task.new-task.lite {
+    height: 400px;
+}
+
 .task.new-task select {
     width: 150px;
     float: right;
@@ -56,7 +60,7 @@
 }
 
 .task.opened-task header {
-    width: 560px;
+    width: 623px;
     height: auto;
     background: none;
     margin-left: -10px;
@@ -133,7 +137,7 @@
 
 .task .button-section.view {
     background: rgb(52, 152, 219);
-    left: 0px;
+    left: 0;
 }
 
 .task .button-section.comments {
@@ -145,4 +149,9 @@
     background: rgb(26, 188, 156);
     margin-right: -36px;
     left: 200px;
+}
+
+.add-helper {
+    font-size: 18px;
+    margin-left: 10px;
 }

@@ -3,10 +3,10 @@
     <div class = "glyphicon glyphicon-remove-circle close-button"></div>
 </header>
 <p>{{ data.content }}</p>
-
-Отдел : <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
-Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.name for uni in users'></select>
-
+Назначены :  <span> {{ onWork }} </span>
+<p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел : <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps' ng-change='getUsersBySubDep()'></select>
+Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayname for uni in users'></select>
+<span class="glyphicon glyphicon-plus-sign add-helper" ng-click = 'addHelperToTask()'></span></p>
 <footer>
     <div>Комментарии ({{ comments.length }}):</div>
     <div class = 'comments-container'>
@@ -16,5 +16,6 @@
         </div>
     </div>
     <textarea class = 'comment-content' ng-model = 'ncomment'></textarea>
-    <button ng-click = 'saveComment()'>Добавить комментраий</button>
+    <button class="btn btn-info" ng-click = 'saveComment()'>Добавить комментраий</button>
+    <button ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class="btn btn-success" ng-click = 'closeTask()'>Закрыть заявку</button>
 </footer>
