@@ -94,6 +94,7 @@ Validator.filters = {
       offset: new Validator.types.Integer(0),
       order: {
         type: 'array',
+        minItems: 1,
         uniqueItems: true,
         items: {
           type: 'object',
@@ -205,6 +206,7 @@ Validator.filters = {
       offset: new Validator.types.Integer(0),
       order: {
         type: 'array',
+        minItems: 1,
         uniqueItems: true,
         items: {
           type: 'object',
