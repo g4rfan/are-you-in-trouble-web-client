@@ -89,7 +89,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             content: $('.new-task textarea').val(),
             university_department_id: $scope.selectedUniDep,
             type_id : $scope.selectedTaskType,
-            subdepartment_id : $scope.
+            subdepartment_id : $scope.selectedSub
         };
 
         networkManager.request('tasks:save', task, function (data) {
