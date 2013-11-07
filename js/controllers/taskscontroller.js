@@ -107,26 +107,10 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         });
 
         scope.getHelpers = function () {
-            if (task.helper_ids.length == 0) {
-                setTimeout(function() {
-                    scope.onWork = 'Никто не назначен';
-                    scope.$digest();
-                }, 200);
-            } else {
-                networkManager.request('profiles:retrieve', { filters : { id : task.helper_ids } }, function (data) {
-                    var i = 0, len = data.length;
-                    scope.onWork = '';
-                    while (i < len) {
-                        if  (i == len - 1) {
-                            scope.onWork += data[i].displayname;
-                        } else {
-                            scope.onWork += data[i].displayname + ', ';
-                        }
-                        ++i;
-                    }
-                    scope.$digest();
-                });
-            }
+             networkManager.request('profiles:retrieve', { filters : { id : task.helper_ids } }, function (data) {
+                 scope.helpers = data;
+                 scope.$digest();
+             });
         };
 
         scope.getUsersBySubDep = function () {
@@ -151,6 +135,19 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             });
         };
 
+        scope.removeTask = function () {
+            networkManager.request('tasks:remove', { taskId: taskId }, function (data) {
+                for (var i = 0; i < $scope.tasks.length; ++i) {
+                    if ($scope.tasks[i].id == taskId) {
+                        $scope.tasks.splice(i, 1);
+                        break;
+                    }
+                }
+                $scope.$digest();
+                $('.opened-task, .blackout').hide();
+            });
+        };
+
         scope.addHelperToTask = function () {
             if (scope.selectedUser) {
                 networkManager.request('tasks:add helper', { taskId: taskId, helperId: scope.selectedUser }, function (data) {
@@ -158,6 +155,40 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
                     scope.getHelpers();
                 });
             }
+        };
+
+        scope.removeHelper = function (helperId) {
+            networkManager.request('tasks:remove helper', { taskId: taskId, helperId: helperId }, function (data) {
+                for (var i = 0; i < scope.helpers.length; ++i) {
+                    if (scope.helpers[i].id == helperId) {
+                        scope.helpers.splice(i, 1);
+                        break;
+                    }
+                }
+
+                for (var i = 0; i < task.helper_ids.length; ++i) {
+                    if (task.helper_ids[i]== helperId) {
+                        task.helper_ids.splice(i, 1);
+                        break;
+                    }
+                }
+                scope.$digest();
+                $scope.$digest();
+            });
+        };
+
+        scope.removeComment = function (commentId) {
+            networkManager.request('task comments:remove', { commentId : commentId }, function () {
+                for (var i = 0; i < scope.comments.length; ++i) {
+                    if (scope.comments[i].id == helperId) {
+                        scope.comments.splice(i, 1);
+                        --$scope.comment_count;
+                        break;
+                    }
+                }
+                scope.$digest();
+                $scope.$digest();
+            });
         };
 
         if (task.subdepartment_id) {
@@ -172,7 +203,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
         scope.getHelpers();
 
-        scope.saveComment = function() {
+        scope.saveComment = function () {
             networkManager.request('task comments:save', { task_id : taskId, content : scope.ncomment }, function (data) {
                 task.comment_count++;
                 data.displayname = $scope.profile[0].displayname;
@@ -190,6 +221,27 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             left : $('body').width()/2 - 330
         }).show();
 
+        function editTask () {
+            $('.content-edit').css('height', $('.content-container').height()).show();
+            $('.content-container').hide();
+            $('.edit-button').removeClass('glyphicon-pencil').addClass('glyphicon-floppy-disk').off('click').on('click', function (event) {
+                saveTask();
+            });
+        }
+
+        function saveTask () {
+            $('.content-edit').hide();
+            $('.content-container').show();
+            $scope.save(task);
+            $('.edit-button').removeClass('glyphicon-floppy-disk').addClass('glyphicon-pencil').off('click').on('click', function (event) {
+                editTask();
+            });
+        }
+
+        $('.edit-button').off('click').on('click', function (event) {
+            editTask();
+        });
+
         $('.close-button').on('click', function (event) {
             $('.opened-task, .new-task, .blackout').hide();
         });
@@ -199,28 +251,36 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
     $scope.newTask = function () {
         $scope.tasks.unshift({ taskId: 1, title: 'n', content: 'tskm', timestamp: new Date() });
-
     };
 
-    $scope.save = function () {
+    $scope.save = function (gtask) {
+
         var task = {
-            content: $('.new-task textarea').val(),
-            university_department_id: $scope.selectedUniDep,
-            subdepartment_id : $scope.selectedSub,
-            type_id : $scope.selectedTaskType
+            content: gtask ? gtask.content : $('.new-task textarea').val(),
+            university_department_id: gtask ? gtask.university_department_id : $scope.selectedUniDep,
+            subdepartment_id : gtask ? gtask.subdepartment_id : $scope.selectedSub,
+            type_id : gtask ? gtask.type_id : $scope.selectedTaskType
         };
 
-        if (!$scope.selectedSub) {
+        if (gtask) {
+            task.id = gtask.id;
+        }
+
+        if (!$scope.selectedSub && !gtask) {
             delete task['subdepartment_id'];
             delete task['university_department_id'];
         }
 
         networkManager.request('tasks:save', task, function (data) {
-            $scope.tasks.unshift(data);
+            if(!gtask)
+                $scope.tasks.unshift(data);
+
             setTimeout(function() {
                 $scope.$digest();
             }, 200);
-            $('.new-task, .blackout').hide();
+
+            if(!gtask)
+                $('.new-task, .blackout').hide();
         });
     };
 

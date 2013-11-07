@@ -3,6 +3,11 @@
     margin-left: 300px;
 }
 
+.table-view {
+    min-width: 700px;
+    max-width: 1500px;
+}
+
 .task {
     width: 300px;
     height: 180px;
@@ -154,4 +159,23 @@
 .add-helper {
     font-size: 18px;
     margin-left: 10px;
+}
+
+.comment-remove {
+    position: absolute;
+    top: 5px;
+    right: 1px;
+}
+
+.edit-button {
+    float: right;
+    right: -15px;
+}
+
+.content-edit {
+    display: none;
+    width: 540px;
+    min-width: 540px !important;
+    max-width: 540px !important;
+    max-height: 384px;
 }

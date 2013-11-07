@@ -62,7 +62,7 @@
     </ul>
 </div>
 
-<table  class="table table-hover table-view">
+<table class="table table-hover table-view">
     <thead>
         <th>#</th>
         <th>Заявка</th>
@@ -72,7 +72,7 @@
     <tbody>
         <tr ng-repeat="task in tasks" ng-click = 'openTask(task.id)'>
             <td>{{ task.id }}</td>
-            <td style="max-width: 150px">{{ task.content.slice(0,120) }}</td>
+            <td style="max-width: 650px">{{ task.content.slice(0,120) }}</td>
             <td><span class = "glyphicon glyphicon-comment"></span> {{ task.comment_count }}</td>
             <td><span class = "glyphicon glyphicon-user"></span> {{ task.helper_ids.length }}</td>
         </tr>
