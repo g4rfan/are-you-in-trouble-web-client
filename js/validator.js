@@ -86,6 +86,8 @@ Validator.presets = {
   }
 };
 
+// input data filters. notice, that due to PostgreSQL style, all data fields names, which passed with signals data
+// uses low dashes to separate words
 Validator.filters = {
   'tasks:retrieve': {
     properties: {
@@ -236,10 +238,22 @@ Validator.filters = {
       profileId: new Validator.types.Serial(true)
     }
   },
-  'profiles:set role': {
+  'profiles:make client': {
     properties: {
       userId: new Validator.types.Serial(true),
-      role: new Validator.types.UserRole(true)
+      universityDepartmentId: new Validator.types.Serial(true)
+    }
+  },
+  'profiles:make helper': {
+    properties: {
+      userId: new Validator.types.Serial(true),
+      chief: new Validator.types.Boolean(),
+      subdepartmentId: new Validator.types.Serial(true)
+    }
+  },
+  'profiles:make department chief': {
+    properties: {
+      userId: new Validator.types.Serial(true)
     }
   },
   'profiles:set subdepartment': {
