@@ -98,7 +98,7 @@ Validator.filters = {
         items: {
           type: 'object',
           properties: {
-            column: new Validator.types.Enum([ 'created_at', 'updated_at' ], true),
+            column: new Validator.types.Enum([ 'createdAt', 'updatedAt' ], true),
             direction: new Validator.types.OrderingDirection(true)
           }
         }
@@ -106,10 +106,10 @@ Validator.filters = {
       filters: {
         type: 'object',
         properties: {
-          closed_by_id: new Validator.types.SerialFilter(),
-          type_id: new Validator.types.SerialFilter(),
-          university_department_id: new Validator.types.SerialFilter(),
-          subdepartment_id: new Validator.types.SerialFilter(),
+          closedById: new Validator.types.SerialFilter(),
+          typeId: new Validator.types.SerialFilter(),
+          universityDepartmentId: new Validator.types.SerialFilter(),
+          subdepartmentId: new Validator.types.SerialFilter(),
           content: new Validator.types.StringFilter(128)
         }
       }
@@ -118,17 +118,17 @@ Validator.filters = {
   'tasks:save-client': {
     properties: {
       content: new Validator.types.Text(true),
-      type_id: new Validator.types.Serial(true)
+      typeId: new Validator.types.Serial(true)
     }
   },
   'tasks:save-department chief': {
     properties: {
       id: new Validator.types.Serial(),
       content: new Validator.types.Text(true),
-      type_id: new Validator.types.Serial(true),
-      client_id: new Validator.types.Serial(),
-      university_department_id: new Validator.types.Serial(true),
-      subdepartment_id: new Validator.types.Serial()
+      typeId: new Validator.types.Serial(true),
+      clientId: new Validator.types.Serial(),
+      universityDepartmentId: new Validator.types.Serial(true),
+      subdepartmentId: new Validator.types.Serial()
     }
   },
   'tasks:close': Validator.presets.onlyTaskIdRequired,
@@ -150,15 +150,14 @@ Validator.filters = {
   'task comments:save': {
     properties: {
       content: new Validator.types.Text(true),
-      task_id: new Validator.types.Serial(true)
+      taskId: new Validator.types.Serial(true)
     }
   },
   'task comments:save-department chief': {
     properties: {
       id: new Validator.types.Serial(),
       content: new Validator.types.Text(true),
-      task_id: new Validator.types.Serial(true),
-      user_id: new Validator.types.Serial()
+      taskId: new Validator.types.Serial(true)
     }
   },
   'task comments:remove': {
@@ -171,7 +170,7 @@ Validator.filters = {
     properties: {
       id: new Validator.types.Serial(),
       name: new Validator.types.String(60, true),
-      subdepartment_id: new Validator.types.Serial()
+      subdepartmentId: new Validator.types.Serial()
     }
   },
   'subdepartments:retrieve': Validator.presets.nothing,
@@ -199,7 +198,7 @@ Validator.filters = {
         items: {
           type: 'object',
           properties: {
-            column: new Validator.types.Enum([ 'displayname', 'created_at', 'updated_at' ], true),
+            column: new Validator.types.Enum([ 'displayName', 'createdAt', 'updatedAt' ], true),
             direction: new Validator.types.OrderingDirection(true)
           }
         }
@@ -208,26 +207,26 @@ Validator.filters = {
         type: 'object',
         properties: {
           id: new Validator.types.SerialFilter(),
-          displayname: new Validator.types.StringFilter(60),
+          displayName: new Validator.types.StringFilter(60),
           email: new Validator.types.StringFilter(60),
           phone: new Validator.types.StringFilter(60),
           role: new Validator.types.RoleFilter(),
-          university_department_id: new Validator.types.SerialFilter(),
-          subdepartment_id: new Validator.types.SerialFilter()
+          universityDepartmentId: new Validator.types.SerialFilter(),
+          subdepartmentId: new Validator.types.SerialFilter()
         }
       }
     }
   },
   'profiles:save': {
     properties: {
-      displayname: new Validator.types.String(60, true),
+      displayName: new Validator.types.String(60, true),
       phone: new Validator.types.String(15)
     }
   },
   'profiles:save-department chief': {
     properties: {
       id: new Validator.types.Serial(),
-      displayname: new Validator.types.String(60, true),
+      displayName: new Validator.types.String(60, true),
       phone: new Validator.types.String(15)
     }
   },
@@ -236,10 +235,22 @@ Validator.filters = {
       profileId: new Validator.types.Serial(true)
     }
   },
-  'profiles:set role': {
+  'profiles:make client': {
     properties: {
       userId: new Validator.types.Serial(true),
-      role: new Validator.types.UserRole(true)
+      universityDepartmentId: new Validator.types.Serial(true)
+    }
+  },
+  'profiles:make helper': {
+    properties: {
+      userId: new Validator.types.Serial(true),
+      chief: new Validator.types.Boolean(),
+      subdepartmentId: new Validator.types.Serial(true)
+    }
+  },
+  'profiles:make department chief': {
+    properties: {
+      userId: new Validator.types.Serial(true)
     }
   },
   'profiles:set subdepartment': {
