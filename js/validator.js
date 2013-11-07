@@ -252,18 +252,6 @@ Validator.filters = {
     properties: {
       userId: new Validator.types.Serial(true)
     }
-  },
-  'profiles:set subdepartment': {
-    properties: {
-      userId: new Validator.types.Serial(true),
-      subdepartmentId: new Validator.types.Serial(true)
-    }
-  },
-  'profiles:set university department': {
-    properties: {
-      userId: new Validator.types.Serial(true),
-      universityDepartmentId: new Validator.types.Serial(true)
-    }
   }
 };
 
