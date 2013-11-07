@@ -32,6 +32,7 @@ angular.module('helpdesk.service').service('universityDepProvider', function (ne
     function getUniversityDepFromServer () {
         networkManager.request('university departments:retrieve', {}, function (data) {
             var i = 0, len = data.length;
+            /*console.log(data);*/
             while (i < len) {
                 serviceModel.insert(data[i]);
                 ++i;

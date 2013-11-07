@@ -1,9 +1,9 @@
-.table-view, .task-list {
+.profiles, .table-view, .task-list {
     margin-top: 60px;
     margin-left: 300px;
 }
 
-.table-view {
+.profiles, .table-view {
     min-width: 700px;
     max-width: 1500px;
 }

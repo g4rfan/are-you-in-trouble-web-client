@@ -5,18 +5,18 @@
 </header>
 <p class = 'content-container'>{{ data.content }}</p>
 <textarea class = 'content-edit' ng-model = "data.content"></textarea>
-Назначены :  <span ng-class = "{hidden : data.helper_ids.length != 0}"> Никто не назначен </span>
-             <span ng-repeat = "helper in helpers"> {{ helper.displayname }}
+Назначены :  <span ng-class = "{hidden : data.helperIds.length != 0}"> Никто не назначен </span>
+             <span ng-repeat = "helper in helpers"> {{ helper.displayName }}
                  <span ng-class = "{ hidden : profile[0].role != 'department chief'}" ng-click = "removeHelper(helper.id)" class = "glyphicon glyphicon-remove-circle"></span>
              </span>
 <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел : <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps' ng-change='getUsersBySubDep()'></select>
-Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayname for uni in users'></select>
+Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayName for uni in users'></select>
 <span class="glyphicon glyphicon-plus-sign add-helper" ng-click = 'addHelperToTask()'></span></p>
 <footer>
     <div>Комментарии ({{ comments.length }}):</div>
     <div class = 'comments-container'>
         <div ng-repeat = 'co in comments' style="position: relative">
-            <b>{{ co.displayname }}: </b>
+            <b>{{ co.displayName }}: </b>
             <span>{{ co.content }}</span>
             <div class = "glyphicon glyphicon-remove-circle comment-remove" ng-click = "removeComment(co.id)"></div>
         </div>

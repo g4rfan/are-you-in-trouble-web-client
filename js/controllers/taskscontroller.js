@@ -4,7 +4,7 @@
 
 function tasksCntrl($scope, $compile, networkManager, filtersProvider, universityDepProvider, subDepartProvider, profileProvider) {
     $scope.offset = 0;
-    $scope.limit = 50;
+    $scope.limit = 10;
     $scope.tasks = [];
     $scope.profile = profileProvider.getProfiles();
     $scope.filters = filtersProvider.getFilters();
@@ -19,7 +19,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             params = {
                 offset: $scope.offset,
                 limit: $scope.limit,
-                filters: {  closed_by_id : null }
+                filters: {  closedById : null }
             };
         } else {
             params = {
@@ -37,13 +37,13 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 		        ti.push(key);
 	        }
 	    
-            params.filters = { closed_by_id : null };
+            params.filters = { closedById : null };
             if (udi.length != 0) {
-                params.filters.university_department_id = udi;
+                params.filters.universityDepartmentId = udi;
             }
 	    
             if (ti.length != 0) {
-                params.filters.type_id = ti;
+                params.filters.typeId = ti;
             }
         }
 
@@ -88,14 +88,14 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
             var ids = [];
             for (var i = 0; i < data.length; ++i) {
-                ids.push(data[i].user_id);
+                ids.push(data[i].userId);
             }
 
             networkManager.request('profiles:retrieve', { filters : { id : ids} }, function (userNames) {
                 for (var i = 0; i < data.length; ++i) {
                     for (var j = 0; j < userNames.length; ++j) {
-                        if (data[i].user_id == userNames[j].id) {
-                            data[i].displayname = userNames[j].displayname;
+                        if (data[i].userId == userNames[j].id) {
+                            data[i].displayName = userNames[j].displayName;
                             break;
                         }
                     }
@@ -107,7 +107,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         });
 
         scope.getHelpers = function () {
-             networkManager.request('profiles:retrieve', { filters : { id : task.helper_ids } }, function (data) {
+             networkManager.request('profiles:retrieve', { filters : { id : task.helperIds } }, function (data) {
                  scope.helpers = data;
                  scope.$digest();
              });
@@ -115,7 +115,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
         scope.getUsersBySubDep = function () {
             if (scope.selectedSubDep) {
-                networkManager.request('profiles:retrieve', { filters: { subdepartment_id : scope.selectedSubDep, role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+                networkManager.request('profiles:retrieve', { filters: { subdepartmentId : scope.selectedSubDep, role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
                     scope.users = data;
                     scope.$digest();
                 });
@@ -151,7 +151,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         scope.addHelperToTask = function () {
             if (scope.selectedUser) {
                 networkManager.request('tasks:add helper', { taskId: taskId, helperId: scope.selectedUser }, function (data) {
-                    scope.data.helper_ids.push(scope.selectedUser);
+                    scope.data.helperIds.push(scope.selectedUser);
                     scope.getHelpers();
                 });
             }
@@ -166,9 +166,9 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
                     }
                 }
 
-                for (var i = 0; i < task.helper_ids.length; ++i) {
-                    if (task.helper_ids[i]== helperId) {
-                        task.helper_ids.splice(i, 1);
+                for (var i = 0; i < task.helperIds.length; ++i) {
+                    if (task.helperIds[i]== helperId) {
+                        task.helperIds.splice(i, 1);
                         break;
                     }
                 }
@@ -180,9 +180,9 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         scope.removeComment = function (commentId) {
             networkManager.request('task comments:remove', { commentId : commentId }, function () {
                 for (var i = 0; i < scope.comments.length; ++i) {
-                    if (scope.comments[i].id == helperId) {
+                    if (scope.comments[i].id == commentId) {
                         scope.comments.splice(i, 1);
-                        --$scope.comment_count;
+                        --task.commentCount;
                         break;
                     }
                 }
@@ -191,8 +191,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             });
         };
 
-        if (task.subdepartment_id) {
-            scope.selectedSubDep = task.subdepartment_id;
+        if (task.subdepartmentId) {
+            scope.selectedSubDep = task.subdepartmentId;
             scope.getUsersBySubDep();
         } else {
             networkManager.request('profiles:retrieve', { filters: { role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
@@ -204,11 +204,12 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         scope.getHelpers();
 
         scope.saveComment = function () {
-            networkManager.request('task comments:save', { task_id : taskId, content : scope.ncomment }, function (data) {
-                task.comment_count++;
-                data.displayname = $scope.profile[0].displayname;
+            networkManager.request('task comments:save', { taskId : taskId, content : scope.ncomment }, function (data) {
+                ++task.commentCount;
+                data.displayName = $scope.profile[0].displayName;
                 scope.comments.push(data);
                 scope.$digest();
+                $scope.$digest();
             });
             scope.ncomment = '';
         };
@@ -217,8 +218,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
         $scope._domRef.css({
-            top : $('body').height()/2 - 330,
-            left : $('body').width()/2 - 330
+            top : document.body.clientHeight/2 - 330,
+            left : document.body.clientWidth/2 - 330
         }).show();
 
         function editTask () {
@@ -257,9 +258,9 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
         var task = {
             content: gtask ? gtask.content : $('.new-task textarea').val(),
-            university_department_id: gtask ? gtask.university_department_id : $scope.selectedUniDep,
-            subdepartment_id : gtask ? gtask.subdepartment_id : $scope.selectedSub,
-            type_id : gtask ? gtask.type_id : $scope.selectedTaskType
+            universityDepartmentId: gtask ? gtask.universityDepartmentId : $scope.selectedUniDep,
+            subdepartmentId : gtask ? gtask.subdepartmentId : $scope.selectedSub,
+            typeId : gtask ? gtask.typeId : $scope.selectedTaskType
         };
 
         if (gtask) {
@@ -267,8 +268,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         }
 
         if (!$scope.selectedSub && !gtask) {
-            delete task['subdepartment_id'];
-            delete task['university_department_id'];
+            delete task['subdepartmentId'];
+            delete task['universityDepartmentId'];
         }
 
         networkManager.request('tasks:save', task, function (data) {

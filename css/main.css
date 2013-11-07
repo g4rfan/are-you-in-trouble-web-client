@@ -92,10 +92,19 @@ input:focus {
     display: none;
 }
 
-.opened-task, .new-task {
+.opened-profile, .opened-task, .new-task {
     display: none;
     position: fixed !important;
     z-index: 2001;
+}
+
+.opened-profile {
+    width: 660px;
+    height: 660px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background: white;
 }
 
 .close-button {

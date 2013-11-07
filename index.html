@@ -31,8 +31,8 @@
 </head>
 <body ng-controller="tasksCntrl">
 <nav class="navbar navbar-default navbar-fixed-top special" role="navigation">
-    <div class="navbar-text"><div class="glyphicon glyphicon-align-justify"></div> Заявки</div>
-    <!--<div class="navbar-text"><div class="glyphicon glyphicon-user"></div> Команды</div>-->
+    <div class="navbar-text tasks-view" ng-class = "{ hidden : profile[0].role != 'department chief' }"><div class="glyphicon glyphicon-align-justify"></div> Заявки</div>
+    <div class="navbar-text profiles-view" ng-class = "{ hidden : profile[0].role != 'department chief' }"><div class="glyphicon glyphicon-user"></div> Реестры</div>
     <div class="navbar-text table-mode"><div class="glyphicon glyphicon-th-list"></div> Режим таблицы</div>
     <div class="navbar-text grid-mode"><div class="glyphicon glyphicon-th"></div> Режим сетки</div>
     <div class="navbar-right">
@@ -45,7 +45,7 @@
 <div ng-controller = 'filterCntrl' class="filters">
     <div class='open-filter-button'></div>
     <input type="text" ng-model="filterName" style="margin-left: 10px"/>
-    <h6>Кафедры</h6>
+    <h6 ng-class = "{ hidden : profile[0].role == 'client' }">Кафедры</h6>
     <ul>
         <li ng-repeat='filterItem in filters.universityDep | filter : filterName ' ng-style="myStyle"
             ng-click="events.click($event)" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
@@ -73,8 +73,25 @@
         <tr ng-repeat="task in tasks" ng-click = 'openTask(task.id)'>
             <td>{{ task.id }}</td>
             <td style="max-width: 650px">{{ task.content.slice(0,120) }}</td>
-            <td><span class = "glyphicon glyphicon-comment"></span> {{ task.comment_count }}</td>
-            <td><span class = "glyphicon glyphicon-user"></span> {{ task.helper_ids.length }}</td>
+            <td><span class = "glyphicon glyphicon-comment"></span> {{ task.commentCount }}</td>
+            <td><span class = "glyphicon glyphicon-user"></span> {{ task.helperIds.length }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class = "table table-hover profiles" style="display: none;" ng-controller = "ProfilesCtrl">
+    <thead>
+        <th>#</th>
+        <th>Имя</th>
+        <th>Отдел</th>
+        <th>Факультет</th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="profile in profiles" ng-click="openProfile(profile.id)">
+            <td>{{ profile.id }}</td>
+            <td>{{ profile.displayName }}</td>
+            <td>{{ getSubDep(profile.subdepartmentId) }}</td>
+            <td>{{ getUniDep(profile.universityDepartmentId) }}</td>
         </tr>
     </tbody>
 </table>
@@ -90,11 +107,11 @@
         </div>
         <div class='button-section comments'>
             <div class="glyphicon glyphicon-comment"></div>
-            <div>{{ task.comment_count }}</div>
+            <div>{{ task.commentCount }}</div>
         </div>
         <div class='button-section onit'>
             <div class="glyphicon glyphicon-user"></div>
-            <div>{{ task.helper_ids.length }}</div>
+            <div>{{ task.helperIds.length }}</div>
         </div>
     </section>
 </div>
@@ -114,7 +131,7 @@
     </section>
 
     <section class="task opened-task"> </section>
-
+    <section class="opened-profile"> </section>
     <div class="blackout"></div>
 </div>
 </body>

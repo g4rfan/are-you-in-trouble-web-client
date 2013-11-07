@@ -1,0 +1,22 @@
+<header>
+    <img src="{{ getGravatar(data.email, 80) }}"/>
+    <h4>{{ data.displayName }}</h4>
+    <div class = "glyphicon glyphicon-remove-circle close-button"></div>
+</header>
+
+<!--<p>Профиль создан : {{ new Date() }}</p>
+<p>Профиль обновлен : {{ new Date() }}</p>-->
+<p>Email : {{ data.email }}</p>
+<button class = "btn btn-danger" ng-click = 'removeProfile()'>Удалить профиль</button>
+<br/>
+
+<p>Имя : <input type="text" ng-model = 'newDisplayName'/> </p>
+<p>Телефон : <input type="text" ng-model = 'newPhone'/> </p>
+
+<button class = 'btn btn-success' ng-click = 'saveProfile()'>Сохранить изменения</button>
+
+<p>Установить роль : <select ng-model="selectedRole" ng-options = 'uni.id as uni.name for uni in roles'></select>
+<p ng-class = '{ hidden : selectedRole != 1 }'>Указать кафедру: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps' ng-change='saveChanges("unidep")'></select>
+<p ng-class = '{ hidden : selectedRole != 2 }'>Указать отдел: <select  ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps' ng-change='saveChanges("helper")'></select>
+<p ng-class = '{ hidden : selectedRole == 1 || selectedSubDep == 0 }'>Сделать главой отдела <input type="checkbox" ng-model = 'subDepCheck' ng-check="saveChanges('subDep')"/>
+<p ng-class = '{ hidden : selectedRole == 1 || !subDepCheck }'>Сделать Root <input type="checkbox" ng-model = "depChCheck" ng-check="saveChanges('root')"/>
