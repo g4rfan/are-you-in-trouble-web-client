@@ -201,7 +201,7 @@ Validator.filters = {
         items: {
           type: 'object',
           properties: {
-            column: new Validator.types.Enum([ 'displayname', 'created_at', 'updated_at' ], true),
+            column: new Validator.types.Enum([ 'displayName', 'created_at', 'updated_at' ], true),
             direction: new Validator.types.OrderingDirection(true)
           }
         }
@@ -210,7 +210,7 @@ Validator.filters = {
         type: 'object',
         properties: {
           id: new Validator.types.SerialFilter(),
-          displayname: new Validator.types.StringFilter(60),
+          displayName: new Validator.types.StringFilter(60),
           email: new Validator.types.StringFilter(60),
           phone: new Validator.types.StringFilter(60),
           role: new Validator.types.RoleFilter(),
@@ -222,14 +222,14 @@ Validator.filters = {
   },
   'profiles:save': {
     properties: {
-      displayname: new Validator.types.String(60, true),
+      displayName: new Validator.types.String(60, true),
       phone: new Validator.types.String(15)
     }
   },
   'profiles:save-department chief': {
     properties: {
       id: new Validator.types.Serial(),
-      displayname: new Validator.types.String(60, true),
+      displayName: new Validator.types.String(60, true),
       phone: new Validator.types.String(15)
     }
   },
