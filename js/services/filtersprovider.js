@@ -9,7 +9,7 @@
 
 angular.module('helpdesk.service').service('filtersProvider', function (networkManager) {
     var serviceModel = {
-        _storage : { universityDep : [], taskTypes : [] },
+        _storage : { universityDep : [], taskTypes : [], subDeps : [] },
 
         getFilters : function () {
             return this._storage;
@@ -57,7 +57,18 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
                 serviceModel.insert(data[i], 'taskTypes');
                 ++i;
             }
+            serviceModel.events.fire('filters got', {});
+        });
 
+        networkManager.request('subdepartments:retrieve', {}, function (data) {
+            var i = 0, len = data.length;
+            serviceModel._storage.subDeps.length = 0;
+            while (i < len) {
+                var color = 'rgb(' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ',' + getRandomInt(125, 255) + ')';
+                data[i].color = color;
+                serviceModel.insert(data[i], 'subDeps');
+                ++i;
+            }
             serviceModel.events.fire('filters got', {});
         });
     }

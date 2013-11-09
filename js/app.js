@@ -3,7 +3,8 @@ var tlogin = false;
 var globalEvents = new EventEmitter({
     'login' : [],
     'logout' : [],
-    'tab changed' : []
+    'tab changed' : [],
+    'search-value-changed' : []
 });
 
 function logout() {
@@ -107,7 +108,7 @@ $(document).ready(function () {
 
     $('.add-new-task-button').on('click', function (event) {
         $('.blackout, .new-task').show();
-        var bodyWidth = document.body.clientWidth, bodyHeight = document.body.clientHeight;
+        var bodyWidth = document.body.clientWidth, bodyHeight = $(window).height();
         $('.new-task').css({
             left : bodyWidth / 2 - 150,
             top : bodyHeight / 2 - 189
@@ -117,14 +118,11 @@ $(document).ready(function () {
         $('.opened-profile, .opened-task, .new-task, .blackout').hide();
     });
 
-    $('.table-mode').on('click', function (event) {
-        $('.task-list').hide();
-        $('.table-view').show();
-    });
-
-    $('.grid-mode').on('click', function (event) {
-        $('.table-view').hide();
-        $('.task-list').show();
+    $('.icon').on('click', function (event) {
+        var domElement = $(this);
+        $('.icon.active').removeClass('active');
+        domElement.addClass('active');
+        globalEvents.fire('tab changed', { tabName : domElement.attr('data-tab-name') });
     });
 
     $('.logout').on('click', function (event) {
@@ -133,14 +131,26 @@ $(document).ready(function () {
 
     $('.profiles-view').on('click', function (event) {
         globalEvents.fire('tab changed', { tabName : 'profile' });
-        $('.grid-mode, .table-view').hide();
+        $('.grid-mode, .table-view, .task-list, .table-mode').hide();
         $('.profiles').show();
+        $(this).addClass('active');
+        $('.tasks-view').removeClass('active');
+        $('#tasks-types-list, #tasks-types-list + ul').hide();
+        $('.add-new-task-button').hide();
     });
 
     $('.tasks-view').on('click', function (event) {
         globalEvents.fire('tab changed', { tabName : 'tasks' });
-        $('.table-view').show();
+        $('.grid-mode, .table-view, .table-mode').show();
         $('.profiles').hide();
+        $(this).addClass('active');
+        $('.profiles-view').removeClass('active');
+        $('#tasks-types-list, #tasks-types-list + ul').show();
+        $('.add-new-task-button').show();
+    });
+
+    $('#search').on('keyup', function () {
+        globalEvents.fire('search-value-changed', { value : $(this).val() });
     });
 });
 

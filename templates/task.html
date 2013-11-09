@@ -10,7 +10,7 @@
                  <span ng-class = "{ hidden : profile[0].role != 'department chief'}" ng-click = "removeHelper(helper.id)" class = "glyphicon glyphicon-remove-circle"></span>
              </span>
 <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел : <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps' ng-change='getUsersBySubDep()'></select>
-Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayName for uni in users'></select>
+Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayName for uni in users' ng-change="setCorrectDep()"></select>
 <span class="glyphicon glyphicon-plus-sign add-helper" ng-click = 'addHelperToTask()'></span></p>
 <footer>
     <div>Комментарии ({{ comments.length }}):</div>

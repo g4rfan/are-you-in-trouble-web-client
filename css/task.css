@@ -1,13 +1,3 @@
-.profiles, .table-view, .task-list {
-    margin-top: 60px;
-    margin-left: 300px;
-}
-
-.profiles, .table-view {
-    min-width: 700px;
-    max-width: 1500px;
-}
-
 .task {
     width: 300px;
     height: 180px;
@@ -178,4 +168,71 @@
     min-width: 540px !important;
     max-width: 540px !important;
     max-height: 384px;
+}
+
+.time-filter {
+    float: right;
+    width: 400px;
+    margin-right: 20px;
+}
+
+.paging {
+    float: right;
+    margin-right: 20px;
+    width: 200px;
+}
+
+.paging .btn.info {
+    background: #24b592;
+    color: #ffffff;
+    width: 50px;
+    border: 1px solid #24b592;
+}
+
+.paging .btn {
+    border: 1px solid #ccc;
+    width: 70px;
+    color: #000000;
+}
+
+.paging .btn:first-child {
+    border-right: none;
+    background-image: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%);
+}
+
+.paging .btn:last-child {
+    border-left: none;
+    background-image: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%);
+}
+
+.time-filter .btn {
+    border-radius: 0;
+    color: black;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-left: none;
+    background-image: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%);
+}
+
+.btn.active {
+    color: #f6f7f7;
+    background: #24b592;
+    border: none;
+}
+
+.btn-group.sort {
+    float: right;
+    margin-right: 20px;
+}
+
+.time-filter .btn:first-child {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-left: 1px solid #989ba3;
+}
+
+.time-filter .btn:last-child {
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-right: 1px solid #989ba3;
 }

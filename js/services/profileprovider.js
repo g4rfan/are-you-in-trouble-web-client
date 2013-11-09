@@ -22,22 +22,17 @@ angular.module('helpdesk.service').service('profileProvider', function (networkM
             });
         },
 
-        getProfilesFromServer : getProfilesFromServer
+        getProfilesFromServer : getProfilesFromServer,
 
-        /* events : new EventEmitter({
-         'filters set changed' : [],
-         'filters got' : []
-         })*/
+        events : new EventEmitter({
+         'got profile' : []
+        })
     };
 
-    function getProfilesFromServer (getAll) {
-        var filters = {};
-        if (getAll) {
-            filters = { filters : { } };
-        }
-        networkManager.request('profiles:retrieve', filters, function (data) {
+    function getProfilesFromServer () {
+        networkManager.request('profiles:retrieve', {}, function (data) {
             var i = 0, len = data.length;
-            console.log(data);
+            serviceModel.events.fire('got profile')
             while (i < len) {
                 serviceModel.insert(data[i]);
                 ++i;

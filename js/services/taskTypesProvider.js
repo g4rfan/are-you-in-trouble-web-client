@@ -1,12 +1,12 @@
 /**
- * Created by garffan on 11/5/13.
+ * Created by garffan on 11/9/13.
  */
 
-angular.module('helpdesk.service').service('subDepartProvider', function (networkManager) {
+angular.module('helpdesk.service').service('taskTypesProvider', function (networkManager) {
     var serviceModel = {
         _storage : [],
 
-        getSubDeps : function () {
+        getTaskTypes : function () {
             return this._storage;
         },
 
@@ -16,24 +16,24 @@ angular.module('helpdesk.service').service('subDepartProvider', function (networ
 
         save : function (data) {
             var self = this;
-            networkManager.emit('subdepartments:save', function (savedData) {
+            networkManager.emit('task types:save', function (savedData) {
                 self.insert(savedData);
             });
         },
 
-        getSubDepartFromServer : getSubDepartFromServer
+        getTaskTypesFromServer : getTaskTypesFromServer
 
-     /* events : new EventEmitter({
-            'filters set changed' : [],
-            'filters got' : []
-        })*/
+        /* events : new EventEmitter({
+         'filters set changed' : [],
+         'filters got' : []
+         })*/
     };
 
-    function getSubDepartFromServer () {
-        networkManager.request('subdepartments:retrieve', {}, function (data) {
+    function getTaskTypesFromServer () {
+        networkManager.request('task types:retrieve', {}, function (data) {
             var i = 0, len = data.length;
             serviceModel._storage.length = 0;
-            console.log(data[0]);
+            console.log('tt : %o', data[0]);
             while (i < len) {
                 serviceModel.insert(data[i]);
                 ++i;
@@ -42,7 +42,7 @@ angular.module('helpdesk.service').service('subDepartProvider', function (networ
     }
 
     globalEvents.addEventListener('login', function () {
-       getSubDepartFromServer();
+        getTaskTypesFromServer();
     });
 
     return serviceModel;

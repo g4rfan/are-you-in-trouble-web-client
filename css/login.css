@@ -10,10 +10,12 @@
 }
 
 .navbar.special {
-    background: rgb(44, 62, 80);
+    background-image: none;
+    background: #24b592;
     height: 45px;
     box-shadow: none;
     border-radius: 0;
+    border: none !important;
 }
 
 .navbar .navbar-text {

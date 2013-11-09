@@ -1,5 +1,5 @@
 body {
-    background: rgb(236, 238, 241);
+    background: #f6f7f7; /*rgb(236, 238, 241);*/
 }
 
 .profile {
@@ -34,16 +34,6 @@ body {
     display: inline-block;
 }
 
-.filters {
-    bottom: 0;
-    position: fixed;
-    top: 20px;
-    width: 300px;
-    background: #cbd0d6;
-    overflow: auto;
-    overflow-x: hidden;
-}
-
 input {
     border-radius: 0;
     outline: none;
@@ -62,17 +52,6 @@ input:focus {
     min-width: 280px;
     max-width: 280px;
     height: 250px;
-}
-
-.add-new-task-button {
-    color: white;
-    font-size: 23px;
-    margin-top: 7px;
-    margin-right: 20px;
-}
-
-.add-new-task-button, .logout {
-    float: left;
 }
 
 .add-new-task-inline {
@@ -116,4 +95,125 @@ input:focus {
 
 .navbar-text {
     cursor: default;
+}
+
+.navbar-form {
+    margin: 0 auto !important;
+}
+
+aside {
+    position: fixed;
+    width: 120px;
+    top: 50px;
+    bottom: 0;
+    background: #2c2e34;
+}
+
+.icon {
+    margin-left: 10px;
+    background: #2c2e34;
+    color: #989ba3;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: default;
+}
+
+.icon.active {
+    background: #f6f7f7;
+}
+
+.icon .glyphicon {
+    font-size: 28px;
+}
+
+.view {
+    display: none;
+    position: absolute;
+    left: 120px;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.view header {
+    margin-right: 300px;
+}
+
+.view.active {
+    display: block;
+}
+
+.view .table-container {
+    position: absolute;
+    left: 0;
+    right: 300px;
+    top: 60px;
+    padding-left: 20px;
+    bottom: 0;
+}
+
+.view .table-container .table.head {
+    margin-bottom: 0;
+}
+
+.view .table-container .scrollable {
+    overflow-y: auto;
+    left: 20px;
+    right: 0;
+    top: 38px;
+    bottom: 0;
+    position: absolute;
+}
+
+.filters {
+    position: fixed;
+    right: 0;
+    width: 300px;
+    top: 50px;
+    bottom: 0;
+    background: #ECECEC;
+}
+
+.filters h4 {
+    margin-left: 20px;
+}
+
+.filters div input {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.filters ul {
+    padding-top: 10px;
+}
+
+.filters ul li {
+    padding: 3px;
+}
+
+.filters .filters-caption:first-child {
+    margin-top: 20px;
+}
+
+.filters .filters-caption {
+    border-bottom: 2px solid red;
+    text-align: right;
+    padding-bottom: 2px;
+    padding-right: 5px;
+    font-size: 15px;
+}
+
+.button-new {
+    color: white;
+    margin-right: 20px;
+    background: #F3572E;
+    display: inline-block;
+    font-size: 17px;
+    padding: 5px 15px;
+    float: right;
 }

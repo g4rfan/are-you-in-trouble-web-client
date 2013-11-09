@@ -2,19 +2,26 @@
  * Created by garffan on 10/2/13.
  */
 
-function tasksCntrl($scope, $compile, networkManager, filtersProvider, universityDepProvider, subDepartProvider, profileProvider) {
+function tasksCntrl($scope, $compile, networkManager, universityDepProvider, filtersProvider, subDepartProvider, profileProvider) {
     $scope.offset = 0;
-    $scope.limit = 10;
+    $scope.limit = 24;
     $scope.tasks = [];
     $scope.profile = profileProvider.getProfiles();
     $scope.filters = filtersProvider.getFilters();
     $scope.subDeps = subDepartProvider.getSubDeps();
-    /*$scope.univDeps = universityDepProvider.getUniversityDep();*/
+    $scope.selctedFilters = {};
+    $scope.uniDeps = universityDepProvider.getUniversityDep();
 
     $scope._domRef = $('.opened-task');
 
-    $scope.getTasks = function (filters) {
+    $scope.getTasks = function (filters, upload) {
         var params = {};
+
+        if (!upload) {
+            $scope.limit = 24;
+            $scope.offset = 0;
+        }
+
         if (!filters) {
             params = {
                 offset: $scope.offset,
@@ -27,7 +34,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
                 limit: $scope.limit
             };
 
-            var udi = [], ti = [];
+            var udi = [], ti = [], sdi = [];
 
             for (var key in filters.universityDep) {
                 udi.push(key);
@@ -36,6 +43,10 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             for (var key in filters.taskTypes) {
 		        ti.push(key);
 	        }
+
+            for (var key in filters.subDeps) {
+                sdi.push(key);
+            }
 	    
             params.filters = { closedById : null };
             if (udi.length != 0) {
@@ -45,18 +56,51 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             if (ti.length != 0) {
                 params.filters.typeId = ti;
             }
+
+            if (sdi.length != 0) {
+                params.filters.subdepartmentId = sdi;
+            }
         }
 
         networkManager.request('tasks:retrieve', params, function (data) {
             var i = 0, len = data.length;
-            $scope.tasks.length = 0;
+            if(!upload)
+                $scope.tasks.length = 0;
+
             while (i < len) {
                 $scope.tasks.push(data[i]);
                 ++i;
             }
-            //$scope.offset += $scope.limit;
+            if(data.length != 0) {
+                $scope.limit = 10;
+                $scope.offset += $scope.limit;
+            }
             $scope.$digest();
         });
+    };
+
+    $scope.getSubDep = function (subDepId) {
+        var subDep = null;
+        for (var i = 0; i < $scope.subDeps.length; ++i) {
+            if ($scope.subDeps[i].id == subDepId) {
+                subDep = $scope.subDeps[i];
+                break;
+            }
+        }
+
+        return subDep ? subDep.name : '-';
+    };
+
+    $scope.getUniDep = function (uniDepId) {
+        var uniDep = null;
+        for (var i = 0; i < $scope.uniDeps.length; ++i) {
+            if ($scope.uniDeps[i].id == uniDepId) {
+                uniDep = $scope.uniDeps[i];
+                break;
+            }
+        }
+
+        return uniDep ? uniDep.name : '-';
     };
 
     networkManager.on('tasks:new', function (data) {
@@ -105,6 +149,20 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
             });
 
         });
+
+        scope.setCorrectDep = function() {
+            if (scope.selectedUser) {
+                networkManager.request('profiles:retrieve', { filters: { role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+                    for (var i = 0; i < data.length; ++i) {
+                        if (data[i].id == scope.selectedUser) {
+                            scope.selectedSubDep = data[i].subdepartmentId;
+                            scope.$digest();
+                            break;
+                        }
+                    }
+                });
+            }
+        };
 
         scope.getHelpers = function () {
              networkManager.request('profiles:retrieve', { filters : { id : task.helperIds } }, function (data) {
@@ -218,7 +276,7 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
         $scope._domRef.css({
-            top : document.body.clientHeight/2 - 330,
+            top : $(window).height()/2 - 330,
             left : document.body.clientWidth/2 - 330
         }).show();
 
@@ -287,6 +345,8 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
 
     globalEvents.addEventListener('login', function () {
         filtersProvider.getFiltersFromServer();
+        universityDepProvider.getUniversityDepFromServer();
+        subDepartProvider.getSubDepartFromServer();
         $scope.getTasks();
     });
 
@@ -296,16 +356,37 @@ function tasksCntrl($scope, $compile, networkManager, filtersProvider, universit
     });
 
     filtersProvider.events.addEventListener('filters set changed', function (data) {
-        $scope.getTasks(data);
+        if (event.sender == 'profiles') return;
+
+        $scope.selctedFilters = data.selectedFilters;
+        $scope.getTasks(data.selectedFilters);
     });
+
+    $scope.filterValue = '';
+
+    $scope.filterFunction = function (task) {
+        return task.content.indexOf($scope.filterValue) != -1;
+    };
+
+    globalEvents.addEventListener('tab changed', function(data) {
+        if (data.tabName == 'tasks') {
+            $scope.getTasks();
+            $('.view.active').removeClass('active');
+            $('.view.tasks').addClass('active');
+        }
+    });
+
 
     filtersProvider.events.addEventListener('filters got', function (data) {
         $scope.filters = filtersProvider.getFilters();
+        $scope.$digest();
     });
 
-    $('.request-lists').on('scroll', function (event) {
-        if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
-            $scope.getTasks();
+
+    $('.view.tasks .scrollable').on('scroll', function() {
+        if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight - 50) {
+            $scope.getTasks($scope.slectedFilters, true);
+            console.log('sc');
         }
     });
 }
