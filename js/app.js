@@ -104,6 +104,9 @@ $(document).ready(function () {
             left : bodyWidth / 2 - 150,
             top : bodyHeight / 2 - 189
         });
+
+        fixTableWidth($('.view.tasks'));
+        fixTableWidth($('.view.profiles'));
     });
 
     $('.add-new-task-button').on('click', function (event) {

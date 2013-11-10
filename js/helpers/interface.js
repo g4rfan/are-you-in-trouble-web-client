@@ -10,4 +10,6 @@ function fixTableWidth(view){
     headers.each(function (ind, header) {
         $(header).width($(cols[ind]).width());
     });
+
+    view.find('.scrollable').css('top', view.find('.table.head').outerHeight(true));
 }
