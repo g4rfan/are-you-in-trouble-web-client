@@ -23,30 +23,30 @@
     margin-top: -10px;
 }
 
-.task.new-task {
-    width: auto;
-    height: 455px;
-    padding-top: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.task.new-task.lite {
-    height: 400px;
-}
-
-.task.new-task select {
+.new-task select {
     width: 150px;
     float: right;
 }
 
-.task.new-task header {
+.new-task header {
     height: auto;
     background: none;
     margin-left: -10px;
     text-align: center;
     padding-top: 10px;
     vertical-align: bottom;
+}
+
+.new-task header img, .task.new-task header h4 {
+    display: inline-block;
+}
+
+.new-task header img {
+    margin-top: -5px;
+}
+
+.new-task header h4 {
+    color: rgb(161, 161, 161);
 }
 
 .task.opened-task .close-button {
@@ -61,18 +61,6 @@
     margin-left: -10px;
     text-align: center;
     vertical-align: bottom;
-}
-
-.task.new-task header img, .task.new-task header h4 {
-    display: inline-block;
-}
-
-.task.new-task header img {
-    margin-top: -5px;
-}
-
-.task.new-task header h4 {
-    color: rgb(161, 161, 161);
 }
 
 .task.opened-task {
@@ -98,20 +86,6 @@
 
 .task.opened-task footer {
     max-height: 385px;
-}
-
-.task .button-save {
-    background: rgb(248, 163, 43);
-    width: 150px;
-    font-family: "DejaVu Sans Mono";
-    font-size: 12pt;
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-align: center;
-    margin-left: 80px;
-    cursor: default;
-    float: right;
 }
 
 .task textarea {

@@ -64,18 +64,27 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         networkManager.request('tasks:retrieve', params, function (data) {
             var i = 0, len = data.length;
-            if(!upload)
+            if(!upload) {
                 $scope.tasks.length = 0;
+            }
 
             while (i < len) {
                 $scope.tasks.push(data[i]);
                 ++i;
             }
+
+            if (!upload) {
+                $scope.offset = $scope.limit;
+            }
+
             if(data.length != 0) {
                 $scope.limit = 10;
-                $scope.offset += $scope.limit;
+                if (upload)
+                    $scope.offset += $scope.limit;
             }
             $scope.$digest();
+            fixTableWidth($('.view.tasks'));
+            $('.timeago').timeago();
         });
     };
 
@@ -101,6 +110,10 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         }
 
         return uniDep ? uniDep.name : '-';
+    };
+
+    $scope.parseDate = function (date) {
+        return $.timeago(new Date(date));
     };
 
     networkManager.on('tasks:new', function (data) {
@@ -185,6 +198,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 for(var i = 0; i < $scope.tasks.length; ++i) {
                     if ($scope.tasks[i].id == taskId) {
                         $scope.tasks.splice(i, 1);
+                        fixTableWidth($('.view.tasks'));
                         break;
                     }
                 }
@@ -198,6 +212,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 for (var i = 0; i < $scope.tasks.length; ++i) {
                     if ($scope.tasks[i].id == taskId) {
                         $scope.tasks.splice(i, 1);
+                        fixTableWidth($('.view.tasks'));
                         break;
                     }
                 }
@@ -301,8 +316,8 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             editTask();
         });
 
-        $('.close-button').on('click', function (event) {
-            $('.opened-task, .new-task, .blackout').hide();
+        $scope._domRef.find('.close-button').on('click', function (event) {
+            $('.opened-task, .blackout').hide();
         });
 
         $('.blackout').show();
@@ -336,6 +351,8 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
             setTimeout(function() {
                 $scope.$digest();
+                fixTableWidth($('.view.tasks'));
+                $('.timeago').timeago();
             }, 200);
 
             if(!gtask)
@@ -360,19 +377,16 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         $scope.selctedFilters = data.selectedFilters;
         $scope.getTasks(data.selectedFilters);
+        fixTableWidth($('.view.tasks'));
     });
-
-    $scope.filterValue = '';
-
-    $scope.filterFunction = function (task) {
-        return task.content.indexOf($scope.filterValue) != -1;
-    };
 
     globalEvents.addEventListener('tab changed', function(data) {
         if (data.tabName == 'tasks') {
             $scope.getTasks();
             $('.view.active').removeClass('active');
             $('.view.tasks').addClass('active');
+            fixTableWidth($('.view.tasks'));
+            $('.timeago').timeago();
         }
     });
 
@@ -385,8 +399,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
     $('.view.tasks .scrollable').on('scroll', function() {
         if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight - 50) {
-            $scope.getTasks($scope.slectedFilters, true);
-            console.log('sc');
+            $scope.getTasks($scope.selectedFilters, true);
         }
     });
 }

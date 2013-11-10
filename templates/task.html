@@ -18,7 +18,7 @@
         <div ng-repeat = 'co in comments' style="position: relative">
             <b>{{ co.displayName }}: </b>
             <span>{{ co.content }}</span>
-            <div class = "glyphicon glyphicon-remove-circle comment-remove" ng-click = "removeComment(co.id)"></div>
+            <div ng-class = '{ hidden : profile[0].role != "department chief" }' class = "glyphicon glyphicon-remove-circle comment-remove" ng-click = "removeComment(co.id)"></div>
         </div>
     </div>
     <textarea class = 'comment-content' ng-model = 'ncomment'></textarea>

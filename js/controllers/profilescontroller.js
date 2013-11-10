@@ -3,8 +3,6 @@
  */
 
 function profilesCtrl($scope, $compile, networkManager, profilesProvider, universityDepProvider, filtersProvider, subDepartProvider) {
-    $scope.offset = 0;
-    $scope.limit = 18;
     $scope.profiles = profilesProvider.getProfiles();
     $scope.uniDeps = universityDepProvider.getUniversityDep();
     $scope.subDeps = subDepartProvider.getSubDeps();
@@ -43,6 +41,7 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
             $('.view.active').removeClass('active');
             $('.view.profiles').addClass('active');
             $scope.$digest();
+            fixTableWidth($('.view.profiles'));
         }
     });
 
@@ -55,30 +54,38 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
             }
             ++i;
         }
+
+        console.log(profile);
+
         var scope = $scope.$new();
         scope.data = profile;
+
         scope.subDeps = $scope.subDeps;
         scope.uniDeps = $scope.uniDeps;
+
+        scope.parseDate = $scope.parseDate;
+
         scope.roles = [
             { id : 1, name : "Клиент" },
             { id : 2, name : "Помощник" }
         ];
 
+        scope.dictRoles = {
+            "client" : "Клиент",
+            "helper" : "Помощник",
+            "subdepartment chief" : "Начальник подразделения",
+            "department chief" : "Начальник службы"
+        };
+
         scope.selectedRole = 0;
         scope.selectedSubDep = 0;
-
-        scope.saveProfile = function () {
-            networkManager.request('profiles:save', { id : profileId, displayName : (scope.newDisplayName ? scope.newDisplayName : profile.displayName), phone : (scope.newPhone ? scope.newPhone : profile.phone) }, function (event) {
-                profile.displayName = (scope.newDisplayName ? scope.newDisplayName : profile.displayName);
-                profile.phone = (scope.newPhone ? scope.newPhone : profile.phone);
-            });
-        };
 
         scope.removeProfile = function () {
             networkManager.request('profiles:remove', { profileId : profileId }, function() {
                 for (var i = 0; i < $scope.profiles.length; ++i) {
                     if ($scope.profiles[i].id == profileId) {
                         $scope.profiles.splice(i, 1);
+                        fixTableWidth($('.view.profiles'));
                         break;
                     }
                 }
@@ -87,32 +94,37 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
             });
         };
 
+        scope.editProfile = function () {
+            $scope._domRef.find('.content-container, .edit-button').hide();
+            $scope._domRef.find('.content-edit').show();
+        };
+
         scope.saveChanges = function (type) {
-            if (type == "unidep") {
-                networkManager.request('profiles:make client', { userId : profileId, universityDepartmentId : scope.selectedUniDep }, function () {
-                    profile.subdepartmentId = -1;
-                    profile.universityDepartmentId = scope.selectedUniDep;
-                    scope.$digest();
-                    $scope.$digest();
-                });
-            }
-
-            if (type == 'helper') {
-                networkManager.request('profiles:make helper', { userId : profileId, chief : false, subdepartmentId : scope.selectedSubDep }, function () {
-                    profile.subdepartmentId = scope.selectedSubDep;
-                    profile.universityDepartmentId = -1;
-                    scope.$digest();
-                    $scope.$digest();
-                });
-            }
-
-            if (type == 'subDep') {
-                networkManager.request('profiles:make helper', { userId : profileId, chief : true, subdepartmentId : scope.selectedSubDep }, function () {
-                    profile.subdepartmentId = scope.selectedSubDep;
-                    profile.universityDepartmentId = -1;
-                    scope.$digest();
-                    $scope.$digest();
-                });
+            if (type == 'any') {
+                if (scope.selectedRole == 1) {
+                    networkManager.request('profiles:make client', { userId : profileId, universityDepartmentId : scope.selectedUniDep }, function () {
+                        profile.subdepartmentId = -1;
+                        profile.universityDepartmentId = scope.selectedUniDep;
+                        scope.$digest();
+                        $scope.$digest();
+                    });
+                } else {
+                    if (scope.subDepCheck) {
+                        networkManager.request('profiles:make helper', { userId : profileId, chief : true, subdepartmentId : scope.selectedSubDep }, function () {
+                            profile.subdepartmentId = scope.selectedSubDep;
+                            profile.universityDepartmentId = -1;
+                            scope.$digest();
+                            $scope.$digest();
+                        });
+                    } else {
+                        networkManager.request('profiles:make helper', { userId : profileId, chief : false, subdepartmentId : scope.selectedSubDep }, function () {
+                            profile.subdepartmentId = scope.selectedSubDep;
+                            profile.universityDepartmentId = -1;
+                            scope.$digest();
+                            $scope.$digest();
+                        });
+                    }
+                }
             }
 
             if (type == 'root') {
@@ -123,6 +135,16 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
                     $scope.$digest();
                 });
             }
+
+            networkManager.request('profiles:save', { id : profileId, displayName : scope.data.displayName, phone : scope.data.phone }, function (data) {
+                scope.data.updatedAt = data.updatedAt;
+                scope.data.role = data.role;
+                scope.$digest();
+                $scope.$digest();
+
+                $scope._domRef.find('.content-container, .edit-button').show();
+                $scope._domRef.find('.content-edit').hide();
+            });
         };
 
         var nElement = $compile(TemplateStorage.templates['profile'])(scope);
@@ -130,11 +152,15 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
         $scope._domRef.append(nElement);
 
         $scope._domRef.css({
-            top : $(window).height()/2 - 330,
-            left : document.body.clientWidth/2 - 330
+            top : $(window).height() / 2 - 125,
+            left : document.body.clientWidth / 2 - 330
         }).show();
         $('.close-button', $scope._domRef).on('click', function () { $scope._domRef.hide(); $('.blackout').hide(); });
         $('.blackout').show();
+    };
+
+    $scope.parseDate = function (date) {
+        return $.timeago(date);
     };
 
     filtersProvider.events.addEventListener('filters set changed', function (event) {
@@ -163,38 +189,26 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
             params.filters.subdepartmentId = sdi;
         }
         $scope.selectedFilters = params;
+
         profilesProvider.getProfilesFromServer(true, params);
+        fixTableWidth($('.view.profiles'));
     });
 
     filtersProvider.events.addEventListener('filters got', function (data) {
         $scope.filters = filtersProvider.getFilters();
     });
 
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-            if ($('.profiles-view').hasClass('active')) {
-                $scope.selectedFilters.limit = $scope.limit;
-                $scope.selectedFilters.offset = $scope.offset;
+    $('.view.profiles .scrollable').on('scroll', function() {
+        if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight - 50) {
+            $scope.selectedFilters.limit = profilesProvider.limit;
+            $scope.selectedFilters.offset = profilesProvider.offset;
 
-                profilesProvider.getProfilesFromServer(false, $scope.selectedFilters, function (data) {
-                    if (data.length != 0) {
-                        $scope.limit = 10;
-                        $scope.offset += $scope.limit;
-                    }
-                });
-            }
+            console.log("PARAMP %o", $scope.selectedFilters);
+
+            profilesProvider.getProfilesFromServer(false, $scope.selectedFilters, function (data) {
+                $scope.$digest();
+            });
         }
-    });
-
-    $scope.filterValue = '';
-
-    $scope.filterFunction = function (profile) {
-        return profile.displayName.indexOf($scope.filterValue) != -1;
-    };
-
-    globalEvents.addEventListener('search-value-changed', function (data) {
-        $scope.filterValue = data.value;
-        $scope.$digest();
     });
 
     globalEvents.addEventListener('login', function () {
@@ -203,5 +217,6 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
         profilesProvider.getProfilesFromServer(true);
         filtersProvider.getFiltersFromServer();
         $scope.$digest();
+        fixTableWidth($('.view.profiles'));
     });
 }

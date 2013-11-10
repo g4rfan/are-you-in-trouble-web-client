@@ -114,8 +114,9 @@ $(document).ready(function () {
             top : bodyHeight / 2 - 189
         });
     });
+
     $('.close-button').on('click', function (event) {
-        $('.opened-profile, .opened-task, .new-task, .blackout').hide();
+        $('.new-task, .new-subdep, .new-task-type, .blackout').hide();
     });
 
     $('.icon').on('click', function (event) {
@@ -129,32 +130,26 @@ $(document).ready(function () {
         logout();
     });
 
-    $('.profiles-view').on('click', function (event) {
-        globalEvents.fire('tab changed', { tabName : 'profile' });
-        $('.grid-mode, .table-view, .task-list, .table-mode').hide();
-        $('.profiles').show();
-        $(this).addClass('active');
-        $('.tasks-view').removeClass('active');
-        $('#tasks-types-list, #tasks-types-list + ul').hide();
-        $('.add-new-task-button').hide();
+    $('.add-new-subdep-button').on('click', function () {
+        $('.blackout, .new-subdep').show();
+        $('.new-subdep').css({
+            left : document.body.clientWidth / 2 - 150,
+            top : $(window).height() / 2 - 150
+        });
     });
 
-    $('.tasks-view').on('click', function (event) {
-        globalEvents.fire('tab changed', { tabName : 'tasks' });
-        $('.grid-mode, .table-view, .table-mode').show();
-        $('.profiles').hide();
-        $(this).addClass('active');
-        $('.profiles-view').removeClass('active');
-        $('#tasks-types-list, #tasks-types-list + ul').show();
-        $('.add-new-task-button').show();
-    });
-
-    $('#search').on('keyup', function () {
-        globalEvents.fire('search-value-changed', { value : $(this).val() });
+    $('.add-new-task-type-button').on('click', function () {
+        $('.blackout, .new-task-type').show();
+        $('.new-task-type').css({
+            left : document.body.clientWidth / 2 - 150,
+            top : $(window).height() / 2 - 150
+        });
     });
 });
 
 TemplateStorage.getTemplate('task');
+TemplateStorage.getTemplate('subdep');
+TemplateStorage.getTemplate('tasktype');
 TemplateStorage.getTemplate('profile');
 TemplateStorage.getTemplate('filters', function (template) {
     $('.filters').append(template);

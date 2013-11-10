@@ -2,11 +2,24 @@ body {
     background: #f6f7f7; /*rgb(236, 238, 241);*/
 }
 
+tr {
+    cursor: pointer;
+}
+
 .profile {
     text-align: right;
     float: right;
     margin-right: 10px;
 }
+
+.navbar-brand {
+    padding: 7px 55px;
+}
+
+.navbar-brand img {
+    height: 35px;
+}
+
 
 .profile a {
     color: white;
@@ -90,7 +103,7 @@ input:focus {
     font-size: 20px;
     float: right;
     color: #A54C4D;
-    right: -15px;
+    right: 10px;
 }
 
 .navbar-text {
@@ -157,8 +170,17 @@ aside {
     bottom: 0;
 }
 
+.view header.no-filters {
+    margin-right: 0;
+}
+
 .view .table-container .table.head {
     margin-bottom: 0;
+}
+
+.table.head {
+    width: auto;
+    table-layout: fixed;
 }
 
 .view .table-container .scrollable {
@@ -177,6 +199,7 @@ aside {
     top: 50px;
     bottom: 0;
     background: #ECECEC;
+    overflow-y: auto;
 }
 
 .filters h4 {
@@ -194,6 +217,7 @@ aside {
 
 .filters ul li {
     padding: 3px;
+    cursor: pointer;
 }
 
 .filters .filters-caption:first-child {
@@ -216,4 +240,97 @@ aside {
     font-size: 17px;
     padding: 5px 15px;
     float: right;
+}
+
+.opened-subdep, .opened-profile, .opened-task-type, .new-task, .new-subdep, .new-task-type {
+    display: none;
+    position: fixed;
+    z-index: 2002;
+}
+
+.opened-subdep, .opened-task-type, .new-subdep, .new-task-type {
+    background: white;
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    padding-top: 0;
+}
+
+.new-task {
+    background: #ffffff;
+    height: 455px !important;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.new-task.lite {
+    height: 400px !important;
+}
+
+.new-task select {
+    width: 150px;
+    float: right;
+}
+
+.opened-profile header .edit-button {
+    float: right;
+    right: -7px;
+    top: 45px;
+}
+
+.opened-profile {
+    height: 300px;
+}
+
+.opened-subdep header, .opened-profile header,  .opened-task-type header, .new-task header, .new-subdep header, .new-task-type header {
+    height: auto;
+    background: none;
+    margin-left: -10px;
+    text-align: center;
+    padding-top: 10px;
+    vertical-align: bottom;
+    width: 300px;
+}
+
+.opened-profile header {
+    width: 600px;
+}
+
+.opened-subdep header h4, .opened-profile header h4, .opened-task-type header h4, .new-task header img, .new-task header h4, .new-subdep header img, .new-subdep header h4, .new-task-type header img, .new-task-type header h4 {
+    display: inline-block;
+    color: rgb(161, 161, 161);
+}
+
+.new-task header img {
+    margin-top: -5px;
+}
+
+.button-save {
+    background: rgb(248, 163, 43);
+    width: 150px;
+    font-family: "DejaVu Sans Mono";
+    font-size: 12pt;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    margin-left: 80px;
+    cursor: default;
+    float: right;
+}
+
+.opened-subdep textarea, .opened-task-type textarea {
+    width: 259px;
+}
+
+.new-subdep textarea, .new-task-type textarea {
+    outline: none;
+    width: 260px;
+    height: 88px;
+    border: 1px solid rgb(177, 177, 177);
+}
+
+.opened-subdep .button-save, .opened-task-type .button-save, .new-subdep .button-save, .new-task-type .button-save {
+    margin-top: 20px;
 }

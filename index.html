@@ -13,6 +13,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/libs/jquery.js"></script>
     <script src="js/libs/angular.js"></script>
+    <script src="js/libs/timeago.jquery.js"></script>
+    <script src="js/libs/ru.timeago.jquery.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/helpers/templatehelper.js"></script>
     <script src="js/helpers/interface.js"></script>
@@ -36,7 +38,7 @@
 </head>
 <body>
     <nav class ='navbar navbar-default special'>
-        <a class="navbar-brand" href="#">КУБГАУ</a>
+        <a class="navbar-brand" href="#"><img src="resources/logo.png"/> </a>
     </nav>
     <aside ng-controller = "profileCntrl">
         <div class = "icon active" data-tab-name = 'tasks'>
@@ -63,12 +65,12 @@
             <div class = 'button-new add-new-task-button'>Новая заявка {{ tasks.length }}</div>
         </header>
         <div class = "table-container">
-            <table class = 'table head'>
+            <table class = 'table head' style="width: auto; max-width: none;">
                 <thead>
                     <th>#</th>
                     <th>Заявка</th>
-                    <th>Кол-во комментариев</th>
-                    <th>Назначено</th>
+                    <th><span class="glyphicon glyphicon-comment"></span></th>
+                    <th><span class="glyphicon glyphicon-user"></span></th>
                     <th>Отдел</th>
                     <th>Факультет</th>
                     <th>Дата создания</th>
@@ -79,12 +81,12 @@
                     <tbody>
                         <tr ng-repeat="task in tasks | filter:taskName" ng-click = "openTask(task.id)">
                             <td>{{ task.id }}</td>
-                            <td>{{ task.content.slice(0,120) }}</td>
+                            <td>{{ task.content.slice(0,100) }}</td>
                             <td>{{ task.commentCount }}</td>
                             <td>{{ task.helperIds.length }}</td>
                             <td>{{ getSubDep(task.subdepartmentId) }}</td>
                             <td>{{ getUniDep(task.universityDepartmentId) }}</td>
-                            <td>{{ task.createdAt }}</td>
+                            <td class="timeago" >{{ parseDate(task.createdAt) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -115,6 +117,18 @@
                 </li>
             </ul>
         </section>
+        <section class="task new-task" ng-class = '{ lite : profile[0].role != "department chief" }'>
+            <header>
+                <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
+                <h4>НОВАЯ ЗАЯВКА</h4>
+                <div class = "glyphicon glyphicon-remove-circle close-button"></div>
+            </header>
+            <textarea></textarea>
+            <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
+            <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+            <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
+            <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
+        </section>
     </div>
 
     <div class = 'view profiles'  ng-controller="profilesCtrl">
@@ -143,7 +157,7 @@
                             <td>{{ profile.phone}}</td>
                             <td>{{ getSubDep(profile.subdepartmentId) }}</td>
                             <td>{{ getUniDep(profile.universityDepartmentId) }}</td>
-                            <td>{{ profile.createdAt }}</td>
+                            <td class="timeago">{{ parseDate(profile.createdAt) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -171,7 +185,7 @@
     </div>
 
     <div class = 'view subdeps'  ng-controller="subDepsCntrl">
-        <header>
+        <header class = "no-filters">
             <input type = "text" ng-model = 'subDepName' placeholder="Поиск отдела..."/>
             <div class = 'button-new add-new-subdep-button'>Новый отдел {{ subDeps.length }}</div>
         </header>
@@ -181,16 +195,25 @@
             <th>Имя</th>
             </thead>
             <tbody>
-            <tr ng-repeat="sd in subDeps | filter : subDepName">
+            <tr ng-repeat="sd in subDeps | filter : subDepName" ng-click = "openSubDep(sd.id)">
                 <td>{{ sd.id }}</td>
                 <td>{{ sd.name.slice(0,120) }}</td>
             </tr>
             </tbody>
         </table>
+
+        <section class = "new-subdep">
+            <header>
+                <h4>Новый отдел</h4>
+                <div class = "glyphicon glyphicon-remove-circle close-button"></div>
+            </header>
+            <textarea></textarea>
+            <div class = "button-save" ng-click = 'save()'>Сохранить</div>
+        </section>
     </div>
 
     <div class = 'view task-types'  ng-controller="taskTypesCntrl">
-        <header>
+        <header class = "no-filters">
             <input type = "text" ng-model = 'taskTypeName' placeholder="Поиск заявки..."/>
             <div class = 'button-new add-new-task-type-button'>Новая тип заявки {{ taskTypes.length }}</div>
         </header>
@@ -200,29 +223,26 @@
                 <th>Имя</th>
             </thead>
             <tbody>
-            <tr ng-repeat="tt in taskTypes | filter : taskTypeName">
+            <tr ng-repeat="tt in taskTypes | filter : taskTypeName" ng-click = 'openTaskType(tt.id)'>
                 <td>{{ tt.id }}</td>
                 <td>{{ tt.name.slice(0,120) }}</td>
             </tr>
             </tbody>
         </table>
+        <section class = "new-task-type">
+            <header>
+                <h4>Новый тип заявки</h4>
+                <div class = "glyphicon glyphicon-remove-circle close-button"></div>
+            </header>
+            <textarea></textarea>
+            <div class = "button-save" ng-click = 'save()'>Сохранить</div>
+        </section>
     </div>
-
-    <section class="task new-task" ng-class = '{ lite : profile[0].role != "department chief" }'>
-        <header>
-            <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
-            <h4>НОВАЯ ЗАЯВКА</h4>
-            <div class = "glyphicon glyphicon-remove-circle close-button"></div>
-        </header>
-        <textarea></textarea>
-        <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
-        <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
-        <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
-        <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
-    </section>
 
     <div class = 'task opened-task'></div>
     <div class = 'opened-profile'></div>
+    <div class = 'opened-subdep'></div>
+    <div class = 'opened-task-type'></div>
     <div class = 'blackout'></div>
 </body>
 </html>
