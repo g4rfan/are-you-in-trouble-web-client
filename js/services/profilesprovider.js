@@ -52,7 +52,7 @@ angular.module('helpdesk.service').service('profilesProvider', function (network
         console.log("AST: %o", filters);
         console.log("LENN: " + serviceModel._storage.length);
 
-
+        if (!filters.filters) { return; }
 
         networkManager.request('profiles:retrieve', filters, function (data) {
             var i = 0, len = data.length;
