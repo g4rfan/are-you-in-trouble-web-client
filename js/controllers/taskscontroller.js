@@ -83,7 +83,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                     $scope.offset += $scope.limit;
             }
             $scope.$digest();
-            fixTableWidth($('.view.tasks'));
+            setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
             $('.timeago').timeago();
         });
     };
@@ -351,7 +351,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
             setTimeout(function() {
                 $scope.$digest();
-                fixTableWidth($('.view.tasks'));
+                setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
                 $('.timeago').timeago();
             }, 200);
 
@@ -377,7 +377,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         $scope.selctedFilters = data.selectedFilters;
         $scope.getTasks(data.selectedFilters);
-        fixTableWidth($('.view.tasks'));
+        setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
     });
 
     globalEvents.addEventListener('tab changed', function(data) {
@@ -385,7 +385,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             $scope.getTasks();
             $('.view.active').removeClass('active');
             $('.view.tasks').addClass('active');
-            fixTableWidth($('.view.tasks'));
+            setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
             $('.timeago').timeago();
         }
     });

@@ -67,26 +67,26 @@
         <div class = "table-container">
             <table class = 'table head' style="width: auto; max-width: none;">
                 <thead>
-                    <th data-perc = '5'>#</th>
-                    <th data-perc = '30'>Заявка</th>
-                    <th data-perc = '10'><span class="glyphicon glyphicon-comment"></span></th>
-                    <th data-perc = '10'><span class="glyphicon glyphicon-user"></span></th>
-                    <th data-perc = "17.5">Отдел</th>
-                    <th data-perc = '17.5'>Факультет</th>
-                    <th data-perc = '10'>Дата создания</th>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 30%">Заявка</th>
+                    <th style="width: 10%"><span class="glyphicon glyphicon-comment"></span></th>
+                    <th style="width: 10%"><span class="glyphicon glyphicon-user"></span></th>
+                    <th style="width: 17.5%">Отдел</th>
+                    <th style="width: 17.5%">Факультет</th>
+                    <th style="width: 10%">Дата создания</th>
                 </thead>
             </table>
             <div class = "scrollable">
                 <table class = 'table table-striped'>
                     <tbody>
                         <tr ng-repeat="task in tasks | filter:taskName" ng-click = "openTask(task.id)">
-                            <td>{{ task.id }}</td>
-                            <td>{{ task.content.slice(0,100) }}</td>
-                            <td>{{ task.commentCount }}</td>
-                            <td>{{ task.helperIds.length }}</td>
-                            <td>{{ getSubDep(task.subdepartmentId) }}</td>
-                            <td>{{ getUniDep(task.universityDepartmentId) }}</td>
-                            <td class="timeago" >{{ parseDate(task.createdAt) }}</td>
+                            <td style="width: 5%">{{ task.id }}</td>
+                            <td style="width: 30%">{{ task.content.slice(0,100) }}</td>
+                            <td style="width: 10%">{{ task.commentCount }}</td>
+                            <td style="width: 10%">{{ task.helperIds.length }}</td>
+                            <td style="width: 17.5%">{{ getSubDep(task.subdepartmentId) }}</td>
+                            <td style="width: 17.5%">{{ getUniDep(task.universityDepartmentId) }}</td>
+                            <td style="width: 10%">{{ parseDate(task.createdAt) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -138,25 +138,25 @@
         <div class = 'table-container'>
             <table class = 'table head'>
                 <thead>
-                    <th data-perc="5">#</th>
-                    <th data-perc="20">Имя</th>
-                    <th data-perc="10">Email</th>
-                    <th data-perc="10">Телефон</th>
-                    <th data-perc="20">Отдел</th>
-                    <th data-perc="20">Факультет</th>
-                    <th data-perc="15">Дата создания</th>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 20%">Имя</th>
+                    <th style="width: 10%">Email</th>
+                    <th style="width: 10%">Телефон</th>
+                    <th style="width: 20%">Отдел</th>
+                    <th style="width: 20%">Факультет</th>
+                    <th style="width: 15%">Дата создания</th>
                 </thead>
             </table>
             <div class = 'scrollable'>
                 <table class = 'table table-striped'>
                     <tbody>
                         <tr ng-repeat="profile in profiles | filter : profileName" ng-click = "openProfile(profile.id)">
-                            <td>{{ profile.id }}</td>
-                            <td>{{ profile.displayName.slice(0,120) }}</td>
-                            <td>{{ profile.email }}</td>
-                            <td>{{ profile.phone}}</td>
-                            <td>{{ getSubDep(profile.subdepartmentId) }}</td>
-                            <td>{{ getUniDep(profile.universityDepartmentId) }}</td>
+                            <td style="width: 5%">{{ profile.id }}</td>
+                            <td style="width: 20%">{{ profile.displayName.slice(0,120) }}</td>
+                            <td style="width: 10%">{{ profile.email }}</td>
+                            <td style="width: 10%">{{ profile.phone}}</td>
+                            <td style="width: 20%">{{ getSubDep(profile.subdepartmentId) }}</td>
+                            <td style="width: 20%">{{ getUniDep(profile.universityDepartmentId) }}</td>
                             <td class="timeago">{{ parseDate(profile.createdAt) }}</td>
                         </tr>
                     </tbody>

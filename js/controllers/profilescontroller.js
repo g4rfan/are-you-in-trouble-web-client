@@ -60,8 +60,6 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
             ++i;
         }
 
-        console.log(profile);
-
         var scope = $scope.$new();
         scope.data = profile;
 
@@ -94,6 +92,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
                     }
                 }
                 $scope.$digest();
+                setTimeout(function () { fixTableWidth($('.view.profiles')); }, 40);
                 $('.opened-profile, .blackout').hide();
             });
         };

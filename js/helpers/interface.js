@@ -11,7 +11,7 @@ function fixTableWidth(view){
         $(header).width($(cols[ind]).width());
     });*/
 
-    var headers = view.find('table.head th');
+    /*var headers = view.find('table.head th');
     var width = document.body.clientWidth - 120 - 300;
     var rows = view.find('table:not(.head) tr');
 
@@ -28,7 +28,7 @@ function fixTableWidth(view){
 
         });
         $(header).width(widthCol);
-    });
+    }); */
 
     view.find('.scrollable').css('top', view.find('.table.head').outerHeight(true));
 }
