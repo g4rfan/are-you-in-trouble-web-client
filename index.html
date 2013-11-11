@@ -62,7 +62,7 @@
     <div class = 'view tasks active'  ng-controller="tasksCntrl">
         <header>
             <input type = "text" ng-model = 'taskName' placeholder="Поиск заявки..."/>
-            <div ng-class = "{ hidden : 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка </div>
+            <div ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка </div>
         </header>
         <div class = "table-container">
             <table class = 'table head'>
