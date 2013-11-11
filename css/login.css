@@ -6,7 +6,7 @@
     right: 0;
     bottom: 0;
     z-index: 10000;
-    -webkit-transition: top .35s linear, opacity .2s linear;
+    -webkit-transition: top .35s linear, opacity .1s linear;
 }
 
 .navbar.special {
@@ -47,6 +47,12 @@
     width: 300px;
 }
 
+.error {
+    color: rgb(231, 76, 60);
+    font-weight: 800;
+    display: none;
+}
+
 .login-form .buttons {
     margin-top: 15px;
 }
@@ -64,6 +70,10 @@
 
 .login-form .login-button.positive {
     background: rgb(39, 174, 96);
+}
+
+.login-form .login-button.positive.selected {
+    background: rgb(46, 204, 113);
 }
 
 .login-form .login-button.negative {

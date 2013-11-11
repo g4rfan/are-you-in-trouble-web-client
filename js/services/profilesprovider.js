@@ -3,7 +3,7 @@
  */
 
 
-angular.module('helpdesk.service').service('profilesProvider', function (networkManager) {
+angular.module('helpdesk.service').service('profilesProvider', function (networkManager, $rootScope) {
     var serviceModel = {
         _storage : [],
 
@@ -46,11 +46,13 @@ angular.module('helpdesk.service').service('profilesProvider', function (network
         filters.filters = {};
 
         if (params) {
+            if ('limit' in params) {
+                filters.limit = params.limit;
+                filters.offset = params.offset;
+            }
             filters.filters = params.filters;
         }
 
-        console.log("AST: %o", filters);
-        console.log("LENN: " + serviceModel._storage.length);
 
         if (!filters.filters) { return; }
 
@@ -78,6 +80,8 @@ angular.module('helpdesk.service').service('profilesProvider', function (network
             if (callback) {
                 callback(data);
             }
+
+            $rootScope.$broadcast('profiles-list-changes');
         });
     }
 

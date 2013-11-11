@@ -178,9 +178,13 @@ aside {
     margin-bottom: 0;
 }
 
-.table.head {
+.table {
     width: auto;
     table-layout: fixed;
+}
+
+.table tr td {
+    overflow: hidden;
 }
 
 .view .table-container .scrollable {

@@ -2,7 +2,7 @@
  * Created by garffan on 10/2/13.
  */
 
-function profilesCtrl($scope, $compile, networkManager, profilesProvider, universityDepProvider, filtersProvider, subDepartProvider) {
+function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProvider, universityDepProvider, filtersProvider, subDepartProvider) {
     $scope.profiles = profilesProvider.getProfiles();
     $scope.uniDeps = universityDepProvider.getUniversityDep();
     $scope.subDeps = subDepartProvider.getSubDeps();
@@ -41,8 +41,13 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
             $('.view.active').removeClass('active');
             $('.view.profiles').addClass('active');
             $scope.$digest();
-            fixTableWidth($('.view.profiles'));
+            setTimeout(function () { fixTableWidth($('.view.profiles')); }, 40);
         }
+    });
+
+    $rootScope.$on('profiles-list-changes', function () {
+        $scope.$digest();
+        setTimeout(function () { fixTableWidth($('.view.profiles')); }, 40);
     });
 
     $scope.openProfile = function (profileId) {
@@ -85,7 +90,6 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
                 for (var i = 0; i < $scope.profiles.length; ++i) {
                     if ($scope.profiles[i].id == profileId) {
                         $scope.profiles.splice(i, 1);
-                        fixTableWidth($('.view.profiles'));
                         break;
                     }
                 }
@@ -181,17 +185,19 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
         }
 
         params.filters = {};
+        var isEmpty = true;
         if (udi.length != 0) {
             params.filters.universityDepartmentId = udi;
+            isEmpty = false;
         }
 
         if (sdi.length != 0) {
             params.filters.subdepartmentId = sdi;
+            isEmpty = false;
         }
         $scope.selectedFilters = params;
 
-        profilesProvider.getProfilesFromServer(true, params);
-        fixTableWidth($('.view.profiles'));
+        profilesProvider.getProfilesFromServer(true, isEmpty ? null : params);
     });
 
     filtersProvider.events.addEventListener('filters got', function (data) {
@@ -217,6 +223,5 @@ function profilesCtrl($scope, $compile, networkManager, profilesProvider, univer
         profilesProvider.getProfilesFromServer(true);
         filtersProvider.getFiltersFromServer();
         $scope.$digest();
-        fixTableWidth($('.view.profiles'));
     });
 }

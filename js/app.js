@@ -43,9 +43,14 @@ TemplateStorage.getTemplate('login', function (template) {
             login();
         }
     });
+
     $('.login-button').on('click', function () {
         login();
-    });
+    }).on('mousedown', function () {
+            $(this).addClass('selected');
+        }).on('mouseup', function () {
+            $(this).removeClass('selected');
+        });
 });
 
 function getGravatar(email, size) {
@@ -70,8 +75,9 @@ function login() {
         type: 'post',
         data: { username: $('#username').val(), password: $('#password').val() },
         complete: function (jqXhr, statusText) {
-            if (jqXhr.status == 403) {
+            if (jqXhr.status != 200) {
                 $('.login-form input[type=text], .login-form input[type=password]').val('');
+                $('.login-form .error').show();
             }
         },
 
@@ -82,9 +88,11 @@ function login() {
                 bottom: '',
                 top: '-' + (document.body.clientHeight - 45) + 'px'
             });
-
+            fixTableWidth($('.view.tasks'));
+            fixTableWidth($('.view.profiles'));
             setTimeout(function () {
                 back.css('opacity', 0);
+                $('.login-form .error').hide();
                 setTimeout(function () {
                     back.hide();
                     tlogin = true;
@@ -148,6 +156,8 @@ $(document).ready(function () {
             top : $(window).height() / 2 - 150
         });
     });
+    fixTableWidth($('.view.tasks'));
+    fixTableWidth($('.view.profiles'));
 });
 
 TemplateStorage.getTemplate('task');
