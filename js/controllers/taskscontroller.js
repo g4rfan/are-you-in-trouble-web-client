@@ -357,6 +357,13 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
             if(!gtask)
                 $('.new-task, .blackout').hide();
+
+            if (!gtask) {
+                $scope.selectedUniDep = 0;
+                $scope.selectedSub = 0;
+                $scope.selectedTaskType = 0;
+                $('.new-task textarea').val('');
+            }
         });
     };
 
