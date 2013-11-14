@@ -1,3 +1,44 @@
+if (!Object.keys) {
+    Object.keys = (function () {
+        'use strict';
+        var hasOwnProperty = Object.prototype.hasOwnProperty,
+            hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
+            dontEnums = [
+                'toString',
+                'toLocaleString',
+                'valueOf',
+                'hasOwnProperty',
+                'isPrototypeOf',
+                'propertyIsEnumerable',
+                'constructor'
+            ],
+            dontEnumsLength = dontEnums.length;
+
+        return function (obj) {
+            if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+                throw new TypeError('Object.keys called on non-object');
+            }
+
+            var result = [], prop, i;
+
+            for (prop in obj) {
+                if (hasOwnProperty.call(obj, prop)) {
+                    result.push(prop);
+                }
+            }
+
+            if (hasDontEnumBug) {
+                for (i = 0; i < dontEnumsLength; i++) {
+                    if (hasOwnProperty.call(obj, dontEnums[i])) {
+                        result.push(dontEnums[i]);
+                    }
+                }
+            }
+            return result;
+        };
+    }());
+}
+
 var tlogin = false;
 
 var globalEvents = new EventEmitter({
@@ -68,6 +109,29 @@ function getGravatar(email, size) {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function loginAction () {
+    var back = $('.login-background');
+    back.css({
+        height: $(document.body).height(),
+        bottom: '',
+        top: '-' + (document.body.clientHeight - 45) + 'px'
+    });
+    fixTableWidth($('.view.tasks'));
+    fixTableWidth($('.view.profiles'));
+    setTimeout(function () {
+        back.css('opacity', 0);
+        $('.login-form .error').hide();
+        setTimeout(function () {
+            back.hide();
+            tlogin = true;
+            setTimeout(function () {
+                globalEvents.fire('login');
+            }, 300);
+        }, 200);
+    }, 300);
+}
+
 
 function login() {
     $.ajax({
@@ -156,6 +220,11 @@ $(document).ready(function () {
             top : $(window).height() / 2 - 150
         });
     });
+
+    $('.error-block').on('click', function() {
+        $(this).hide();
+    });
+
     fixTableWidth($('.view.tasks'));
     fixTableWidth($('.view.profiles'));
 });
@@ -169,3 +238,10 @@ TemplateStorage.getTemplate('filters', function (template) {
 });
 
 angular.module('helpdesk', ['helpdesk.service']);
+
+var test = io.connect(window.location.origin + '/');
+// Global events are bound against socket
+test.socket.on('connect', function(){
+    $('.login-background').hide();
+    loginAction();
+});

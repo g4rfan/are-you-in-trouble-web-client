@@ -98,8 +98,8 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
         };
 
         scope.editProfile = function () {
-            $scope._domRef.find('.content-container, .edit-button').hide();
-            $scope._domRef.find('.content-edit').show();
+            $scope._domRef.find('.edit-view, .edit-button').hide();
+            $scope._domRef.find('.edit-field, .save-button-gl').show();
         };
 
         scope.saveChanges = function (type) {

@@ -148,6 +148,8 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 ids.push(data[i].userId);
             }
 
+            if (ids.length == 0) { return; }
+
             networkManager.request('profiles:retrieve', { filters : { id : ids} }, function (userNames) {
                 for (var i = 0; i < data.length; ++i) {
                     for (var j = 0; j < userNames.length; ++j) {
@@ -178,10 +180,11 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         };
 
         scope.getHelpers = function () {
-             networkManager.request('profiles:retrieve', { filters : { id : task.helperIds } }, function (data) {
-                 scope.helpers = data;
-                 scope.$digest();
-             });
+            if (!task.helperIds || task.helperIds == 0) { scope.helpers = []; return; }
+            networkManager.request('profiles:retrieve', { filters : { id : task.helperIds } }, function (data) {
+                scope.helpers = data;
+                scope.$digest();
+            });
         };
 
         scope.getUsersBySubDep = function () {
@@ -304,12 +307,20 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         }
 
         function saveTask () {
-            $('.content-edit').hide();
-            $('.content-container').show();
-            $scope.save(task);
-            $('.edit-button').removeClass('glyphicon-floppy-disk').addClass('glyphicon-pencil').off('click').on('click', function (event) {
-                editTask();
-            });
+            var val = Validator.validate(json.validate, '', task);
+            if (val.valid) {
+                $('.content-edit').hide();
+                $('.content-container').show();
+                $scope.save(task);
+                $('.edit-button').removeClass('glyphicon-floppy-disk').addClass('glyphicon-pencil').off('click').on('click', function (event) {
+                    editTask();
+                });
+            } else {
+                var errors = val.errors;
+                for (var i = 0; i < errors.length; ++i) {
+                    console.log(errors[i].message);
+                }
+            }
         }
 
         $('.edit-button').off('click').on('click', function (event) {
@@ -372,6 +383,18 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         universityDepProvider.getUniversityDepFromServer();
         subDepartProvider.getSubDepartFromServer();
         $scope.getTasks();
+        networkManager.on('tasks:insert', function(data) {
+            $scope.tasks.unshift(data);
+            $scope.$digest();
+        });
+
+        networkManager.on('tasks:update', function(data) {
+            console.log('UPDATED : %o', data);
+        });
+
+        networkManager.on('tasks:remove', function(data) {
+            console.log('REMOVED : %o', data);
+        });
     });
 
     globalEvents.addEventListener('logout', function () {

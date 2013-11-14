@@ -1,31 +1,27 @@
 <header>
     <img src="{{ getGravatar(data.email, 80) }}"/>
-    <h4>{{ data.displayName }}</h4>
+    <h4>Профиль</h4>
     <div class = "glyphicon glyphicon-remove-circle close-button"></div>
     <div class = "glyphicon glyphicon-pencil edit-button" ng-click = 'editProfile()'></div>
+    <div class = "glyphicon glyphicon-pencil edit-button" ng-click = 'saveProfile()'></div>
 </header>
 
 <div class = "content-container">
+    <p>Имя : <span class = "edit-view">{{ data.displayName }}</span><input type="text" class = "edit-field name" ng-model = "data.displayName"/></p>
+    <p>Телефон : <span class = "edit-view">{{ data.phone && data.phone || "Не указан" }}</span> <input type="text" class = "edit-field phone" ng-model = "data.phone"/></p>
     <p>Email : {{ data.email }}</p>
     <p>Профиль создан : {{ parseDate(data.createdAt) }}</p>
     <p>Профиль обновлен : {{ parseDate(data.updatedAt) }}</p>
-    <p>Телефон : {{ data.phone && data.phone || "Не указан" }}</p>
     <p>Роль : {{ dictRoles[data.role] }}</p>
+    <button class = "edit-role">Изменить роль</button>
+    <div class = "role-edit">
+        <p>Установить роль : <select ng-model="selectedRole" ng-options = 'uni.id as uni.name for uni in roles'></select>
+        <p ng-class = '{ hidden : selectedRole != 1 }'>Указать кафедру: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps'></select>
+        <p ng-class = '{ hidden : selectedRole == 1 }'>Указать отдел: <select  ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+        <button class = "btn btn-danger" ng-click="saveChanges('root')">Сделать главой</button>
+        <button class = "btn btn-success" ng-click="saveChanges('any')">Сохранить</button>
+    </div>
 </div>
-
-<div class = "content-edit">
-    <p>Имя : <input type="text" ng-model = "data.displayName"/></p>
-    <p>Телефон : <input type="text" ng-model = "data.phone"/></p>
-
-    <p>Установить роль : <select ng-model="selectedRole" ng-options = 'uni.id as uni.name for uni in roles'></select>
-    <p ng-class = '{ hidden : selectedRole != 1 }'>Указать кафедру: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps'></select>
-    <p ng-class = '{ hidden : selectedRole != 2 }'>Указать отдел: <select  ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
-    <p ng-class = '{ hidden : selectedRole < 2 }'>Сделать главой отдела <input type="checkbox" ng-model = 'subDepCheck'/></p>
-    <button class = "btn btn-danger" ng-click="saveChanges('root')">Сделать Root </button>
-
-    <button class = "btn btn-success" ng-click="saveChanges('any')">Сохранить</button>
-</div>
-
 
 
 <!--<p>Email : {{ data.email }}</p>-->

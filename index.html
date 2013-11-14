@@ -1,40 +1,41 @@
 <!DOCTYPE html>
-<html ng-app = 'helpdesk' xmlns = "http://www.w3.org/1999/html">
+<html ng-app = 'helpdesk'>
 <head>
     <title>Are you in trouble?</title>
     <meta charset="utf-8"/>
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>
-    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
 
-    <link href="css/main.css" rel="stylesheet"/>
-    <link href="css/login.css" rel="stylesheet"/>
-    <link href="css/task.css" rel="stylesheet"/>
-    <link href="css/filter.css" rel="stylesheet"/>
+    <link href="/static/css/main.css" rel="stylesheet"/>
+    <link href="/static/css/login.css" rel="stylesheet"/>
+    <link href="/static/css/task.css" rel="stylesheet"/>
+    <link href="/static/css/filter.css" rel="stylesheet"/>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/libs/jquery.js"></script>
-    <script src="js/libs/angular.js"></script>
-    <script src="js/libs/timeago.jquery.js"></script>
-    <script src="js/libs/ru.timeago.jquery.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/helpers/templatehelper.js"></script>
-    <script src="js/helpers/interface.js"></script>
-    <script src="js/helpers/eventemitter.js"></script>
-    <script src="js/services/service.js"></script>
-    <script src="js/services/networkservice.js"></script>
-    <script src="js/services/filtersprovider.js"></script>
-    <script src="js/services/subdepartprovider.js"></script>
-    <script src="js/services/universitydepservice.js"></script>
-    <script src="js/services/profilesprovider.js"></script>
-    <script src="js/services/profileprovider.js"></script>
-    <script src="js/services/taskTypesProvider.js"></script>
-    <script src="js/controllers/profilescontroller.js"></script>
-    <script src="js/controllers/taskscontroller.js"></script>
-    <script src="js/controllers/filterscontroller.js"></script>
-    <script src="js/controllers/subdepscontoller.js"></script>
-    <script src="js/controllers/tasktypescontroller.js"></script>
-    <script src="js/controllers/profilecontroller.js"></script>
-    <script src="js/validator.js"></script>
-    <script src="js/app.js"></script>
+    <script src="/static/js/libs/jquery.js"></script>
+    <script src="/static/js/libs/angular.js"></script>
+    <script src="/static/js/libs/timeago.jquery.js"></script>
+    <script src="/static/js/libs/revalidator.js"></script>
+    <script src="/static/js/libs/ru.timeago.jquery.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/helpers/templatehelper.js"></script>
+    <script src="/static/js/helpers/interface.js"></script>
+    <script src="/static/js/helpers/eventemitter.js"></script>
+    <script src="/static/js/services/service.js"></script>
+    <script src="/static/js/services/networkservice.js"></script>
+    <script src="/static/js/services/filtersprovider.js"></script>
+    <script src="/static/js/services/subdepartprovider.js"></script>
+    <script src="/static/js/services/universitydepservice.js"></script>
+    <script src="/static/js/services/profilesprovider.js"></script>
+    <script src="/static/js/services/profileprovider.js"></script>
+    <script src="/static/js/services/taskTypesProvider.js"></script>
+    <script src="/static/js/controllers/profilescontroller.js"></script>
+    <script src="/static/js/controllers/taskscontroller.js"></script>
+    <script src="/static/js/controllers/filterscontroller.js"></script>
+    <script src="/static/js/controllers/subdepscontoller.js"></script>
+    <script src="/static/js/controllers/tasktypescontroller.js"></script>
+    <script src="/static/js/controllers/profilecontroller.js"></script>
+    <script src="/static/js/validator.js"></script>
+    <script src="/static/js/app.js"></script>
 </head>
 <body>
     <nav class ='navbar navbar-default special'>
@@ -244,5 +245,6 @@
     <div class = 'opened-subdep'></div>
     <div class = 'opened-task-type'></div>
     <div class = 'blackout'></div>
+    <div class = "error-block"></div>
 </body>
 </html>

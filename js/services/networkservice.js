@@ -9,7 +9,7 @@ angular.module('helpdesk.service').service('networkManager', function () {
         _socket = io.connect(window.location.origin + '/');
         if (_socket) {
             _socket.on('err', function (data) {
-                console.log(data);
+                showError(data.errors[0].message);
             });
         }
     });
