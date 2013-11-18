@@ -81,7 +81,9 @@ TemplateStorage.getTemplate('login', function (template) {
     $(document.body).append(template);
     $('.login-background input').on('keyup', function (event) {
         if (event.keyCode == 13) {
-            login();
+            if ($('.login-background input').get(1).value.toString().length != 0) {
+                login();
+            }
         }
     });
 

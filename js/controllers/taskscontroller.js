@@ -26,7 +26,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             params = {
                 offset: $scope.offset,
                 limit: $scope.limit,
-                filters: {  closedById : null }
+                filters: { closedById : null }
             };
         } else {
             params = {
@@ -307,7 +307,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         }
 
         function saveTask () {
-            var val = Validator.validate(json.validate, '', task);
+            var val = Validator.validate(json.validate, 'tasks:save-department chief', task);
             if (val.valid) {
                 $('.content-edit').hide();
                 $('.content-container').show();
@@ -316,10 +316,11 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                     editTask();
                 });
             } else {
-                var errors = val.errors;
+                var errors = val.errors, message = '';
                 for (var i = 0; i < errors.length; ++i) {
-                    console.log(errors[i].message);
+                    message += 'Ошибка: ' + errors[i].message + '\n';
                 }
+                showError(message);
             }
         }
 
