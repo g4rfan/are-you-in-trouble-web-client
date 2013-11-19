@@ -2,8 +2,7 @@
     <img src="{{ getGravatar(data.email, 80) }}"/>
     <h4>Профиль</h4>
     <div class = "glyphicon glyphicon-remove-circle close-button"></div>
-    <div class = "glyphicon glyphicon-pencil edit-button" ng-click = 'editProfile()'></div>
-    <div class = "glyphicon glyphicon-pencil edit-button" ng-click = 'saveProfile()'></div>
+    <div class = "glyphicon glyphicon-pencil edit-button"></div>
 </header>
 
 <div class = "content-container">
@@ -16,10 +15,11 @@
     <button class = "edit-role">Изменить роль</button>
     <div class = "role-edit">
         <p>Установить роль : <select ng-model="selectedRole" ng-options = 'uni.id as uni.name for uni in roles'></select>
-        <p ng-class = '{ hidden : selectedRole != 1 }'>Указать кафедру: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps'></select>
-        <p ng-class = '{ hidden : selectedRole == 1 }'>Указать отдел: <select  ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
-        <button class = "btn btn-danger" ng-click="saveChanges('root')">Сделать главой</button>
-        <button class = "btn btn-success" ng-click="saveChanges('any')">Сохранить</button>
+        <p ng-class = '{ hidden : selectedRole != 1 }'>Указать факультет: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps'></select>
+        <p ng-class = '{ hidden : selectedRole == 1 || selectedRole == 0 || selectedRole == 4 }'>
+        Указать отдел: <select  ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+        <!--<p><button class = "btn btn-danger" ng-click="saveChanges('root')">Сделать главой</button>-->
+        <p><button class = "btn btn-success" ng-click="saveChanges('role')">Сохранить</button>
     </div>
 </div>
 

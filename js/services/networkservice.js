@@ -5,11 +5,12 @@
 angular.module('helpdesk.service').service('networkManager', function () {
     var _socket = null;
 
-    globalEvents.addEventListener('login', function () {
-        _socket = io.connect(window.location.origin + '/');
+    globalEvents.addEventListener('login-con', function () {
+        _socket = io.connect(window.location.origin + '/', { 'force new connection' : true });
         if (_socket) {
+            setTimeout(function() { globalEvents.fire('login'); }, 50);
             _socket.on('err', function (data) {
-                showError(data.errors[0].message);
+                showError('Ошибка : ' + properties[data.errors[0].property] + ' ' + data.errors[0].message);
             });
         }
     });

@@ -100,7 +100,24 @@
       type:             "must be of %{expected} type"
   };
   validate.messages['enum'] = "must be present in given enumerator";
-
+    validate.messages = {
+        required:         "требуется",
+        minLength:        "слишком короткое (минимальная длинна %{expected} символов)",
+        maxLength:        "слишком длинное (максимальная длинна %{expected} символов)",
+        pattern:          "неверный ввод",
+        minimum:          "должно быть больше или равно %{expected}",
+        maximum:          "должно быть меньше или равно %{expected}",
+        exclusiveMinimum: "должно быть больше %{expected}",
+        exclusiveMaximum: "должно быть меньше %{expected}",
+        divisibleBy:      "must be divisible by %{expected}",
+        minItems:         "должно содержать более %{expected} предметов",
+        maxItems:         "должно содержать менее %{expected} предметов",
+        uniqueItems:      "должен содержать уникальный набор элементов",
+        format:           "это не верный формат %{expected}",
+        conform:          "должен соответствовать заданным ограничениям",
+        type:             "должен быть тип %{expected} "
+    };
+    validate.messages['enum'] = "must be present in given enumerator";
   /**
    *
    */

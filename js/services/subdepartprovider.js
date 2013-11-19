@@ -42,7 +42,7 @@ angular.module('helpdesk.service').service('subDepartProvider', function (networ
     }
 
     globalEvents.addEventListener('login', function () {
-       getSubDepartFromServer();
+        getSubDepartFromServer();
     });
 
     return serviceModel;

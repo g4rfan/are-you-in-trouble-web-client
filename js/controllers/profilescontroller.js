@@ -70,7 +70,9 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
 
         scope.roles = [
             { id : 1, name : "Клиент" },
-            { id : 2, name : "Помощник" }
+            { id : 2, name : "Помощник" },
+            { id : 3, name : "Начальник подразделения" },
+            { id : 4, name : "Начальник службы" }
         ];
 
         scope.dictRoles = {
@@ -98,31 +100,44 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
         };
 
         scope.editProfile = function () {
-            $scope._domRef.find('.edit-view, .edit-button').hide();
-            $scope._domRef.find('.edit-field, .save-button-gl').show();
+            $scope._domRef.find('.edit-view').hide();
+            $scope._domRef.find('.edit-field').show();
+            $scope._domRef.find('.edit-button').removeClass('glyphicon-pencil').addClass('glyphicon-floppy-disk').off()
+                .on('click', function () {
+                    scope.saveChanges('data');
+                });
         };
 
         scope.saveChanges = function (type) {
-            if (type == 'any') {
+            if (type == 'role') {
+                if (scope.selectedRole < 1) { showError("Ошибка : выберите роль"); return; }
                 if (scope.selectedRole == 1) {
-                    networkManager.request('profiles:make client', { userId : profileId, universityDepartmentId : scope.selectedUniDep }, function () {
+                    if (!scope.selectedUniDep || scope.selectedUniDep < 1) { showError("Ошибка : выберите факультет"); return; }
+                    networkManager.request('profiles:make client', { userId : profileId, universityDepartmentId : scope.selectedUniDep }, function (data) {
                         profile.subdepartmentId = -1;
-                        profile.universityDepartmentId = scope.selectedUniDep;
+                        profile.universityDepartmentId = data.universityDepartmentId;
+                        profile.role = data.role;
+                        profile.updatedAt = data.updatedAt;
                         scope.$digest();
                         $scope.$digest();
                     });
                 } else {
-                    if (scope.subDepCheck) {
-                        networkManager.request('profiles:make helper', { userId : profileId, chief : true, subdepartmentId : scope.selectedSubDep }, function () {
-                            profile.subdepartmentId = scope.selectedSubDep;
+                    if (scope.selectedRole != 4) {
+                        if (!scope.selectedSubDep || scope.selectedSubDep < 1) { showError("Ошибка : выберите отдел"); return; }
+                        networkManager.request('profiles:make helper', { userId : profileId, chief : scope.selectedRole == 3, subdepartmentId : scope.selectedSubDep }, function (data) {
+                            profile.subdepartmentId = data.subdepartmentId;
                             profile.universityDepartmentId = -1;
+                            profile.role = data.role;
+                            profile.updatedAt = data.updatedAt;
                             scope.$digest();
                             $scope.$digest();
                         });
                     } else {
-                        networkManager.request('profiles:make helper', { userId : profileId, chief : false, subdepartmentId : scope.selectedSubDep }, function () {
-                            profile.subdepartmentId = scope.selectedSubDep;
+                        networkManager.request('profiles:make department chief', { userId : profileId }, function (data) {
+                            profile.subdepartmentId = -1;
                             profile.universityDepartmentId = -1;
+                            profile.role = data.role;
+                            profile.updatedAt = data.updatedAt;
                             scope.$digest();
                             $scope.$digest();
                         });
@@ -130,24 +145,27 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
                 }
             }
 
-            if (type == 'root') {
-                networkManager.request('profiles:make department chief', { userId : profileId }, function () {
-                    profile.subdepartmentId = -1;
-                    profile.universityDepartmentId = -1;
-                    scope.$digest();
-                    $scope.$digest();
-                });
+            if (type == 'role') {
+                $('.edit-role').show();
+                $('.role-edit').hide();
+                $scope._domRef.css('height', $scope._domRef.height() - 80);
             }
 
-            networkManager.request('profiles:save', { id : profileId, displayName : scope.data.displayName, phone : scope.data.phone }, function (data) {
-                scope.data.updatedAt = data.updatedAt;
-                scope.data.role = data.role;
-                scope.$digest();
-                $scope.$digest();
+            if (type == 'data') {
+                networkManager.request('profiles:save', { id : profileId, displayName : scope.data.displayName, phone : scope.data.phone || '' }, function (data) {
+                    scope.data.updatedAt = data.updatedAt;
+                    scope.data.role = data.role;
+                    scope.$digest();
+                    $scope.$digest();
 
-                $scope._domRef.find('.content-container, .edit-button').show();
-                $scope._domRef.find('.content-edit').hide();
-            });
+                    $scope._domRef.find('.edit-view').show();
+                    $scope._domRef.find('.edit-field').hide();
+                    $scope._domRef.find('.edit-button').removeClass('glyphicon-floppy-disk').addClass('glyphicon-pencil').off()
+                        .on('click', function () {
+                            scope.editProfile();
+                        });
+                });
+            }
         };
 
         var nElement = $compile(TemplateStorage.templates['profile'])(scope);
@@ -158,7 +176,25 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
             top : $(window).height() / 2 - 125,
             left : document.body.clientWidth / 2 - 330
         }).show();
-        $('.close-button', $scope._domRef).on('click', function () { $scope._domRef.hide(); $('.blackout').hide(); });
+
+        $('.close-button', $scope._domRef).on('click', function () {
+            $scope._domRef.hide();
+            $('.blackout').hide();
+
+            if ($scope._domRef.find('.edit-role').css('display') == 'none') {
+                $scope._domRef.css('height', $scope._domRef.height() - 80);
+            }
+        });
+
+        $scope._domRef.find('.edit-button').on('click', function () {
+            scope.editProfile();
+        });
+
+        $scope._domRef.find('.edit-role').on('click', function () {
+            $(this).hide();
+            $('.role-edit').show();
+            $scope._domRef.css('height', $scope._domRef.height() + 100);
+        });
         $('.blackout').show();
     };
 
