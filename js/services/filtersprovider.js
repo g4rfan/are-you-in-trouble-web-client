@@ -73,12 +73,22 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
         });
     }
 
-    networkManager.on('filter:added', function (data) {
-        serviceModel.insert(data);
-    });
-
     globalEvents.addEventListener('login', function () {
         getFiltersFromServer();
+        networkManager.on('subdepartments:update', function (data) {
+            console.log('SUBDEP %o' + data);
+            serviceModel.insert(data, 'subDeps');
+        });
+
+        networkManager.on('task type:update', function (data) {
+            console.log('TSA %o' + data);
+            serviceModel.insert(data, 'taskTypes');
+        });
+
+        networkManager.on('university department:update', function (data) {
+            console.log('UNI DEP %o' + data);
+            serviceModel.insert(data, 'universityDep');
+        });
     });
 
     return serviceModel;

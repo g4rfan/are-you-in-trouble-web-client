@@ -116,10 +116,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         return $.timeago(new Date(date));
     };
 
-    networkManager.on('tasks:new', function (data) {
-        $scope.unshift(data);
-    });
-
     $scope.openTask = function (taskId) {
         var i = 0, len = $scope.tasks.length, task = null;
         while (i < len) {
@@ -307,21 +303,12 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         }
 
         function saveTask () {
-            var val = Validator.validate(json.validate, 'tasks:save-department chief', task);
-            if (val.valid) {
-                $('.content-edit').hide();
-                $('.content-container').show();
-                $scope.save(task);
-                $('.edit-button').removeClass('glyphicon-floppy-disk').addClass('glyphicon-pencil').off('click').on('click', function (event) {
-                    editTask();
-                });
-            } else {
-                var errors = val.errors, message = '';
-                for (var i = 0; i < errors.length; ++i) {
-                    message += 'Ошибка: ' + errors[i].message + '\n';
-                }
-                showError(message);
-            }
+            $('.content-edit').hide();
+            $('.content-container').show();
+            $scope.save(task);
+            $('.edit-button').removeClass('glyphicon-floppy-disk').addClass('glyphicon-pencil').off('click').on('click', function (event) {
+                editTask();
+            });
         }
 
         $('.edit-button').off('click').on('click', function (event) {
@@ -340,7 +327,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
     };
 
     $scope.save = function (gtask) {
-
         var task = {
             content: gtask ? gtask.content : $('.new-task textarea').val(),
             universityDepartmentId: gtask ? gtask.universityDepartmentId : $scope.selectedUniDep,
@@ -351,6 +337,25 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         if (gtask) {
             task.id = gtask.id;
         }
+
+        if (!gtask) {
+            var type = 'tasks:save-' + $scope.profile[0].role;
+            var val = Validator.validate(json.validate, type, {
+                content : task.content,
+                typeId : task.typeId,
+                subdepartmentId : task.subdepartmentId,
+                universityDepartmentId : task.universityDepartmentId
+            });
+            if (!val.valid) {
+                var errors = val.errors, message = '';
+                for (var i = 0; i < errors.length; ++i) {
+                    message += 'Ошибка: ' + properties[errors[i].property] + ' ' + errors[i].message + '\n';
+                }
+                showError(message);
+                return;
+            }
+        }
+
 
         if (!$scope.selectedSub && !gtask) {
             delete task['subdepartmentId'];
@@ -390,11 +395,55 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         });
 
         networkManager.on('tasks:update', function(data) {
-            console.log('UPDATED : %o', data);
+            for (var i = 0; i < $scope.tasks.length; ++i) {
+                if ($scope.tasks[i].id == data.id) {
+                    var task = $scope.tasks[i]
+                    task.content = data.content;
+                    task.helperIds = data.helperIds;
+                    task.commentCount = data.commentCount;
+                    task.updatedAt = data.updatedAt;
+                    $scope.$digest();
+                    break;
+                }
+            }
         });
 
         networkManager.on('tasks:remove', function(data) {
-            console.log('REMOVED : %o', data);
+            for (var i = 0; i < $scope.tasks.length; ++i) {
+                if ($scope.tasks[i].id == data.id) {
+                    $scope.tasks.splice(i, 1);
+                    $scope.$digest();
+                    break;
+                }
+            }
+        });
+        /*
+        task comments:update
+
+        */
+
+        networkManager.on('tasks:add helper', function(data) {
+            for (var i = 0; i < $scope.tasks.length; ++i) {
+                if ($scope.tasks[i].id == data.id) {
+                    $scope.tasks[i].helperIds = data.helperIds;
+                    $scope.$digest();
+                    break;
+                }
+            }
+        });
+
+        networkManager.on('tasks:remove helper', function(data) {
+            for (var i = 0; i < $scope.tasks.length; ++i) {
+                if ($scope.tasks[i].id == data.id) {
+                    $scope.tasks[i].helperIds = data.helperIds;
+                    $scope.$digest();
+                    break;
+                }
+            }
+        });
+
+        networkManager.on('task comments:insert', function (data) {
+
         });
     });
 

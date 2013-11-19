@@ -10,3 +10,13 @@ function fixTableWidth(view){
 function showError(error) {
     $('.error-block').text(error).show();
 }
+
+
+var properties = {
+    id : 'Номер',
+    subdepartmentId : 'Код подразделения',
+    universityDepartmentId : 'Код факультета',
+    displayName : 'Имя пользователя',
+    typeId : 'Тип заявки',
+    phone : 'Телефон'
+};

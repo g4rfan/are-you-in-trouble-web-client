@@ -110,7 +110,9 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
 
         scope.saveChanges = function (type) {
             if (type == 'role') {
+                if (scope.selectedRole < 1) { showError("Ошибка : выберите роль"); return; }
                 if (scope.selectedRole == 1) {
+                    if (!scope.selectedUniDep || scope.selectedUniDep < 1) { showError("Ошибка : выберите факультет"); return; }
                     networkManager.request('profiles:make client', { userId : profileId, universityDepartmentId : scope.selectedUniDep }, function (data) {
                         profile.subdepartmentId = -1;
                         profile.universityDepartmentId = data.universityDepartmentId;
@@ -121,6 +123,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
                     });
                 } else {
                     if (scope.selectedRole != 4) {
+                        if (!scope.selectedSubDep || scope.selectedSubDep < 1) { showError("Ошибка : выберите отдел"); return; }
                         networkManager.request('profiles:make helper', { userId : profileId, chief : scope.selectedRole == 3, subdepartmentId : scope.selectedSubDep }, function (data) {
                             profile.subdepartmentId = data.subdepartmentId;
                             profile.universityDepartmentId = -1;
@@ -149,7 +152,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
             }
 
             if (type == 'data') {
-                networkManager.request('profiles:save', { id : profileId, displayName : scope.data.displayName, phone : scope.data.phone }, function (data) {
+                networkManager.request('profiles:save', { id : profileId, displayName : scope.data.displayName, phone : scope.data.phone || '' }, function (data) {
                     scope.data.updatedAt = data.updatedAt;
                     scope.data.role = data.role;
                     scope.$digest();

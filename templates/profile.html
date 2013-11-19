@@ -15,7 +15,7 @@
     <button class = "edit-role">Изменить роль</button>
     <div class = "role-edit">
         <p>Установить роль : <select ng-model="selectedRole" ng-options = 'uni.id as uni.name for uni in roles'></select>
-        <p ng-class = '{ hidden : selectedRole != 1 }'>Указать кафедру: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps'></select>
+        <p ng-class = '{ hidden : selectedRole != 1 }'>Указать факультет: <select  ng-model="selectedUniDep" ng-options = 'uni.id as uni.name for uni in uniDeps'></select>
         <p ng-class = '{ hidden : selectedRole == 1 || selectedRole == 0 || selectedRole == 4 }'>
         Указать отдел: <select  ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps'></select>
         <!--<p><button class = "btn btn-danger" ng-click="saveChanges('root')">Сделать главой</button>-->

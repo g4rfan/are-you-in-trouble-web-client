@@ -45,7 +45,7 @@ var globalEvents = new EventEmitter({
     'login' : [],
     'logout' : [],
     'tab changed' : [],
-    'search-value-changed' : []
+    'login-con' : []
 });
 
 function logout() {
@@ -128,7 +128,7 @@ function loginAction () {
             back.hide();
             tlogin = true;
             setTimeout(function () {
-                globalEvents.fire('login');
+                globalEvents.fire('login-con');
             }, 300);
         }, 200);
     }, 300);
@@ -144,6 +144,7 @@ function login() {
             if (jqXhr.status != 200) {
                 $('.login-form input[type=text], .login-form input[type=password]').val('');
                 $('.login-form .error').show();
+                $('.login-form input[type=text]').focus();
             }
         },
 
@@ -163,7 +164,7 @@ function login() {
                     back.hide();
                     tlogin = true;
                     setTimeout(function () {
-                        globalEvents.fire('login');
+                        globalEvents.fire('login-con');
                     }, 300);
                 }, 200);
             }, 300);
@@ -242,8 +243,13 @@ TemplateStorage.getTemplate('filters', function (template) {
 angular.module('helpdesk', ['helpdesk.service']);
 
 var test = io.connect(window.location.origin + '/');
-// Global events are bound against socket
-test.socket.on('connect', function(){
+
+test.on('error', function (err) {
+    console.log("SOCK ERR");
+    test.disconnect();
+});
+
+test.on('connect', function(){
     $('.login-background').hide();
     loginAction();
 });
