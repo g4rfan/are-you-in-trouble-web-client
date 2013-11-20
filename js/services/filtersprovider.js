@@ -76,18 +76,18 @@ angular.module('helpdesk.service').service('filtersProvider', function (networkM
     globalEvents.addEventListener('login', function () {
         getFiltersFromServer();
         networkManager.on('subdepartments:update', function (data) {
-            console.log('SUBDEP %o' + data);
             serviceModel.insert(data, 'subDeps');
+            serviceModel.events.fire('filters got');
         });
 
         networkManager.on('task type:update', function (data) {
-            console.log('TSA %o' + data);
             serviceModel.insert(data, 'taskTypes');
+            serviceModel.events.fire('filters got');
         });
 
         networkManager.on('university department:update', function (data) {
-            console.log('UNI DEP %o' + data);
             serviceModel.insert(data, 'universityDep');
+            serviceModel.events.fire('filters got');
         });
     });
 

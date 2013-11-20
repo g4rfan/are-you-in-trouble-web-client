@@ -40,6 +40,9 @@
 <body>
     <nav class ='navbar navbar-default special'>
         <a class="navbar-brand" href="#"><img src="resources/logo.png"/> </a>
+        <div class = 'navbar-text navbar-right profile-control' ng-controller="profileCntrl">
+            {{ profile[0].displayName }} <span class = 'glyphicon glyphicon-cog'></span>
+        </div>
     </nav>
     <aside ng-controller = "profileCntrl">
         <div class = "icon active" data-tab-name = 'tasks'>
@@ -63,7 +66,11 @@
     <div class = 'view tasks active'  ng-controller="tasksCntrl">
         <header>
             <input type = "text" ng-model = 'taskName' placeholder="Поиск заявки..."/>
-            <div ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка </div>
+            <div class = "btn-group closed-filter-container">
+                <button type = "button" class="btn closed-filter selected" ng-click = "showClosedTasks(false)">Открытые</button>
+                <button type = "button" class="btn closed-filter" ng-click = "showClosedTasks(true)">Все</button>
+            </div>
+            <div ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка</div>
         </header>
         <div class = "table-container">
             <table class = 'table head'>
@@ -216,7 +223,7 @@
     <div class = 'view task-types'  ng-controller="taskTypesCntrl">
         <header class = "no-filters">
             <input type = "text" ng-model = 'taskTypeName' placeholder="Поиск заявки..."/>
-            <div class = 'button-new add-new-task-type-button'>Новая тип заявки</div>
+            <div class = 'button-new add-new-task-type-button'>Новый тип заявки</div>
         </header>
         <table class = 'table'>
             <thead>
@@ -246,5 +253,11 @@
     <div class = 'opened-task-type'></div>
     <div class = 'blackout'></div>
     <div class = "error-block"></div>
+
+    <ul class = 'login-menu' ng-controller="profileCntrl">
+        <li ng-click="openProfile()"><div class = 'glyphicon glyphicon-edit iconp'></div> <div>Редактировать профиль</div></li>
+        <li><div class = 'glyphicon glyphicon-off iconp'></div> <div>Выход</div></li>
+        <div class = 'arrow'></div>
+    </ul>
 </body>
 </html>

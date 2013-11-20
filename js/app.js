@@ -228,6 +228,27 @@ $(document).ready(function () {
         $(this).hide();
     });
 
+    $('.glyphicon-cog').on('click', function() {
+        var menu = $('.login-menu');
+        if (menu.css('display') == 'none') {
+            menu.show();
+        } else {
+            menu.hide();
+        }
+    });
+
+    $('.login-menu li:nth-child(2)').on('click', function () {
+        $('.login-menu').hide();
+        logout();
+    });
+
+    $(document).on('click', function (event) {
+        var target = $(event.srcElement || event.target);
+        if (target.closest('.login-menu').length == 0 && target.closest('.profile-control').length == 0) {
+            $('.login-menu').hide();
+        }
+    });
+
     fixTableWidth($('.view.tasks'));
     fixTableWidth($('.view.profiles'));
 });

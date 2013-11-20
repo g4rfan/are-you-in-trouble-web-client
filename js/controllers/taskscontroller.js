@@ -14,7 +14,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
     $scope._domRef = $('.opened-task');
 
-    $scope.getTasks = function (filters, upload) {
+    $scope.getTasks = function (filters, upload, showClosed) {
         var params = {};
 
         if (!upload) {
@@ -60,6 +60,10 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             if (sdi.length != 0) {
                 params.filters.subdepartmentId = sdi;
             }
+        }
+
+        if (showClosed) {
+            delete params.filters['closedById'];
         }
 
         networkManager.request('tasks:retrieve', params, function (data) {
@@ -110,6 +114,16 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         }
 
         return uniDep ? uniDep.name : '-';
+    };
+
+    $scope.showClosedTasks = function (showClosed) {
+        $('.closed-filter').removeClass('selected');
+        if (showClosed) {
+            $($('.closed-filter').get(1)).addClass('selected');
+        } else {
+            $($('.closed-filter').get(0)).addClass('selected');
+        }
+        $scope.getTasks(null, false, showClosed);
     };
 
     $scope.parseDate = function (date) {
@@ -276,6 +290,11 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         scope.getHelpers();
 
         scope.saveComment = function () {
+            var val = Validator.validate(json.validate, 'task comments:save', { taskId : taskId, content : scope.ncomment });
+            if (!val.valid) {
+                showError('Ошибка : добавьте текст комментария');
+                return;
+            }
             networkManager.request('task comments:save', { taskId : taskId, content : scope.ncomment }, function (data) {
                 ++task.commentCount;
                 data.displayName = $scope.profile[0].displayName;
