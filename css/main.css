@@ -30,11 +30,16 @@ tr {
     color: whitesmoke;
 }
 
-.request {
-    border: 1px solid red;
-    box-shadow: 0 0 3px rgba(0, 0, 0, .35);
-    padding: 5px;
-    margin: 3px;
+.profile-control {
+    font-size: 12pt !important;
+    margin-top: 10pt;
+}
+
+.profile-control span {
+    margin-left: 10px;
+    top: 4px;
+    font-size: 13pt;
+    margin-right: 15px;
 }
 
 .hidden {
@@ -358,4 +363,76 @@ aside {
 
 .edit-field {
     display: none;
+}
+
+.login-menu {
+    display: none;
+    position: fixed;
+    right: 10px;
+    top: 70px;
+    width: 230px;
+    background: #24b592;
+    color: white;
+    border-radius: 2px;
+    padding-left: 0;
+}
+
+.login-menu li {
+    padding: 15px 20px;
+    list-style-type: none;
+    overflow: hidden;
+    word-wrap: break-word;
+    cursor: default;
+}
+
+.login-menu li:hover {
+    background: #16a085;
+}
+
+.login-menu li:nth-child(2) {
+    border-top: 1px solid #16a085;
+}
+
+.login-menu li .iconp {
+    color: #2c2e34;
+    float: left;
+    margin-right: 20px;
+    font-size: 14pt;
+}
+
+.login-menu li div:not(.iconp) {
+    float: left;
+    width: 120px;
+}
+
+.login-menu .arrow {
+    position: absolute;
+    left: 190px;
+    top: -15px;
+    border: none;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-bottom: 15px solid #24b592;
+    border-right: 10px solid transparent;
+}
+
+.closed-filter-container {
+    float: right;
+    margin-right: 20px;
+}
+
+.closed-filter {
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+    background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+    background-repeat: repeat-x;
+}
+
+.closed-filter.selected {
+    background: #24b592;
+    color: white;
 }
