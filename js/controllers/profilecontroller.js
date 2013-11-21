@@ -30,6 +30,8 @@ function profileCntrl ($scope, $compile, networkManager, profileProvider) {
                 });
         };
 
+        scope.selfEdit = true;
+
         scope.saveChanges = function (type) {
             if (type == 'data') {
                 networkManager.request('profiles:save', { id : scope.data.id, displayName : scope.data.displayName, phone : scope.data.phone || '' }, function (data) {

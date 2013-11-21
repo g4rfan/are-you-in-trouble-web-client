@@ -2,8 +2,9 @@
  * Created by garffan on 10/2/13.
  */
 
-function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProvider, universityDepProvider, filtersProvider, subDepartProvider) {
+function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvider, profilesProvider, universityDepProvider, filtersProvider, subDepartProvider) {
     $scope.profiles = profilesProvider.getProfiles();
+    $scope.me = profileProvider.getProfiles();
     $scope.uniDeps = universityDepProvider.getUniversityDep();
     $scope.subDeps = subDepartProvider.getSubDeps();
     $scope.filters = filtersProvider.getFilters();
@@ -62,6 +63,8 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
 
         var scope = $scope.$new();
         scope.data = profile;
+
+        scope.profile = $scope.me;
 
         scope.subDeps = $scope.subDeps;
         scope.uniDeps = $scope.uniDeps;
@@ -257,6 +260,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profilesProv
         subDepartProvider.getSubDepartFromServer();
         profilesProvider.getProfilesFromServer(true);
         filtersProvider.getFiltersFromServer();
+        profileProvider.getProfilesFromServer();
         $scope.$digest();
     });
 }
