@@ -6,11 +6,15 @@ angular.module('helpdesk.service').service('networkManager', function () {
     var _socket = null;
 
     globalEvents.addEventListener('login-con', function () {
-        _socket = io.connect(window.location.origin + '/', { 'force new connection' : true });
+        _socket = io.connect(window.location.origin + '/', { 'force new connection' : true, reconnect : true });
         if (_socket) {
             setTimeout(function() { globalEvents.fire('login'); }, 50);
             _socket.on('err', function (data) {
-                showError('Ошибка : ' + properties[data.errors[0].property] + ' ' + data.errors[0].message);
+                if (typeof data != 'string') {
+                    showError('Ошибка : ' + properties[data.errors[0].property] + ' ' + data.errors[0].message);
+                } else {
+                    console.log('ERFRB');
+                }
             });
         }
     });

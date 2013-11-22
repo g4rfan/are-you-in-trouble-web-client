@@ -33,7 +33,6 @@ angular.module('helpdesk.service').service('taskTypesProvider', function (networ
         networkManager.request('task types:retrieve', {}, function (data) {
             var i = 0, len = data.length;
             serviceModel._storage.length = 0;
-            console.log('tt : %o', data[0]);
             while (i < len) {
                 serviceModel.insert(data[i]);
                 ++i;

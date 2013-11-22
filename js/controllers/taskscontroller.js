@@ -175,9 +175,54 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         });
 
+        networkManager.on('tasks:add helper', function(data) {
+            scope.getHelpers();
+        });
+
+        networkManager.on('tasks:remove helper', function(data) {
+            for (var i = 0; i < scope.helpers.length; ++i) {
+                if (scope.helpers[i].id == data.helperId) {
+                    scope.helpers.splice(i, 1);
+                    break;
+                }
+            }
+
+            scope.$digest();
+        });
+
+        networkManager.on('task comments:insert', function (data) {
+            if (scope.data.id == data.taskId) {
+                scope.comments.push(data);
+            }
+            scope.$digest();
+        });
+
+        networkManager.on('task comments:update', function (data) {
+
+        });
+
+        networkManager.on('task comments:remove', function (data) {
+            if (scope.data.id == data.taskId) {
+                for (var i = 0; i < scope.comments.length; ++i) {
+                    if (scope.comments[i].id == data.commentId) {
+                        scope.comments.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+            scope.$digest();
+        });
+
+        networkManager.on('tasks:remove', function(data) {
+            if (scope.data.id == data.id) {
+                $scope._domRef.hide();
+                $('.blackout').hide();
+            }
+        });
+
         scope.setCorrectDep = function() {
             if (scope.selectedUser) {
-                networkManager.request('profiles:retrieve', { filters: { role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+                networkManager.request('profiles:retrieve', { filters: { role: ['helper', 'subdepartment chief' ] } }, function (data) {
                     for (var i = 0; i < data.length; ++i) {
                         if (data[i].id == scope.selectedUser) {
                             scope.selectedSubDep = data[i].subdepartmentId;
@@ -341,10 +386,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         $('.blackout').show();
     };
 
-    $scope.newTask = function () {
-        $scope.tasks.unshift({ taskId: 1, title: 'n', content: 'tskm', timestamp: new Date() });
-    };
-
     $scope.save = function (gtask) {
         var task = {
             content: gtask ? gtask.content : $('.new-task textarea').val(),
@@ -408,6 +449,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         universityDepProvider.getUniversityDepFromServer();
         subDepartProvider.getSubDepartFromServer();
         $scope.getTasks();
+
         networkManager.on('tasks:insert', function(data) {
             $scope.tasks.unshift(data);
             $scope.$digest();
@@ -416,7 +458,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         networkManager.on('tasks:update', function(data) {
             for (var i = 0; i < $scope.tasks.length; ++i) {
                 if ($scope.tasks[i].id == data.id) {
-                    var task = $scope.tasks[i]
+                    var task = $scope.tasks[i];
                     task.content = data.content;
                     task.helperIds = data.helperIds;
                     task.commentCount = data.commentCount;
@@ -436,15 +478,11 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 }
             }
         });
-        /*
-        task comments:update
-
-        */
 
         networkManager.on('tasks:add helper', function(data) {
             for (var i = 0; i < $scope.tasks.length; ++i) {
-                if ($scope.tasks[i].id == data.id) {
-                    $scope.tasks[i].helperIds = data.helperIds;
+                if ($scope.tasks[i].id == data.taskId) {
+                    $scope.tasks[i].helperIds.push(data.helperId);
                     $scope.$digest();
                     break;
                 }
@@ -452,9 +490,12 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         });
 
         networkManager.on('tasks:remove helper', function(data) {
+            console.log('LOGINNNASD REMOVE');
             for (var i = 0; i < $scope.tasks.length; ++i) {
-                if ($scope.tasks[i].id == data.id) {
-                    $scope.tasks[i].helperIds = data.helperIds;
+                if ($scope.tasks[i].id == data.taskId) {
+                    if ($scope.tasks[i].helperIds) {
+                        $scope.tasks[i].helperIds.splice($scope.tasks[i].helperIds.indexOf(data.helperId), 1);
+                    }
                     $scope.$digest();
                     break;
                 }
@@ -462,7 +503,27 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         });
 
         networkManager.on('task comments:insert', function (data) {
+            for (var i = 0; i < $scope.tasks.length; ++i) {
+                if ($scope.tasks[i].id == data.taskId) {
+                    ++$scope.tasks[i].commentCount;
+                    break;
+                }
+            }
+            $scope.$digest();
+        });
 
+        networkManager.on('task comments:update', function (data) {
+
+        });
+
+        networkManager.on('task comments:remove', function (data) {
+            for (var i = 0; i < $scope.tasks.length; ++i) {
+                if ($scope.tasks[i].id == data.taskId) {
+                    --$scope.tasks[i].commentCount;
+                    break;
+                }
+            }
+            $scope.$digest();
         });
     });
 
