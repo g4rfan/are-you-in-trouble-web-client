@@ -33,7 +33,6 @@ angular.module('helpdesk.service').service('subDepartProvider', function (networ
         networkManager.request('subdepartments:retrieve', {}, function (data) {
             var i = 0, len = data.length;
             serviceModel._storage.length = 0;
-            console.log(data[0]);
             while (i < len) {
                 serviceModel.insert(data[i]);
                 ++i;
