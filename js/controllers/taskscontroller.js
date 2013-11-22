@@ -172,7 +172,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 scope.comments = data;
                 scope.$digest();
             });
-
         });
 
         networkManager.on('tasks:add helper', function(data) {
@@ -192,9 +191,12 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         networkManager.on('task comments:insert', function (data) {
             if (scope.data.id == data.taskId) {
-                scope.comments.push(data);
+                networkManager.request('profiles:retrieve', { filters : { id : data.userId } }, function (userNames) {
+                    data.displayName = userNames[0].displayName;
+                    scope.comments.push(data);
+                    scope.$digest();
+                });
             }
-            scope.$digest();
         });
 
         networkManager.on('task comments:update', function (data) {
@@ -490,7 +492,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         });
 
         networkManager.on('tasks:remove helper', function(data) {
-            console.log('LOGINNNASD REMOVE');
             for (var i = 0; i < $scope.tasks.length; ++i) {
                 if ($scope.tasks[i].id == data.taskId) {
                     if ($scope.tasks[i].helperIds) {
