@@ -377,12 +377,15 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             });
         }
 
-        $('.edit-button').off('click').on('click', function (event) {
+        $scope._domRef.find('.edit-button').off('click').on('click', function (event) {
             editTask();
         });
 
         $scope._domRef.find('.close-button').on('click', function (event) {
             $('.opened-task, .blackout').hide();
+            networkManager.request('task comments:unsubscribe', { taskId: scope.data.id }, function () {
+
+            });
         });
 
         $('.blackout').show();
@@ -503,7 +506,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             }
         });
 
-        networkManager.on('task comments:insert', function (data) {
+        networkManager.on('task comments:add', function (data) {
             for (var i = 0; i < $scope.tasks.length; ++i) {
                 if ($scope.tasks[i].id == data.taskId) {
                     ++$scope.tasks[i].commentCount;
