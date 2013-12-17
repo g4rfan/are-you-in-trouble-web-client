@@ -6,17 +6,20 @@
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
 
-    <link href="/static/css/main.css" rel="stylesheet"/>
     <link href="/static/css/login.css" rel="stylesheet"/>
+    <link href="/static/css/main.css" rel="stylesheet"/>
     <link href="/static/css/task.css" rel="stylesheet"/>
     <link href="/static/css/filter.css" rel="stylesheet"/>
+    <!--[if IE]>
+    <script src="/static/js/helpers/html5.js"></script>
+    <![endif]-->
     <script src="/socket.io/socket.io.js"></script>
     <script src="/static/js/libs/jquery.js"></script>
     <script src="/static/js/libs/angular.js"></script>
     <script src="/static/js/libs/timeago.jquery.js"></script>
     <script src="/static/js/libs/revalidator.js"></script>
     <script src="/static/js/libs/ru.timeago.jquery.js"></script>
-    <script src="/static/js/validator.js"></script>
+    <script src="/static/js/validator.js" defer="defer"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/helpers/templatehelper.js"></script>
     <script src="/static/js/helpers/interface.js"></script>
@@ -38,7 +41,7 @@
     <script src="/static/js/app.js"></script>
 </head>
 <body>
-    <nav class ='navbar navbar-default special'>
+    <nav class ='navbar' id = 'special'>
         <a class="navbar-brand" href="#"><img src="resources/logo.png"/> </a>
         <div class = 'navbar-text navbar-right profile-control' ng-controller="profileCntrl">
             {{ profile[0].displayName }} <span class = 'glyphicon glyphicon-cog'></span>

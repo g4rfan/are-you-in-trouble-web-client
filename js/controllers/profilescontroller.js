@@ -244,7 +244,8 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
 
     $('.view.profiles .scrollable').on('scroll', function() {
         if ($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight - 50) {
-            $scope.selectedFilters.limit = profilesProvider.limit;
+           console.log('DOWNLOAD');
+	    $scope.selectedFilters.limit = profilesProvider.limit;
             $scope.selectedFilters.offset = profilesProvider.offset;
 
             console.log("PARAMP %o", $scope.selectedFilters);

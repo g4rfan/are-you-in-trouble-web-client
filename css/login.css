@@ -9,9 +9,10 @@
     -webkit-transition: top .35s linear, opacity .1s linear;
 }
 
-.navbar.special {
-    background-image: none;
+#special {
     background: #24b592;
+    background-color: #24b592 !important;
+    background-image: none;
     height: 45px;
     box-shadow: none;
     border-radius: 0;

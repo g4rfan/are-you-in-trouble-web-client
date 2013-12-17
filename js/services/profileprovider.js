@@ -12,6 +12,7 @@ angular.module('helpdesk.service').service('profileProvider', function (networkM
         },
 
         insert : function (data) {
+		console.log("Profiles from server : %o ",data);
             this._storage.push(data);
         },
 

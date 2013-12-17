@@ -50,7 +50,9 @@ angular.module('helpdesk.service').service('profilesProvider', function (network
                 filters.limit = params.limit;
                 filters.offset = params.offset;
             }
-            filters.filters = params.filters;
+	    if (params.filters) {
+               filters.filters = params.filters;
+	    }
         }
 
 

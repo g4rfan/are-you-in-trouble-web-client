@@ -1,5 +1,9 @@
+header, nav, section, article, aside, footer {
+   display:block;
+}
+
 body {
-    background: #f6f7f7; /*rgb(236, 238, 241);*/
+    background: #f6f7f7 /*rgb(236, 238, 241)*/;
 }
 
 tr {
@@ -79,7 +83,12 @@ input:focus {
 }
 
 .blackout {
+    background: transparent;
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000)"; /* IE8 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000);   /* IE6 & 7 */
+      zoom: 1;
     background: rgba(0, 0, 0, 0.35);
+    
     position: fixed;
     top: 0;
     bottom: 0;
