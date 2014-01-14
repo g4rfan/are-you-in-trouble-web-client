@@ -5,42 +5,42 @@
 
 angular.module('helpdesk.service').service('profilesProvider', function (networkManager, $rootScope) {
     var serviceModel = {
-        _storage : [],
+        _storage: [],
 
-        getProfiles : function () {
+        getProfiles: function () {
             return this._storage;
         },
 
-        insert : function (data) {
+        insert: function (data) {
             this._storage.push(data);
         },
 
-        clean : function () {
+        clean: function () {
             this._storage.length = 0;
         },
 
-        save : function (data) {
+        save: function (data) {
             var self = this;
             networkManager.emit('profiles:save', function (savedData) {
                 self.insert(savedData);
             });
         },
 
-        getProfilesFromServer : getProfilesFromServer,
+        getProfilesFromServer: getProfilesFromServer,
 
-        /* events : new EventEmitter({
-         'filters set changed' : [],
-         'filters got' : []
+        /* events: new EventEmitter({
+         'filters set changed': [],
+         'filters got': []
          })*/
 
-        offset : 0,
-        limit : 22
+        offset: 0,
+        limit: 22
     };
 
     function getProfilesFromServer (getAll, params, callback) {
         var filters = {};
         if (getAll) {
-            filters = { offset: 0, limit: 22, filters : {} };
+            filters = { offset: 0, limit: 22, filters: {} };
         }
 
         filters.filters = {};

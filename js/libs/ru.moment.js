@@ -1,7 +1,7 @@
 // moment.js language configuration
-// language : russian (ru)
-// author : Viktorminator : https://github.com/Viktorminator
-// Author : Menelion Elensúle : https://github.com/Oire
+// language: russian (ru)
+// author: Viktorminator: https://github.com/Viktorminator
+// Author: Menelion Elensúle: https://github.com/Oire
 
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
@@ -14,7 +14,7 @@
 }(function (moment) {
     function plural(word, num) {
         var forms = word.split('_');
-        return num % 10 === 1 && num % 100 !== 11 ? forms[0] : (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms[1] : forms[2]);
+        return num % 10 === 1 && num % 100 !== 11 ? forms[0]: (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20) ? forms[1]: forms[2]);
     }
 
     function relativeTimeWithPlural(number, withoutSuffix, key) {
@@ -26,7 +26,7 @@
             'yy': 'год_года_лет'
         };
         if (key === 'm') {
-            return withoutSuffix ? 'минута' : 'минуту';
+            return withoutSuffix ? 'минута': 'минуту';
         }
         else {
             return number + ' ' + plural(format[key], +number);
@@ -40,7 +40,7 @@
             },
 
             nounCase = (/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/).test(format) ?
-                'accusative' :
+                'accusative':
                 'nominative';
 
         return months[nounCase][m.month()];
@@ -53,7 +53,7 @@
             },
 
             nounCase = (/D[oD]?(\[[^\[\]]*\]|\s+)+MMMM?/).test(format) ?
-                'accusative' :
+                'accusative':
                 'nominative';
 
         return monthsShort[nounCase][m.month()];
@@ -66,32 +66,32 @@
             },
 
             nounCase = (/\[ ?[Вв] ?(?:прошлую|следующую)? ?\] ?dddd/).test(format) ?
-                'accusative' :
+                'accusative':
                 'nominative';
 
         return weekdays[nounCase][m.day()];
     }
 
     return moment.lang('ru', {
-        months : monthsCaseReplace,
-        monthsShort : monthsShortCaseReplace,
-        weekdays : weekdaysCaseReplace,
-        weekdaysShort : "вс_пн_вт_ср_чт_пт_сб".split("_"),
-        weekdaysMin : "вс_пн_вт_ср_чт_пт_сб".split("_"),
-        monthsParse : [/^янв/i, /^фев/i, /^мар/i, /^апр/i, /^ма[й|я]/i, /^июн/i, /^июл/i, /^авг/i, /^сен/i, /^окт/i, /^ноя/i, /^дек/i],
-        longDateFormat : {
-            LT : "HH:mm",
-            L : "DD.MM.YYYY",
-            LL : "D MMMM YYYY г.",
-            LLL : "D MMMM YYYY г., LT",
-            LLLL : "dddd, D MMMM YYYY г., LT"
+        months: monthsCaseReplace,
+        monthsShort: monthsShortCaseReplace,
+        weekdays: weekdaysCaseReplace,
+        weekdaysShort: "вс_пн_вт_ср_чт_пт_сб".split("_"),
+        weekdaysMin: "вс_пн_вт_ср_чт_пт_сб".split("_"),
+        monthsParse: [/^янв/i, /^фев/i, /^мар/i, /^апр/i, /^ма[й|я]/i, /^июн/i, /^июл/i, /^авг/i, /^сен/i, /^окт/i, /^ноя/i, /^дек/i],
+        longDateFormat: {
+            LT: "HH:mm",
+            L: "DD.MM.YYYY",
+            LL: "D MMMM YYYY г.",
+            LLL: "D MMMM YYYY г., LT",
+            LLLL: "dddd, D MMMM YYYY г., LT"
         },
-        calendar : {
+        calendar: {
             sameDay: '[Сегодня в] LT',
             nextDay: '[Завтра в] LT',
             lastDay: '[Вчера в] LT',
             nextWeek: function () {
-                return this.day() === 2 ? '[Во] dddd [в] LT' : '[В] dddd [в] LT';
+                return this.day() === 2 ? '[Во] dddd [в] LT': '[В] dddd [в] LT';
             },
             lastWeek: function () {
                 switch (this.day()) {
@@ -109,25 +109,25 @@
             },
             sameElse: 'L'
         },
-        relativeTime : {
-            future : "через %s",
-            past : "%s назад",
-            s : "несколько секунд",
-            m : relativeTimeWithPlural,
-            mm : relativeTimeWithPlural,
-            h : "час",
-            hh : relativeTimeWithPlural,
-            d : "день",
-            dd : relativeTimeWithPlural,
-            M : "месяц",
-            MM : relativeTimeWithPlural,
-            y : "год",
-            yy : relativeTimeWithPlural
+        relativeTime: {
+            future: "через %s",
+            past: "%s назад",
+            s: "несколько секунд",
+            m: relativeTimeWithPlural,
+            mm: relativeTimeWithPlural,
+            h: "час",
+            hh: relativeTimeWithPlural,
+            d: "день",
+            dd: relativeTimeWithPlural,
+            M: "месяц",
+            MM: relativeTimeWithPlural,
+            y: "год",
+            yy: relativeTimeWithPlural
         },
 
         // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
 
-        meridiem : function (hour, minute, isLower) {
+        meridiem: function (hour, minute, isLower) {
             if (hour < 4) {
                 return "ночи";
             } else if (hour < 12) {
@@ -155,9 +155,9 @@
             }
         },
 
-        week : {
-            dow : 1, // Monday is the first day of the week.
-            doy : 7  // The week that contains Jan 1st is the first week of the year.
+        week: {
+            dow: 1, // Monday is the first day of the week.
+            doy: 7  // The week that contains Jan 1st is the first week of the year.
         }
     });
 }));

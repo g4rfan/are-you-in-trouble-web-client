@@ -44,35 +44,33 @@ if (!Object.keys) {
 
 var tlogin = false;
 
-var player = $('audio').get(0);
-
 var globalEvents = new EventEmitter({
-    'login' : [],
-    'logout' : [],
-    'tab changed' : [],
-    'login-con' : []
+    'login': [],
+    'logout': [],
+    'tab changed': [],
+    'login-con': []
 });
 
 function logout() {
     $.ajax({
         url: '/logout/',
         type: 'get',
-        success : function(data) {
+        success: function(data) {
             var back = $('.login-background');
             back.show();
             tlogin = false;
             back.css({
-                height : $(document).height(),
+                height: $(document).height(),
                 bottom: '',
                 top: 0,// back.height(),
-                opacity : 1
+                opacity: 1
             });
 
             setTimeout(function () {
                 back.css({
                     height: 'auto',
                     bottom: 0,
-                    top : 0
+                    top: 0
                 });
                 location.reload();
 
@@ -177,12 +175,15 @@ function login() {
     });
 }
 
+var player;
+
 $(document).ready(function () {
+    player = $('audio').get(0);
     $(window).on('resize', function () {
         var bodyWidth =document.body.clientWidth, bodyHeight = document.body.clientHeight;
         $('.new-task').css({
-            left : bodyWidth / 2 - 150,
-            top : bodyHeight / 2 - 189
+            left: bodyWidth / 2 - 150,
+            top: bodyHeight / 2 - 189
         });
 
         fixTableWidth($('.view.tasks'));
@@ -193,8 +194,8 @@ $(document).ready(function () {
         $('.blackout, .new-task').show();
         var bodyWidth = document.body.clientWidth, bodyHeight = $(window).height();
         $('.new-task').css({
-            left : bodyWidth / 2 - 150,
-            top : bodyHeight / 2 - 189
+            left: bodyWidth / 2 - 150,
+            top: bodyHeight / 2 - 189
         });
     });
 
@@ -206,7 +207,7 @@ $(document).ready(function () {
         var domElement = $(this);
         $('.icon.active').removeClass('active');
         domElement.addClass('active');
-        globalEvents.fire('tab changed', { tabName : domElement.attr('data-tab-name') });
+        globalEvents.fire('tab changed', { tabName: domElement.attr('data-tab-name') });
     });
 
     $('.logout').on('click', function (event) {
@@ -216,16 +217,16 @@ $(document).ready(function () {
     $('.add-new-subdep-button').on('click', function () {
         $('.blackout, .new-subdep').show();
         $('.new-subdep').css({
-            left : document.body.clientWidth / 2 - 150,
-            top : $(window).height() / 2 - 150
+            left: document.body.clientWidth / 2 - 150,
+            top: $(window).height() / 2 - 150
         });
     });
 
     $('.add-new-task-type-button').on('click', function () {
         $('.blackout, .new-task-type').show();
         $('.new-task-type').css({
-            left : document.body.clientWidth / 2 - 150,
-            top : $(window).height() / 2 - 150
+            left: document.body.clientWidth / 2 - 150,
+            top: $(window).height() / 2 - 150
         });
     });
 

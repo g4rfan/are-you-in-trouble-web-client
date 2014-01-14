@@ -4,28 +4,28 @@
 
 angular.module('helpdesk.service').service('subDepartProvider', function (networkManager) {
     var serviceModel = {
-        _storage : [],
+        _storage: [],
 
-        getSubDeps : function () {
+        getSubDeps: function () {
             return this._storage;
         },
 
-        insert : function (data) {
+        insert: function (data) {
             this._storage.push(data);
         },
 
-        save : function (data) {
+        save: function (data) {
             var self = this;
             networkManager.emit('subdepartments:save', function (savedData) {
                 self.insert(savedData);
             });
         },
 
-        getSubDepartFromServer : getSubDepartFromServer
+        getSubDepartFromServer: getSubDepartFromServer
 
-     /* events : new EventEmitter({
-            'filters set changed' : [],
-            'filters got' : []
+     /* events: new EventEmitter({
+            'filters set changed': [],
+            'filters got': []
         })*/
     };
 

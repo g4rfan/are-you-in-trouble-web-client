@@ -5,28 +5,28 @@
 
 angular.module('helpdesk.service').service('profileProvider', function (networkManager) {
     var serviceModel = {
-        _storage : [],
+        _storage: [],
 
-        getProfiles : function () {
+        getProfiles: function () {
             return this._storage;
         },
 
-        insert : function (data) {
-		console.log("Profiles from server : %o ",data);
+        insert: function (data) {
+		console.log("Profiles from server: %o ",data);
             this._storage.push(data);
         },
 
-        save : function (data) {
+        save: function (data) {
             var self = this;
             networkManager.emit('profiles:save', function (savedData) {
                 self.insert(savedData);
             });
         },
 
-        getProfilesFromServer : getProfilesFromServer,
+        getProfilesFromServer: getProfilesFromServer,
 
-        events : new EventEmitter({
-         'got profile' : []
+        events: new EventEmitter({
+         'got profile': []
         })
     };
 

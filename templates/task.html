@@ -1,16 +1,18 @@
 <header>
     <h4># {{ data.id }}</h4>
     <div class = "glyphicon glyphicon-remove-circle close-button"></div>
-    <div ng-class = "{ hidden : profile[0].role != 'department chief'}" class = "glyphicon glyphicon-pencil edit-button"></div>
+    <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "glyphicon glyphicon-pencil edit-button"></div>
 </header>
 <p class = 'content-container'>{{ data.content }}</p>
 <textarea class = 'content-edit' ng-model = "data.content"></textarea>
-Назначены :  <span ng-class = "{hidden : data.helperIds.length != 0}"> Никто не назначен </span>
+<p>Подразделение университета: {{ clientName }}</p>
+Назначены:  <span ng-class = "{hidden: data.helperIds.length != 0}"> Никто не назначен </span>
              <span ng-repeat = "helper in helpers"> {{ helper.displayName }}
-                 <span ng-class = "{ hidden : profile[0].role != 'department chief'}" ng-click = "removeHelper(helper.id)" class = "glyphicon glyphicon-remove-circle"></span>
+                 <span ng-class = "{ hidden: profile[0].role != 'department chief'}" ng-click = "removeHelper(helper.id)" class = "glyphicon glyphicon-remove-circle"></span>
              </span>
-<p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел : <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps' ng-change='getUsersBySubDep()'></select>
-Исполнитель : <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayName for uni in users' ng-change="setCorrectDep()"></select>
+<p ng-class = '{ hidden: profile[0].role != "department chief" }'> Отдел: <select ng-model="selectedSubDep" ng-options = 'uni.id as uni.name for uni in subDeps' ng-change='getUsersBySubDep()'></select>
+
+Исполнитель: <select ng-model="selectedUser" ng-options = 'uni.id as uni.displayName for uni in users' ng-change="setCorrectDep()"></select>
 <span class="glyphicon glyphicon-plus-sign add-helper" ng-click = 'addHelperToTask()'></span></p>
 <footer>
     <div>Комментарии ({{ comments.length }}):</div>
@@ -19,11 +21,11 @@
             <b>{{ parseDate(co.date) }}</b>
             <b>{{ co.displayName }}: </b>
             <span>{{ co.content }}</span>
-            <div ng-class = '{ hidden : profile[0].role != "department chief" }' class = "glyphicon glyphicon-remove-circle comment-remove" ng-click = "removeComment(co.id)"></div>
+            <div ng-class = '{ hidden: profile[0].role != "department chief" }' class = "glyphicon glyphicon-remove-circle comment-remove" ng-click = "removeComment(co.id)"></div>
         </div>
     </div>
     <textarea class = 'comment-content' ng-model = 'ncomment'></textarea>
     <button class="btn btn-info" ng-click = 'saveComment()'>Добавить комментраий</button>
-    <button ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class="btn btn-success" ng-click = 'closeTask()'>Закрыть заявку</button>
-    <button ng-class = "{ hidden : profile[0].role != 'department chief'}" class="btn btn-danger" ng-click = "removeTask()">Удалить заявку</button>
+    <button ng-class = "{ hidden: profile[0].role != 'client' && profile[0].role != 'department chief' }" class="btn btn-success" ng-click = 'closeTask()'>Закрыть заявку</button>
+    <button ng-class = "{ hidden: profile[0].role != 'department chief'}" class="btn btn-danger" ng-click = "removeTask()">Удалить заявку</button>
 </footer>

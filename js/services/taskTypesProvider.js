@@ -4,28 +4,28 @@
 
 angular.module('helpdesk.service').service('taskTypesProvider', function (networkManager) {
     var serviceModel = {
-        _storage : [],
+        _storage: [],
 
-        getTaskTypes : function () {
+        getTaskTypes: function () {
             return this._storage;
         },
 
-        insert : function (data) {
+        insert: function (data) {
             this._storage.push(data);
         },
 
-        save : function (data) {
+        save: function (data) {
             var self = this;
             networkManager.emit('task types:save', function (savedData) {
                 self.insert(savedData);
             });
         },
 
-        getTaskTypesFromServer : getTaskTypesFromServer
+        getTaskTypesFromServer: getTaskTypesFromServer
 
-        /* events : new EventEmitter({
-         'filters set changed' : [],
-         'filters got' : []
+        /* events: new EventEmitter({
+         'filters set changed': [],
+         'filters got': []
          })*/
     };
 

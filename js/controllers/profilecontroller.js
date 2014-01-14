@@ -15,10 +15,10 @@ function profileCntrl ($scope, $compile, networkManager, profileProvider) {
         scope.parseDate = $scope.parseDate;
 
         scope.dictRoles = {
-            "client" : "Клиент",
-            "helper" : "Помощник",
-            "subdepartment chief" : "Начальник подразделения",
-            "department chief" : "Начальник службы"
+            "client": "Клиент",
+            "helper": "Помощник",
+            "subdepartment chief": "Начальник подразделения",
+            "department chief": "Начальник службы"
         };
 
         scope.editProfile = function () {
@@ -34,7 +34,7 @@ function profileCntrl ($scope, $compile, networkManager, profileProvider) {
 
         scope.saveChanges = function (type) {
             if (type == 'data') {
-                networkManager.request('profiles:save', { id : scope.data.id, displayName : scope.data.displayName, phone : scope.data.phone || '' }, function (data) {
+                networkManager.request('profiles:save', { id: scope.data.id, displayName: scope.data.displayName, phone: scope.data.phone || '' }, function (data) {
                     scope.data.updatedAt = data.updatedAt;
                     scope.data.role = data.role;
                     scope.$digest();
@@ -55,8 +55,8 @@ function profileCntrl ($scope, $compile, networkManager, profileProvider) {
         $scope._domRef.append(nElement);
 
         $scope._domRef.css({
-            top : $(window).height() / 2 - 125,
-            left : document.body.clientWidth / 2 - 330
+            top: $(window).height() / 2 - 125,
+            left: document.body.clientWidth / 2 - 330
         }).show();
 
         $scope._domRef.find('.edit-button').on('click', function () {
@@ -74,7 +74,7 @@ function profileCntrl ($scope, $compile, networkManager, profileProvider) {
     $scope.parseDate = function (date) {
         var today = moment(new Date());
         var target = moment(date);
-        if (target.isSame(today)) {
+        if (target.isSame(today, 'day')) {
             return 'Сегодня'
         } else {
             return target.format('DD.MM.YYYY');

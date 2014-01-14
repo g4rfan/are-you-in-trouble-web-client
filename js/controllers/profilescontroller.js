@@ -21,7 +21,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
             }
         }
 
-        return subDep ? subDep.name : '-';
+        return subDep ? subDep.name: '-';
     };
 
     $scope.getUniDep = function (uniDepId) {
@@ -33,7 +33,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
             }
         }
 
-        return uniDep ? uniDep.name : '-';
+        return uniDep ? uniDep.name: '-';
     };
 
     globalEvents.addEventListener('tab changed', function(data) {
@@ -72,24 +72,24 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
         scope.parseDate = $scope.parseDate;
 
         scope.roles = [
-            { id : 1, name : "Клиент" },
-            { id : 2, name : "Помощник" },
-            { id : 3, name : "Начальник подразделения" },
-            { id : 4, name : "Начальник службы" }
+            { id: 1, name: "Клиент" },
+            { id: 2, name: "Помощник" },
+            { id: 3, name: "Начальник подразделения" },
+            { id: 4, name: "Начальник службы" }
         ];
 
         scope.dictRoles = {
-            "client" : "Клиент",
-            "helper" : "Помощник",
-            "subdepartment chief" : "Начальник подразделения",
-            "department chief" : "Начальник службы"
+            "client": "Клиент",
+            "helper": "Помощник",
+            "subdepartment chief": "Начальник подразделения",
+            "department chief": "Начальник службы"
         };
 
         scope.selectedRole = 0;
         scope.selectedSubDep = 0;
 
         scope.removeProfile = function () {
-            networkManager.request('profiles:remove', { profileId : profileId }, function() {
+            networkManager.request('profiles:remove', { profileId: profileId }, function() {
                 for (var i = 0; i < $scope.profiles.length; ++i) {
                     if ($scope.profiles[i].id == profileId) {
                         $scope.profiles.splice(i, 1);
@@ -113,10 +113,10 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
 
         scope.saveChanges = function (type) {
             if (type == 'role') {
-                if (scope.selectedRole < 1) { showError("Ошибка : выберите роль"); return; }
+                if (scope.selectedRole < 1) { showError("Ошибка: выберите роль"); return; }
                 if (scope.selectedRole == 1) {
-                    if (!scope.selectedUniDep || scope.selectedUniDep < 1) { showError("Ошибка : выберите факультет"); return; }
-                    networkManager.request('profiles:make client', { userId : profileId, universityDepartmentId : scope.selectedUniDep }, function (data) {
+                    if (!scope.selectedUniDep || scope.selectedUniDep < 1) { showError("Ошибка: выберите факультет"); return; }
+                    networkManager.request('profiles:make client', { userId: profileId, universityDepartmentId: scope.selectedUniDep }, function (data) {
                         profile.subdepartmentId = -1;
                         profile.universityDepartmentId = data.universityDepartmentId;
                         profile.role = data.role;
@@ -126,8 +126,8 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
                     });
                 } else {
                     if (scope.selectedRole != 4) {
-                        if (!scope.selectedSubDep || scope.selectedSubDep < 1) { showError("Ошибка : выберите отдел"); return; }
-                        networkManager.request('profiles:make helper', { userId : profileId, chief : scope.selectedRole == 3, subdepartmentId : scope.selectedSubDep }, function (data) {
+                        if (!scope.selectedSubDep || scope.selectedSubDep < 1) { showError("Ошибка: выберите отдел"); return; }
+                        networkManager.request('profiles:make helper', { userId: profileId, chief: scope.selectedRole == 3, subdepartmentId: scope.selectedSubDep }, function (data) {
                             profile.subdepartmentId = data.subdepartmentId;
                             profile.universityDepartmentId = -1;
                             profile.role = data.role;
@@ -136,7 +136,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
                             $scope.$digest();
                         });
                     } else {
-                        networkManager.request('profiles:make department chief', { userId : profileId }, function (data) {
+                        networkManager.request('profiles:make department chief', { userId: profileId }, function (data) {
                             profile.subdepartmentId = -1;
                             profile.universityDepartmentId = -1;
                             profile.role = data.role;
@@ -155,7 +155,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
             }
 
             if (type == 'data') {
-                networkManager.request('profiles:save', { id : profileId, displayName : scope.data.displayName, phone : scope.data.phone || '' }, function (data) {
+                networkManager.request('profiles:save', { id: profileId, displayName: scope.data.displayName, phone: scope.data.phone || '' }, function (data) {
                     scope.data.updatedAt = data.updatedAt;
                     scope.data.role = data.role;
                     scope.$digest();
@@ -176,8 +176,8 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
         $scope._domRef.append(nElement);
 
         $scope._domRef.css({
-            top : $(window).height() / 2 - 125,
-            left : document.body.clientWidth / 2 - 330
+            top: $(window).height() / 2 - 125,
+            left: document.body.clientWidth / 2 - 330
         }).show();
 
         $('.close-button', $scope._domRef).on('click', function () {
@@ -204,7 +204,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
     $scope.parseDate = function (date) {
         var today = moment(new Date());
         var target = moment(date);
-        if (target.isSame(today)) {
+        if (target.isSame(today, 'day')) {
             return 'Сегодня'
         } else {
             return target.format('DD.MM.YYYY');
@@ -241,7 +241,7 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
         }
         $scope.selectedFilters = params;
 
-        profilesProvider.getProfilesFromServer(true, isEmpty ? null : params);
+        profilesProvider.getProfilesFromServer(true, isEmpty ? null: params);
     });
 
     filtersProvider.events.addEventListener('filters got', function (data) {

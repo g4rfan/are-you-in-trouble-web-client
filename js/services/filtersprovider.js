@@ -9,28 +9,28 @@
 
 angular.module('helpdesk.service').service('filtersProvider', function (networkManager) {
     var serviceModel = {
-        _storage : { universityDep : [], taskTypes : [], subDeps : [] },
+        _storage: { universityDep: [], taskTypes: [], subDeps: [] },
 
-        getFilters : function () {
+        getFilters: function () {
             return this._storage;
         },
 
-        insert : function (data, type) {
+        insert: function (data, type) {
             this._storage[type].push(data);
         },
 
-        save : function (data) {
+        save: function (data) {
             var self = this;
             networkManager.emit('filter:save', function (data) {
                 self.insert(data);
             });
         },
 
-        getFiltersFromServer : getFiltersFromServer,
+        getFiltersFromServer: getFiltersFromServer,
 
-        events : new EventEmitter({
-            'filters set changed' : [],
-            'filters got' : []
+        events: new EventEmitter({
+            'filters set changed': [],
+            'filters got': []
         })
     };
 

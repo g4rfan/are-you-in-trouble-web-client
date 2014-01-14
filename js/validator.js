@@ -70,7 +70,7 @@ for (var property in Validator.types) {
     }
     typeR.required = true;
     return function (required) {
-      return required ? typeR : type;
+      return required ? typeR: type;
     };
   }();
 }

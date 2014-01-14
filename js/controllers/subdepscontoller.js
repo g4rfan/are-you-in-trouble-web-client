@@ -59,8 +59,8 @@ function subDepsCntrl ($scope, $compile, networkManager, subDepartProvider) {
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
         $scope._domRef.css({
-            top : $(window).height() / 2 - 100,
-            left : document.body.clientWidth / 2 - 150
+            top: $(window).height() / 2 - 100,
+            left: document.body.clientWidth / 2 - 150
         }).show();
 
         scope.saveSubDep = function () {

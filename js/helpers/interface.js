@@ -13,10 +13,10 @@ function showError(error) {
 
 
 var properties = {
-    id : 'Номер',
-    subdepartmentId : 'Код подразделения',
-    universityDepartmentId : 'Код факультета',
-    displayName : 'Имя пользователя',
-    typeId : 'Тип заявки',
-    phone : 'Телефон'
+    id: 'Номер',
+    subdepartmentId: 'Код подразделения',
+    universityDepartmentId: 'Код факультета',
+    displayName: 'Имя пользователя',
+    typeId: 'Тип заявки',
+    phone: 'Телефон'
 };
