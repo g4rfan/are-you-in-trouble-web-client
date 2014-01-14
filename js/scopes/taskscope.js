@@ -9,7 +9,7 @@ function taskScope(data, networkManager) {
 
     this.save = function () {
         networkManager.request('task:save', { data: this }, function (data) {
-            console.log('Saved : %o', data);
+            console.log('Saved: %o', data);
             return "yep";
         });
     }

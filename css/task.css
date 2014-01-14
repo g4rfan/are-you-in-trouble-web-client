@@ -78,7 +78,7 @@
 }
 
 .task.opened-task .comment-content {
-    height : 70px;
+    height: 70px;
     width: 540px;
     max-width: 540px;
     min-width: 540px;
@@ -110,7 +110,7 @@
 }
 
 .task .button-section.comments {
-    background : rgb(230, 126, 34);
+    background: rgb(230, 126, 34);
     left: 100px;
 }
 

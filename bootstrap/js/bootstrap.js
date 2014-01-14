@@ -111,7 +111,7 @@ if (!jQuery) {
         if (e) e.preventDefault()
 
         if (!$parent.length) {
-            $parent = $this.hasClass('alert') ? $this : $this.parent()
+            $parent = $this.hasClass('alert') ? $this: $this.parent()
         }
 
         $parent.trigger(e = $.Event('close.bs.alert'))
@@ -127,7 +127,7 @@ if (!jQuery) {
         $.support.transition && $parent.hasClass('fade') ?
             $parent
                 .one($.support.transition.end, removeElement)
-                .emulateTransitionEnd(150) :
+                .emulateTransitionEnd(150):
             removeElement()
     }
 
@@ -204,7 +204,7 @@ if (!jQuery) {
     Button.prototype.setState = function (state) {
         var d = 'disabled'
         var $el = this.$element
-        var val = $el.is('input') ? 'val' : 'html'
+        var val = $el.is('input') ? 'val': 'html'
         var data = $el.data()
 
         state = state + 'Text'
@@ -216,7 +216,7 @@ if (!jQuery) {
         // push to event loop to allow forms to submit
         setTimeout(function () {
             state == 'loadingText' ?
-                $el.addClass(d).attr(d, d) :
+                $el.addClass(d).attr(d, d):
                 $el.removeClass(d).removeAttr(d);
         }, 0)
     }
@@ -352,7 +352,7 @@ if (!jQuery) {
         })
         if (activeIndex == pos) return this.pause().cycle()
 
-        return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
+        return this.slide(pos > activeIndex ? 'next': 'prev', $(this.$items[pos]))
     }
 
     Carousel.prototype.pause = function (e) {
@@ -382,8 +382,8 @@ if (!jQuery) {
         var $active = this.$element.find('.item.active')
         var $next = next || $active[type]()
         var isCycling = this.interval
-        var direction = type == 'next' ? 'left' : 'right'
-        var fallback = type == 'next' ? 'first' : 'last'
+        var direction = type == 'next' ? 'left': 'right'
+        var fallback = type == 'next' ? 'first': 'last'
         var that = this
 
         if (!$next.length) {
@@ -449,7 +449,7 @@ if (!jQuery) {
             var $this = $(this)
             var data = $this.data('bs.carousel')
             var options = $.extend({}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
-            var action = typeof option == 'string' ? option : options.slide
+            var action = typeof option == 'string' ? option: options.slide
 
             if (!data) $this.data('bs.carousel', (data = new Carousel(this, options)))
             if (typeof option == 'number') data.to(option)
@@ -539,7 +539,7 @@ if (!jQuery) {
 
     Collapse.prototype.dimension = function () {
         var hasWidth = this.$element.hasClass('width')
-        return hasWidth ? 'width' : 'height'
+        return hasWidth ? 'width': 'height'
     }
 
     Collapse.prototype.show = function () {
@@ -623,7 +623,7 @@ if (!jQuery) {
     }
 
     Collapse.prototype.toggle = function () {
-        this[this.$element.hasClass('in') ? 'hide' : 'show']()
+        this[this.$element.hasClass('in') ? 'hide': 'show']()
     }
 
 
@@ -665,13 +665,13 @@ if (!jQuery) {
             || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
         var $target = $(target)
         var data = $target.data('bs.collapse')
-        var option = data ? 'toggle' : $this.data()
+        var option = data ? 'toggle': $this.data()
         var parent = $this.attr('data-parent')
         var $parent = parent && $(parent)
 
         if (!data || !data.transitioning) {
             if ($parent) $parent.find('[data-toggle=collapse][data-parent="' + parent + '"]').not($this).addClass('collapsed')
-            $this[$target.hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
+            $this[$target.hasClass('in') ? 'addClass': 'removeClass']('collapsed')
         }
 
         $target.collapse(option)
@@ -714,7 +714,7 @@ if (!jQuery) {
     Dropdown.prototype.toggle = function (e) {
         var $this = $(this)
 
-        if ($this.is('.disabled, :disabled')) return
+        if ($this.is('.disabled,:disabled')) return
 
         var $parent = getParent($this)
         var isActive = $parent.hasClass('open')
@@ -749,7 +749,7 @@ if (!jQuery) {
         e.preventDefault()
         e.stopPropagation()
 
-        if ($this.is('.disabled, :disabled')) return
+        if ($this.is('.disabled,:disabled')) return
 
         var $parent = getParent($this)
         var isActive = $parent.hasClass('open')
@@ -793,7 +793,7 @@ if (!jQuery) {
 
         var $parent = selector && $(selector)
 
-        return $parent && $parent.length ? $parent : $this.parent()
+        return $parent && $parent.length ? $parent: $this.parent()
     }
 
 
@@ -877,7 +877,7 @@ if (!jQuery) {
     }
 
     Modal.prototype.toggle = function (_relatedTarget) {
-        return this[!this.isShown ? 'show' : 'hide'](_relatedTarget)
+        return this[!this.isShown ? 'show': 'hide'](_relatedTarget)
     }
 
     Modal.prototype.show = function (_relatedTarget) {
@@ -920,7 +920,7 @@ if (!jQuery) {
                     .one($.support.transition.end, function () {
                         that.$element.focus().trigger(e)
                     })
-                    .emulateTransitionEnd(300) :
+                    .emulateTransitionEnd(300):
                 that.$element.focus().trigger(e)
         })
     }
@@ -948,7 +948,7 @@ if (!jQuery) {
         $.support.transition && this.$element.hasClass('fade') ?
             this.$element
                 .one($.support.transition.end, $.proxy(this.hideModal, this))
-                .emulateTransitionEnd(300) :
+                .emulateTransitionEnd(300):
             this.hideModal()
     }
 
@@ -988,7 +988,7 @@ if (!jQuery) {
 
     Modal.prototype.backdrop = function (callback) {
         var that = this
-        var animate = this.$element.hasClass('fade') ? 'fade' : ''
+        var animate = this.$element.hasClass('fade') ? 'fade': ''
 
         if (this.isShown && this.options.backdrop) {
             var doAnimate = $.support.transition && animate
@@ -1000,7 +1000,7 @@ if (!jQuery) {
                 if (e.target !== e.currentTarget) return
                 this.options.backdrop == 'static'
                     ? this.$element[0].focus.call(this.$element[0])
-                    : this.hide.call(this)
+                   : this.hide.call(this)
             }, this))
 
             if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
@@ -1012,7 +1012,7 @@ if (!jQuery) {
             doAnimate ?
                 this.$backdrop
                     .one($.support.transition.end, callback)
-                    .emulateTransitionEnd(150) :
+                    .emulateTransitionEnd(150):
                 callback()
 
         } else if (!this.isShown && this.$backdrop) {
@@ -1021,7 +1021,7 @@ if (!jQuery) {
             $.support.transition && this.$element.hasClass('fade') ?
                 this.$backdrop
                     .one($.support.transition.end, callback)
-                    .emulateTransitionEnd(150) :
+                    .emulateTransitionEnd(150):
                 callback()
 
         } else if (callback) {
@@ -1066,7 +1066,7 @@ if (!jQuery) {
         var $this = $(this)
         var href = $this.attr('href')
         var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-        var option = $target.data('modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+        var option = $target.data('modal') ? 'toggle': $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
         e.preventDefault()
 
@@ -1143,8 +1143,8 @@ if (!jQuery) {
             if (trigger == 'click') {
                 this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
             } else if (trigger != 'manual') {
-                var eventIn = trigger == 'hover' ? 'mouseenter' : 'focus'
-                var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
+                var eventIn = trigger == 'hover' ? 'mouseenter': 'focus'
+                var eventOut = trigger == 'hover' ? 'mouseleave': 'blur'
 
                 this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
                 this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
@@ -1152,7 +1152,7 @@ if (!jQuery) {
         }
 
         this.options.selector ?
-            (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
+            (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })):
             this.fixTitle()
     }
 
@@ -1185,7 +1185,7 @@ if (!jQuery) {
 
     Tooltip.prototype.enter = function (obj) {
         var self = obj instanceof this.constructor ?
-            obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+            obj: $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
 
         clearTimeout(self.timeout)
 
@@ -1200,7 +1200,7 @@ if (!jQuery) {
 
     Tooltip.prototype.leave = function (obj) {
         var self = obj instanceof this.constructor ?
-            obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+            obj: $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
 
         clearTimeout(self.timeout)
 
@@ -1228,7 +1228,7 @@ if (!jQuery) {
             if (this.options.animation) $tip.addClass('fade')
 
             var placement = typeof this.options.placement == 'function' ?
-                this.options.placement.call(this, $tip[0], this.$element[0]) :
+                this.options.placement.call(this, $tip[0], this.$element[0]):
                 this.options.placement
 
             var autoToken = /\s?auto?\s?/i
@@ -1240,7 +1240,7 @@ if (!jQuery) {
                 .css({ top: 0, left: 0, display: 'block' })
                 .addClass(placement)
 
-            this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+            this.options.container ? $tip.appendTo(this.options.container): $tip.insertAfter(this.$element)
 
             var pos = this.getPosition()
             var actualWidth = $tip[0].offsetWidth
@@ -1251,14 +1251,14 @@ if (!jQuery) {
 
                 var orgPlacement = placement
                 var docScroll = document.documentElement.scrollTop || document.body.scrollTop
-                var parentWidth = this.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
-                var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
-                var parentLeft = this.options.container == 'body' ? 0 : $parent.offset().left
+                var parentWidth = this.options.container == 'body' ? window.innerWidth: $parent.outerWidth()
+                var parentHeight = this.options.container == 'body' ? window.innerHeight: $parent.outerHeight()
+                var parentLeft = this.options.container == 'body' ? 0: $parent.offset().left
 
-                placement = placement == 'bottom' && pos.top + pos.height + actualHeight - docScroll > parentHeight ? 'top' :
-                    placement == 'top' && pos.top - docScroll - actualHeight < 0 ? 'bottom' :
-                        placement == 'right' && pos.right + actualWidth > parentWidth ? 'left' :
-                            placement == 'left' && pos.left - actualWidth < parentLeft ? 'right' :
+                placement = placement == 'bottom' && pos.top + pos.height + actualHeight - docScroll > parentHeight ? 'top':
+                    placement == 'top' && pos.top - docScroll - actualHeight < 0 ? 'bottom':
+                        placement == 'right' && pos.right + actualWidth > parentWidth ? 'left':
+                            placement == 'left' && pos.left - actualWidth < parentLeft ? 'right':
                                 placement
 
                 $tip
@@ -1325,14 +1325,14 @@ if (!jQuery) {
     }
 
     Tooltip.prototype.replaceArrow = function (delta, dimension, position) {
-        this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
+        this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + "%"): '')
     }
 
     Tooltip.prototype.setContent = function () {
         var $tip = this.tip()
         var title = this.getTitle()
 
-        $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+        $tip.find('.tooltip-inner')[this.options.html ? 'html': 'text'](title)
         $tip.removeClass('fade in top bottom left right')
     }
 
@@ -1354,7 +1354,7 @@ if (!jQuery) {
         $.support.transition && this.$tip.hasClass('fade') ?
             $tip
                 .one($.support.transition.end, complete)
-                .emulateTransitionEnd(150) :
+                .emulateTransitionEnd(150):
             complete()
 
         this.$element.trigger('hidden.bs.' + this.type)
@@ -1375,15 +1375,15 @@ if (!jQuery) {
 
     Tooltip.prototype.getPosition = function () {
         var el = this.$element[0]
-        return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
+        return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect(): {
             width: el.offsetWidth, height: el.offsetHeight
         }, this.$element.offset())
     }
 
     Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
-        return placement == 'bottom' ? { top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2  } :
-            placement == 'top' ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2  } :
-                placement == 'left' ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
+        return placement == 'bottom' ? { top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2  }:
+            placement == 'top' ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2  }:
+                placement == 'left' ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth }:
                     /* placement == 'right' */ { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width   }
     }
 
@@ -1393,7 +1393,7 @@ if (!jQuery) {
         var o = this.options
 
         title = $e.attr('data-original-title')
-            || (typeof o.title == 'function' ? o.title.call($e[0]) : o.title)
+            || (typeof o.title == 'function' ? o.title.call($e[0]): o.title)
 
         return title
     }
@@ -1427,8 +1427,8 @@ if (!jQuery) {
     }
 
     Tooltip.prototype.toggle = function (e) {
-        var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type) : this
-        self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
+        var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type): this
+        self.tip().hasClass('in') ? self.leave(self): self.enter(self)
     }
 
     Tooltip.prototype.destroy = function () {
@@ -1518,8 +1518,8 @@ if (!jQuery) {
         var title = this.getTitle()
         var content = this.getContent()
 
-        $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-        $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
+        $tip.find('.popover-title')[this.options.html ? 'html': 'text'](title)
+        $tip.find('.popover-content')[this.options.html ? 'html': 'text'](content)
 
         $tip.removeClass('fade top bottom left right in')
 
@@ -1538,7 +1538,7 @@ if (!jQuery) {
 
         return $e.attr('data-content')
             || (typeof o.content == 'function' ?
-            o.content.call($e[0]) :
+            o.content.call($e[0]):
             o.content)
     }
 
@@ -1611,7 +1611,7 @@ if (!jQuery) {
         var href
         var process = $.proxy(this.process, this)
 
-        this.$element = $(element).is('body') ? $(window) : $(element)
+        this.$element = $(element).is('body') ? $(window): $(element)
         this.$body = $('body')
         this.$scrollElement = this.$element.on('scroll.bs.scroll-spy.data-api', process)
         this.options = $.extend({}, ScrollSpy.DEFAULTS, options)
@@ -1631,7 +1631,7 @@ if (!jQuery) {
     }
 
     ScrollSpy.prototype.refresh = function () {
-        var offsetMethod = this.$element[0] == window ? 'offset' : 'position'
+        var offsetMethod = this.$element[0] == window ? 'offset': 'position'
 
         this.offsets = $([])
         this.targets = $([])
@@ -1837,7 +1837,7 @@ if (!jQuery) {
         transition ?
             $active
                 .one($.support.transition.end, next)
-                .emulateTransitionEnd(150) :
+                .emulateTransitionEnd(150):
             next()
 
         $active.removeClass('in')
@@ -1944,17 +1944,17 @@ if (!jQuery) {
         if (typeof offsetTop == 'function')    offsetTop = offset.top()
         if (typeof offsetBottom == 'function') offsetBottom = offset.bottom()
 
-        var affix = this.unpin != null && (scrollTop + this.unpin <= position.top) ? false :
-            offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ? 'bottom' :
-                offsetTop != null && (scrollTop <= offsetTop) ? 'top' : false
+        var affix = this.unpin != null && (scrollTop + this.unpin <= position.top) ? false:
+            offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ? 'bottom':
+                offsetTop != null && (scrollTop <= offsetTop) ? 'top': false
 
         if (this.affixed === affix) return
         if (this.unpin) this.$element.css('top', '')
 
         this.affixed = affix
-        this.unpin = affix == 'bottom' ? position.top - scrollTop : null
+        this.unpin = affix == 'bottom' ? position.top - scrollTop: null
 
-        this.$element.removeClass(Affix.RESET).addClass('affix' + (affix ? '-' + affix : ''))
+        this.$element.removeClass(Affix.RESET).addClass('affix' + (affix ? '-' + affix: ''))
 
         if (affix == 'bottom') {
             this.$element.offset({ top: document.body.offsetHeight - offsetBottom - this.$element.height() })

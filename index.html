@@ -52,15 +52,15 @@
             <div class = "glyphicon glyphicon-tasks"></div>
             <div>Заявки {{ hop }}</div>
         </div>
-        <div ng-class = "{ hidden : profile[0].role != 'department chief'}" class = "icon" data-tab-name="profiles">
+        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="profiles">
             <div class = "glyphicon glyphicon-user"></div>
             <div>Профили</div>
         </div>
-        <div ng-class = "{ hidden : profile[0].role != 'department chief'}" class = "icon" data-tab-name="subdeps">
+        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="subdeps">
             <div class = "glyphicon glyphicon-bookmark"></div>
             <div>Отделы</div>
         </div>
-        <div ng-class = "{ hidden : profile[0].role != 'department chief'}" class = "icon" data-tab-name="taskTypes">
+        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="taskTypes">
             <div class = "glyphicon glyphicon-book"></div>
             <div>Типы заявок</div>
         </div>
@@ -73,7 +73,7 @@
                 <button type = "button" class="btn closed-filter selected" ng-click = "showClosedTasks(false)">Открытые</button>
                 <button type = "button" class="btn closed-filter" ng-click = "showClosedTasks(true)">Все</button>
             </div>
-            <div ng-class = "{ hidden : profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка</div>
+            <div ng-class = "{ hidden: profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка</div>
         </header>
         <div class = "table-container">
             <table class = 'table head'>
@@ -83,7 +83,7 @@
                     <th style="width: 10%"><span class="glyphicon glyphicon-comment"></span></th>
                     <th style="width: 10%"><span class="glyphicon glyphicon-user"></span></th>
                     <th style="width: 17.5%">Отдел</th>
-                    <th style="width: 17.5%">Факультет</th>
+                    <th style="width: 17.5%">Подразделение университета</th>
                     <th style="width: 10%">Дата создания</th>
                 </thead>
             </table>
@@ -108,35 +108,35 @@
             <div><input type="text" ng-model = 'filterName' placeholder="Поиск по фильтрам..."/></div>
             <div class = 'filters-caption'>Типы заявок</div>
             <ul>
-                <li ng-repeat='filterItem in filters.taskTypes | filter : filterName ' ng-style="myStyle"
+                <li ng-repeat='filterItem in filters.taskTypes | filter: filterName ' ng-style="myStyle"
                     ng-click="events.click($event, 'tasks')" data-section = 'taskTypes' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
                     {{ filterItem.name }}
                 </li>
             </ul>
-            <div ng-class = "{ hidden : profile[0].role != 'department chief'}" class = 'filters-caption'>Отделы</div>
+            <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = 'filters-caption'>Отделы</div>
             <ul>
-                <li ng-repeat='filterItem in filters.subDeps | filter : filterName ' ng-style="myStyle"
+                <li ng-repeat='filterItem in filters.subDeps | filter: filterName ' ng-style="myStyle"
                     ng-click="events.click($event, 'tasks')" data-section = 'subDeps' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
                     {{ filterItem.name }}
                 </li>
             </ul>
-            <div ng-class = "{ hidden : profile[0].role == 'client'}" class = 'filters-caption'>Факультеты</div>
+            <div ng-class = "{ hidden: profile[0].role == 'client'}" class = 'filters-caption'>Подразделения университета</div>
             <ul>
-                <li ng-repeat='filterItem in filters.universityDep | filter : filterName' ng-style="myStyle"
+                <li ng-repeat='filterItem in filters.universityDep | filter: filterName' ng-style="myStyle"
                     ng-click="events.click($event, 'tasks')" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
                     {{ filterItem.name }}
                 </li>
             </ul>
         </section>
-        <section class="task new-task" ng-class = '{ lite : profile[0].role != "department chief" }'>
+        <section class="task new-task" ng-class = '{ lite: profile[0].role != "department chief" }'>
             <header>
                 <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
                 <h4>НОВАЯ ЗАЯВКА</h4>
                 <div class = "glyphicon glyphicon-remove-circle close-button"></div>
             </header>
             <textarea></textarea>
-            <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
-            <p ng-class = '{ hidden : profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+            <p ng-class = '{ hidden: profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
+            <p ng-class = '{ hidden: profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
             <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
             <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
         </section>
@@ -154,14 +154,14 @@
                     <th style="width: 10%">Email</th>
                     <th style="width: 10%">Телефон</th>
                     <th style="width: 20%">Отдел</th>
-                    <th style="width: 20%">Факультет</th>
+                    <th style="width: 20%">Подразделение университета</th>
                     <th style="width: 15%">Дата создания</th>
                 </thead>
             </table>
             <div class = 'scrollable'>
                 <table class = 'table table-striped'>
                     <tbody>
-                        <tr ng-repeat="profile in profiles | filter : profileName" ng-click = "openProfile(profile.id)">
+                        <tr ng-repeat="profile in profiles | filter: profileName" ng-click = "openProfile(profile.id)">
                             <td style="width: 5%">{{ profile.id }}</td>
                             <td style="width: 20%">{{ profile.displayName.slice(0,120) }}</td>
                             <td style="width: 10%">{{ profile.email }}</td>
@@ -180,14 +180,14 @@
             <div><input type="text" ng-model = 'filterName' placeholder="Поиск по фильтрам..."/></div>
             <div class = 'filters-caption'>Отделы</div>
             <ul>
-                <li ng-repeat='filterItem in filters.subDeps | filter : filterName ' ng-style="myStyle"
+                <li ng-repeat='filterItem in filters.subDeps | filter: filterName ' ng-style="myStyle"
                     ng-click="events.click($event, 'profile')" data-section = 'subDeps' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
                     {{ filterItem.name }}
                 </li>
             </ul>
-            <div class = 'filters-caption'>Факультеты</div>
+            <div class = 'filters-caption'>Подразделения университета</div>
             <ul>
-                <li ng-repeat='filterItem in filters.universityDep | filter : filterName' ng-style="myStyle"
+                <li ng-repeat='filterItem in filters.universityDep | filter: filterName' ng-style="myStyle"
                     ng-click="events.click($event, 'profile')" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
                     {{ filterItem.name }}
                 </li>
@@ -206,7 +206,7 @@
             <th>Имя</th>
             </thead>
             <tbody>
-            <tr ng-repeat="sd in subDeps | filter : subDepName" ng-click = "openSubDep(sd.id)">
+            <tr ng-repeat="sd in subDeps | filter: subDepName" ng-click = "openSubDep(sd.id)">
                 <td>{{ sd.id }}</td>
                 <td>{{ sd.name.slice(0,120) }}</td>
             </tr>
@@ -234,7 +234,7 @@
                 <th>Имя</th>
             </thead>
             <tbody>
-            <tr ng-repeat="tt in taskTypes | filter : taskTypeName" ng-click = 'openTaskType(tt.id)'>
+            <tr ng-repeat="tt in taskTypes | filter: taskTypeName" ng-click = 'openTaskType(tt.id)'>
                 <td>{{ tt.id }}</td>
                 <td>{{ tt.name.slice(0,120) }}</td>
             </tr>

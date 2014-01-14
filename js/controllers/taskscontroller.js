@@ -26,7 +26,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             params = {
                 offset: $scope.offset,
                 limit: $scope.limit,
-                filters: { closedById : null }
+                filters: { closedById: null }
             };
         } else {
             params = {
@@ -48,7 +48,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 sdi.push(key);
             }
 	    
-            params.filters = { closedById : null };
+            params.filters = { closedById: null };
             if (udi.length != 0) {
                 params.filters.universityDepartmentId = udi;
             }
@@ -100,7 +100,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             }
         }
 
-        return subDep ? subDep.name : '-';
+        return subDep ? subDep.name: '-';
     };
 
     $scope.getUniDep = function (uniDepId) {
@@ -112,7 +112,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             }
         }
 
-        return uniDep ? uniDep.name : '-';
+        return uniDep ? uniDep.name: '-';
     };
 
     $scope.showClosedTasks = function (showClosed) {
@@ -128,7 +128,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
     $scope.parseDate = function (date) {
         var today = moment(new Date());
         var target = moment(date);
-        if (target.isSame(today)) {
+        if (target.isSame(today, 'day')) {
             return 'Сегодня';
         } else {
             return target.format('DD.MM.YYYY');
@@ -148,10 +148,29 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         scope.data = task;
         scope.comments = [];
         scope.profile = $scope.profile;
+       // console.log(scope.data);
 
         scope.subDeps = $scope.subDeps;
 
-        networkManager.request('task comments:retrieve', { taskId : taskId }, function (data) {
+        var universityDep = '';
+
+        for (var i = 0; i < $scope.uniDeps.length; ++i) {
+            if ($scope.uniDeps[i].id == scope.data.universityDepartmentId) {
+                universityDep = $scope.uniDeps[i].name;
+                break;
+            }
+        }
+
+        scope.universityDepName = universityDep;
+
+        networkManager.request('profiles:retrieve', { filters: { id: scope.data.clientId } }, function (userName) {
+            scope.clientName = userName[0] ? scope.universityDepName + ' (' +  userName[0].displayName + ')' : scope.universityDepName;
+            scope.$digest();
+        });
+
+
+
+        networkManager.request('task comments:retrieve', { taskId: taskId }, function (data) {
             if (data.length == 0) {
                 scope.comments = [];
                 scope.$digest();
@@ -165,7 +184,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
             if (ids.length == 0) { return; }
 
-            networkManager.request('profiles:retrieve', { filters : { id : ids} }, function (userNames) {
+            networkManager.request('profiles:retrieve', { filters: { id: ids } }, function (userNames) {
                 for (var i = 0; i < data.length; ++i) {
                     for (var j = 0; j < userNames.length; ++j) {
                         if (data[i].userId == userNames[j].id) {
@@ -196,7 +215,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         networkManager.on('task comments:insert', function (data) {
             if (scope.data.id == data.taskId) {
-                networkManager.request('profiles:retrieve', { filters : { id : data.userId } }, function (userNames) {
+                networkManager.request('profiles:retrieve', { filters: { id: data.userId } }, function (userNames) {
                     data.displayName = userNames[0].displayName;
                     scope.comments.push(data);
                     scope.$digest();
@@ -243,7 +262,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         scope.getHelpers = function () {
             if (!task.helperIds || task.helperIds == 0) { scope.helpers = []; return; }
-            networkManager.request('profiles:retrieve', { filters : { id : task.helperIds } }, function (data) {
+            networkManager.request('profiles:retrieve', { filters: { id: task.helperIds } }, function (data) {
                 scope.helpers = data;
                 scope.$digest();
             });
@@ -251,7 +270,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
         scope.getUsersBySubDep = function () {
             if (scope.selectedSubDep) {
-                networkManager.request('profiles:retrieve', { filters: { subdepartmentId : scope.selectedSubDep, role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
+                networkManager.request('profiles:retrieve', { filters: { subdepartmentId: scope.selectedSubDep, role: [ 'helper', 'subdepartment chief' ] } }, function (data) {
                     scope.users = data;
                     scope.$digest();
                 });
@@ -316,7 +335,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         };
 
         scope.removeComment = function (commentId) {
-            networkManager.request('task comments:remove', { commentId : commentId }, function () {
+            networkManager.request('task comments:remove', { commentId: commentId }, function () {
                 for (var i = 0; i < scope.comments.length; ++i) {
                     if (scope.comments[i].id == commentId) {
                         scope.comments.splice(i, 1);
@@ -342,12 +361,12 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         scope.getHelpers();
 
         scope.saveComment = function () {
-            var val = Validator.validate(json.validate, 'task comments:save', { taskId : taskId, content : scope.ncomment });
+            var val = Validator.validate(json.validate, 'task comments:save', { taskId: taskId, content: scope.ncomment });
             if (!val.valid) {
-                showError('Ошибка : добавьте текст комментария');
+                showError('Ошибка: добавьте текст комментария');
                 return;
             }
-            networkManager.request('task comments:save', { taskId : taskId, content : scope.ncomment }, function (data) {
+            networkManager.request('task comments:save', { taskId: taskId, content: scope.ncomment }, function (data) {
                 ++task.commentCount;
                 data.displayName = $scope.profile[0].displayName;
                 scope.comments.push(data);
@@ -361,8 +380,8 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         $scope._domRef.empty();
         $scope._domRef.append(nElement);
         $scope._domRef.css({
-            top : $(window).height()/2 - 330,
-            left : document.body.clientWidth/2 - 330
+            top: $(window).height()/2 - 330,
+            left: document.body.clientWidth/2 - 330
         }).show();
 
         function editTask () {
@@ -398,10 +417,10 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
 
     $scope.save = function (gtask) {
         var task = {
-            content: gtask ? gtask.content : $('.new-task textarea').val(),
-            universityDepartmentId: gtask ? gtask.universityDepartmentId : $scope.selectedUniDep,
-            subdepartmentId : gtask ? gtask.subdepartmentId : $scope.selectedSub,
-            typeId : gtask ? gtask.typeId : $scope.selectedTaskType
+            content: gtask ? gtask.content: $('.new-task textarea').val(),
+            universityDepartmentId: gtask ? gtask.universityDepartmentId: $scope.selectedUniDep,
+            subdepartmentId: gtask ? gtask.subdepartmentId: $scope.selectedSub,
+            typeId: gtask ? gtask.typeId: $scope.selectedTaskType
         };
 
         if (gtask) {
@@ -411,10 +430,10 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         if (!gtask) {
             var type = 'tasks:save-' + $scope.profile[0].role;
             var val = Validator.validate(json.validate, type, {
-                content : task.content,
-                typeId : task.typeId,
-                subdepartmentId : task.subdepartmentId,
-                universityDepartmentId : task.universityDepartmentId
+                content: task.content,
+                typeId: task.typeId,
+                subdepartmentId: task.subdepartmentId,
+                universityDepartmentId: task.universityDepartmentId
             });
             if (!val.valid) {
                 var errors = val.errors, message = '';

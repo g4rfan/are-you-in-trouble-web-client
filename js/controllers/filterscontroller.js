@@ -6,7 +6,7 @@ function filterCntrl($scope, filtersProvider) {
     $scope.filters = filtersProvider.getFilters();
     $scope.events = {};
 
-    var selectedFilters = { universityDep : {}, taskTypes : {}, subDeps : {} };
+    var selectedFilters = { universityDep: {}, taskTypes: {}, subDeps: {} };
 
     $scope.events.click = function($event, sender) {
         var target = $($event.target || $event.srcElement);
@@ -22,7 +22,7 @@ function filterCntrl($scope, filtersProvider) {
                 }
             }
         }
-        filtersProvider.events.fire('filters set changed', { selectedFilters : selectedFilters, sender : sender });
+        filtersProvider.events.fire('filters set changed', { selectedFilters: selectedFilters, sender: sender });
     };
 
     filtersProvider.events.addEventListener('filters got', function () {

@@ -314,14 +314,14 @@
 
       constrain('conform', value, function (a, e) { return e(a, object) });
 
-      switch (type || (isArray(value) ? 'array' : typeof value)) {
+      switch (type || (isArray(value) ? 'array': typeof value)) {
         case 'string':
           constrain('minLength', value.length, function (a, e) { return a >= e });
           constrain('maxLength', value.length, function (a, e) { return a <= e });
           constrain('pattern',   value,        function (a, e) {
             e = typeof e === 'string'
               ? e = new RegExp(e)
-              : e;
+             : e;
             return e.test(a)
           });
           break;
@@ -333,7 +333,7 @@
           constrain('exclusiveMaximum', value, function (a, e) { return a < e });
           constrain('divisibleBy', value, function (a, e) {
             var multiplier = Math.max((a - Math.floor(a)).toString().length - 2, (e - Math.floor(e)).toString().length - 2);
-            multiplier = multiplier > 0 ? Math.pow(10, multiplier) : 1;
+            multiplier = multiplier > 0 ? Math.pow(10, multiplier): 1;
             return (a * multiplier) % (e * multiplier) === 0
           });
           break;
@@ -370,7 +370,7 @@
 
   function checkType(val, type, callback) {
     var result = false,
-        types = isArray(type) ? type : [type];
+        types = isArray(type) ? type: [type];
 
     // No type - no check
     if (type === undefined) return callback(null, type);
@@ -379,15 +379,15 @@
     // And fine first matching
     for (var i = 0, l = types.length; i < l; i++) {
       type = types[i].toLowerCase().trim();
-      if (type === 'string' ? typeof val === 'string' :
-          type === 'array' ? isArray(val) :
+      if (type === 'string' ? typeof val === 'string':
+          type === 'array' ? isArray(val):
           type === 'object' ? val && typeof val === 'object' &&
-                             !isArray(val) :
-          type === 'number' ? typeof val === 'number' :
-          type === 'integer' ? typeof val === 'number' && ~~val === val :
-          type === 'null' ? val === null :
-          type === 'boolean'? typeof val === 'boolean' :
-          type === 'any' ? typeof val !== 'undefined' : false) {
+                             !isArray(val):
+          type === 'number' ? typeof val === 'number':
+          type === 'integer' ? typeof val === 'number' && ~~val === val:
+          type === 'null' ? val === null:
+          type === 'boolean'? typeof val === 'boolean':
+          type === 'any' ? typeof val !== 'undefined': false) {
         return callback(null, type);
       }
     };
@@ -423,4 +423,4 @@
   }
 
 
-})(typeof(window) === 'undefined' ? module.exports : (window.json = window.json || {}));
+})(typeof(window) === 'undefined' ? module.exports: (window.json = window.json || {}));

@@ -18,7 +18,7 @@
      * @returns {string} Lowercased string.
      */
     var lowercase = function (string) {
-        return isString(string) ? string.toLowerCase() : string;
+        return isString(string) ? string.toLowerCase(): string;
     };
 
 
@@ -32,7 +32,7 @@
      * @returns {string} Uppercased string.
      */
     var uppercase = function (string) {
-        return isString(string) ? string.toUpperCase() : string;
+        return isString(string) ? string.toUpperCase(): string;
     };
 
 
@@ -41,14 +41,14 @@
             ? s.replace(/[A-Z]/g, function (ch) {
             return String.fromCharCode(ch.charCodeAt(0) | 32);
         })
-            : s;
+           : s;
     };
     var manualUppercase = function (s) {
         return isString(s)
             ? s.replace(/[a-z]/g, function (ch) {
             return String.fromCharCode(ch.charCodeAt(0) & ~32);
         })
-            : s;
+           : s;
     };
 
 
@@ -482,15 +482,15 @@
 
     var trim = (function () {
         // native trim is way faster: http://jsperf.com/angular-trim-test
-        // but IE doesn't have it... :-(
+        // but IE doesn't have it...:-(
         // TODO: we should move this into IE/ES5 polyfill
         if (!String.prototype.trim) {
             return function (value) {
-                return isString(value) ? value.replace(/^\s*/, '').replace(/\s*$/, '') : value;
+                return isString(value) ? value.replace(/^\s*/, '').replace(/\s*$/, ''): value;
             };
         }
         return function (value) {
-            return isString(value) ? value.trim() : value;
+            return isString(value) ? value.trim(): value;
         };
     })();
 
@@ -526,13 +526,13 @@
 
     if (msie < 9) {
         nodeName_ = function (element) {
-            element = element.nodeName ? element : element[0];
+            element = element.nodeName ? element: element[0];
             return (element.scopeName && element.scopeName != 'HTML')
-                ? uppercase(element.scopeName + ':' + element.nodeName) : element.nodeName;
+                ? uppercase(element.scopeName + ':' + element.nodeName): element.nodeName;
         };
     } else {
         nodeName_ = function (element) {
-            return element.nodeName ? element.nodeName : element[0].nodeName;
+            return element.nodeName ? element.nodeName: element[0].nodeName;
         };
     }
 
@@ -771,18 +771,18 @@
      * @returns {function()} Function that wraps the `fn` with all the specified bindings.
      */
     function bind(self, fn) {
-        var curryArgs = arguments.length > 2 ? sliceArgs(arguments, 2) : [];
+        var curryArgs = arguments.length > 2 ? sliceArgs(arguments, 2): [];
         if (isFunction(fn) && !(fn instanceof RegExp)) {
             return curryArgs.length
                 ? function () {
                 return arguments.length
                     ? fn.apply(self, curryArgs.concat(slice.call(arguments, 0)))
-                    : fn.apply(self, curryArgs);
+                   : fn.apply(self, curryArgs);
             }
-                : function () {
+               : function () {
                 return arguments.length
                     ? fn.apply(self, arguments)
-                    : fn.call(self);
+                   : fn.call(self);
             };
         } else {
             // in IE, native methods are not functions so they cannot be bound (note: they don't need to be)
@@ -823,7 +823,7 @@
      */
     function toJson(obj, pretty) {
         if (typeof obj === 'undefined') return undefined;
-        return JSON.stringify(obj, toJsonReplacer, pretty ? '  ' : null);
+        return JSON.stringify(obj, toJsonReplacer, pretty ? '  ': null);
     }
 
 
@@ -841,7 +841,7 @@
     function fromJson(json) {
         return isString(json)
             ? JSON.parse(json)
-            : json;
+           : json;
     }
 
 
@@ -870,7 +870,7 @@
         var TEXT_NODE = 3;
         var elemHtml = jqLite('<div>').append(element).html();
         try {
-            return element[0].nodeType === TEXT_NODE ? lowercase(elemHtml) :
+            return element[0].nodeType === TEXT_NODE ? lowercase(elemHtml):
                 elemHtml.
                     match(/^(<[^>]+>)/)[1].
                     replace(/^<([\w\-]+)/, function (match, nodeName) {
@@ -913,7 +913,7 @@
                 key_value = keyValue.split('=');
                 key = tryDecodeURIComponent(key_value[0]);
                 if (isDefined(key)) {
-                    obj[key] = isDefined(key_value[1]) ? tryDecodeURIComponent(key_value[1]) : true;
+                    obj[key] = isDefined(key_value[1]) ? tryDecodeURIComponent(key_value[1]): true;
                 }
             }
         });
@@ -923,9 +923,9 @@
     function toKeyValue(obj) {
         var parts = [];
         forEach(obj, function (value, key) {
-            parts.push(encodeUriQuery(key, true) + (value === true ? '' : '=' + encodeUriQuery(value, true)));
+            parts.push(encodeUriQuery(key, true) + (value === true ? '': '=' + encodeUriQuery(value, true)));
         });
-        return parts.length ? parts.join('&') : '';
+        return parts.length ? parts.join('&'): '';
     }
 
 
@@ -965,7 +965,7 @@
             replace(/%3A/gi, ':').
             replace(/%24/g, '$').
             replace(/%2C/gi, ',').
-            replace(/%20/g, (pctEncodeSpaces ? '%20' : '+'));
+            replace(/%20/g, (pctEncodeSpaces ? '%20': '+'));
     }
 
 
@@ -1041,7 +1041,7 @@
             }
         });
         if (appElement) {
-            bootstrap(appElement, module ? [module] : []);
+            bootstrap(appElement, module ? [module]: []);
         }
     }
 
@@ -1100,7 +1100,7 @@
     function snake_case(name, separator) {
         separator = separator || '_';
         return name.replace(SNAKE_CASE_REGEXP, function (letter, pos) {
-            return (pos ? separator : '') + letter.toLowerCase();
+            return (pos ? separator: '') + letter.toLowerCase();
         });
     }
 
@@ -1142,7 +1142,7 @@
         }
 
         assertArg(isFunction(arg), name, 'not a function, got ' +
-            (arg && typeof arg == 'object' ? arg.constructor.name || 'Object' : typeof arg));
+            (arg && typeof arg == 'object' ? arg.constructor.name || 'Object': typeof arg));
         return arg;
     }
 
@@ -1640,14 +1640,14 @@
             ? function (element, type, fn) {
             element.addEventListener(type, fn, false);
         }
-            : function (element, type, fn) {
+           : function (element, type, fn) {
             element.attachEvent('on' + type, fn);
         }),
         removeEventListenerFn = (window.document.removeEventListener
             ? function (element, type, fn) {
             element.removeEventListener(type, fn, false);
         }
-            : function (element, type, fn) {
+           : function (element, type, fn) {
             element.detachEvent('on' + type, fn);
         });
 
@@ -1667,7 +1667,7 @@
     function camelCase(name) {
         return name.
             replace(SPECIAL_CHARS_REGEXP,function (_, separator, letter, offset) {
-                return offset ? letter.toUpperCase() : letter;
+                return offset ? letter.toUpperCase(): letter;
             }).
             replace(MOZ_HACK_REGEXP, 'Moz$1');
     }
@@ -1687,7 +1687,7 @@
         jQuery.fn[name] = removePatch;
 
         function removePatch(param) {
-            var list = filterElems && param ? [this.filter(param)] : [this],
+            var list = filterElems && param ? [this.filter(param)]: [this],
                 fireEvent = dispatchThis,
                 set, setIndex, setLength,
                 element, childIndex, childLength, children;
@@ -1857,7 +1857,7 @@
         if (elements) {
             elements = (!elements.nodeName && isDefined(elements.length) && !isWindow(elements))
                 ? elements
-                : [ elements ];
+               : [ elements ];
             for (var i = 0; i < elements.length; i++) {
                 root.push(elements[i]);
             }
@@ -1909,7 +1909,7 @@
         },
 
         eq: function (index) {
-            return (index >= 0) ? jqLite(this[index]) : jqLite(this[this.length + index]);
+            return (index >= 0) ? jqLite(this[index]): jqLite(this[this.length + index]);
         },
 
         length: 0,
@@ -1977,8 +1977,8 @@
                 val = val || element.style[name];
 
                 if (msie <= 8) {
-                    // jquery weirdness :-/
-                    val = (val === '') ? undefined : val;
+                    // jquery weirdness:-/
+                    val = (val === '') ? undefined: val;
                 }
 
                 return  val;
@@ -2000,7 +2000,7 @@
                     return (element[name] ||
                         (element.attributes.getNamedItem(name) || noop).specified)
                         ? lowercasedName
-                        : undefined;
+                       : undefined;
                 }
             } else if (isDefined(value)) {
                 element.setAttribute(name, value);
@@ -2009,7 +2009,7 @@
                 // some elements (e.g. Document) don't have get attribute, so return undefined
                 var ret = element.getAttribute(name, 2);
                 // normalize non-existing attributes to undefined (as jQuery)
-                return ret === null ? undefined : ret;
+                return ret === null ? undefined: ret;
             }
         },
 
@@ -2033,7 +2033,7 @@
                 element.nodeValue = value;
             }
         }
-            : function (element, value) {
+           : function (element, value) {
             if (isUndefined(value)) {
                 return element.textContent;
             }
@@ -2049,7 +2049,7 @@
                             result.push(option.value || option.text);
                         }
                     });
-                    return result.length === 0 ? null : result;
+                    return result.length === 0 ? null: result;
                 }
                 return element.value;
             }
@@ -2074,7 +2074,7 @@
 
             // JQLiteHasClass has only two arguments, but is a getter-only fn, so we need to special-case it
             // in a way that survives minification.
-            if (((fn.length == 2 && (fn !== JQLiteHasClass && fn !== JQLiteController)) ? arg1 : arg2) === undefined) {
+            if (((fn.length == 2 && (fn !== JQLiteHasClass && fn !== JQLiteController)) ? arg1: arg2) === undefined) {
                 if (isObject(arg1)) {
 
                     // we are a write, but the object properties are the key/values
@@ -2184,14 +2184,14 @@
                     if (type == 'mouseenter' || type == 'mouseleave') {
                         var contains = document.body.contains || document.body.compareDocumentPosition ?
                             function (a, b) {
-                                var adown = a.nodeType === 9 ? a.documentElement : a,
+                                var adown = a.nodeType === 9 ? a.documentElement: a,
                                     bup = b && b.parentNode;
                                 return a === bup || !!( bup && bup.nodeType === 1 && (
                                     adown.contains ?
-                                        adown.contains(bup) :
+                                        adown.contains(bup):
                                         a.compareDocumentPosition && a.compareDocumentPosition(bup) & 16
                                     ));
-                            } :
+                            }:
                             function (a, b) {
                                 if (b) {
                                     while ((b = b.parentNode)) {
@@ -2303,12 +2303,12 @@
             if (isUndefined(condition)) {
                 condition = !JQLiteHasClass(element, selector);
             }
-            (condition ? JQLiteAddClass : JQLiteRemoveClass)(element, selector);
+            (condition ? JQLiteAddClass: JQLiteRemoveClass)(element, selector);
         },
 
         parent: function (element) {
             var parent = element.parentNode;
-            return parent && parent.nodeType !== 11 ? parent : null;
+            return parent && parent.nodeType !== 11 ? parent: null;
         },
 
         next: function (element) {
@@ -2354,7 +2354,7 @@
                     JQLiteAddNodes(value, fn(this[i], arg1, arg2));
                 }
             }
-            return value == undefined ? this : value;
+            return value == undefined ? this: value;
         };
     });
 
@@ -2964,7 +2964,7 @@
                             var invokeArgs = invokeQueue[i],
                                 provider = invokeArgs[0] == '$injector'
                                     ? providerInjector
-                                    : providerInjector.get(invokeArgs[0]);
+                                   : providerInjector.get(invokeArgs[0]);
 
                             provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
                         }
@@ -3030,7 +3030,7 @@
                     args.push(
                         locals && locals.hasOwnProperty(key)
                             ? locals[key]
-                            : getService(key)
+                           : getService(key)
                     );
                 }
                 if (!fn.$inject) {
@@ -3040,7 +3040,7 @@
 
 
                 // Performance optimization: http://jsperf.com/apply-vs-call-vs-invoke
-                switch (self ? -1 : args.length) {
+                switch (self ? -1: args.length) {
                     case  0:
                         return fn();
                     case  1:
@@ -3075,11 +3075,11 @@
 
                 // Check if Type is annotated and use just the given function at n-1 as parameter
                 // e.g. someModule.factory('greeter', ['$window', function(renamed$window) {}]);
-                Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype;
+                Constructor.prototype = (isArray(Type) ? Type[Type.length - 1]: Type).prototype;
                 instance = new Constructor();
                 returnedValue = invoke(Type, instance, locals);
 
-                return isObject(returnedValue) ? returnedValue : instance;
+                return isObject(returnedValue) ? returnedValue: instance;
             }
 
             return {
@@ -3138,7 +3138,7 @@
                 // element with given id
                 else if ((elm = document.getElementById(hash))) elm.scrollIntoView();
 
-                // first anchor with given name :-D
+                // first anchor with given name:-D
                 else if ((elm = getFirstAnchor(document.getElementsByName(hash)))) elm.scrollIntoView();
 
                 // no element and hash == 'top', scroll to the top of the page
@@ -3411,7 +3411,7 @@
          */
         self.baseHref = function () {
             var href = baseElement.attr('href');
-            return href ? href.replace(/^https?\:\/\/[^\/]*/, '') : '';
+            return href ? href.replace(/^https?\:\/\/[^\/]*/, ''): '';
         };
 
         //////////////////////////////////////////////////////////////
@@ -4129,7 +4129,7 @@
                     endSymbol = $interpolate.endSymbol(),
                     denormalizeTemplate = (startSymbol == '{{' || endSymbol == '}}')
                         ? identity
-                        : function denormalizeTemplate(template) {
+                       : function denormalizeTemplate(template) {
                         return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
                     };
 
@@ -4157,7 +4157,7 @@
                         // and sometimes changes the structure of the DOM.
                         var $linkNode = cloneConnectFn
                             ? JQLitePrototype.clone.call($compileNodes) // IMPORTANT!!!
-                            : $compileNodes;
+                           : $compileNodes;
 
                         // Attach scope only to non-text nodes.
                         for (var i = 0, ii = $linkNode.length; i < ii; i++) {
@@ -4213,12 +4213,12 @@
 
                         nodeLinkFn = (directives.length)
                             ? applyDirectivesToNode(directives, nodeList[i], attrs, transcludeFn, $rootElement)
-                            : null;
+                           : null;
 
                         childLinkFn = (nodeLinkFn && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length)
                             ? null
-                            : compileNodes(nodeList[i].childNodes,
-                            nodeLinkFn ? nodeLinkFn.transclude : transcludeFn);
+                           : compileNodes(nodeList[i].childNodes,
+                            nodeLinkFn ? nodeLinkFn.transclude: transcludeFn);
 
                         linkFns.push(nodeLinkFn);
                         linkFns.push(childLinkFn);
@@ -4226,7 +4226,7 @@
                     }
 
                     // return a linking function if we have found anything, null otherwise
-                    return linkFnFound ? compositeLinkFn : null;
+                    return linkFnFound ? compositeLinkFn: null;
 
                     function compositeLinkFn(scope, nodeList, $rootElement, boundTranscludeFn) {
                         var nodeLinkFn, childLinkFn, node, childScope, childTranscludeFn, i, ii, n;
@@ -4305,7 +4305,7 @@
                                     attrsMap[nName] = name;
                                     attrs[nName] = value = trim((msie && name == 'href')
                                         ? decodeURIComponent(node.getAttribute(name, 2))
-                                        : attr.value);
+                                       : attr.value);
                                     if (getBooleanAttrName(node, nName)) {
                                         attrs[nName] = true; // presence means true
                                     }
@@ -4720,7 +4720,7 @@
                     forEach(dst, function (value, key) {
                         if (key.charAt(0) != '$') {
                             if (src[key]) {
-                                value += (key === 'style' ? ';' : ' ') + src[key];
+                                value += (key === 'style' ? ';': ' ') + src[key];
                             }
                             dst.$set(key, value, true, srcAttr[key]);
                         }
@@ -4730,7 +4730,7 @@
                     forEach(src, function (value, key) {
                         if (key == 'class') {
                             safeAddClass($element, value);
-                            dst['class'] = (dst['class'] ? dst['class'] + ' ' : '') + value;
+                            dst['class'] = (dst['class'] ? dst['class'] + ' ': '') + value;
                         } else if (key == 'style') {
                             $element.attr('style', $element.attr('style') + ';' + value);
                         } else if (key.charAt(0) != '$' && !dst.hasOwnProperty(key)) {
@@ -5044,7 +5044,7 @@
                     var name = constructor;
                     constructor = controllers.hasOwnProperty(name)
                         ? controllers[name]
-                        : getter(locals.$scope, name, true) || getter($window, name, true);
+                       : getter(locals.$scope, name, true) || getter($window, name, true);
 
                     assertArgFn(constructor, name, true);
                 }
@@ -5327,7 +5327,7 @@
 
 
     function composeProtocolHostPort(protocol, host, port) {
-        return protocol + '://' + host + (port == DEFAULT_PORTS[protocol] ? '' : ':' + port);
+        return protocol + '://' + host + (port == DEFAULT_PORTS[protocol] ? '': ':' + port);
     }
 
 
@@ -5411,9 +5411,9 @@
          */
         this.$$compose = function () {
             var search = toKeyValue(this.$$search),
-                hash = this.$$hash ? '#' + encodeUriSegment(this.$$hash) : '';
+                hash = this.$$hash ? '#' + encodeUriSegment(this.$$hash): '';
 
-            this.$$url = encodePath(this.$$path) + (search ? '?' + search : '') + hash;
+            this.$$url = encodePath(this.$$path) + (search ? '?' + search: '') + hash;
             this.$$absUrl = composeProtocolHostPort(this.$$protocol, this.$$host, this.$$port) +
                 pathPrefix + this.$$url;
         };
@@ -5454,10 +5454,10 @@
                 throw Error('Invalid url "' + url + '", missing hash prefix "' + hashPrefix + '" !');
             }
 
-            basePath = match.path + (match.search ? '?' + match.search : '');
+            basePath = match.path + (match.search ? '?' + match.search: '');
             match = HASH_MATCH.exec((match.hash || '').substr(hashPrefix.length));
             if (match[1]) {
-                this.$$path = (match[1].charAt(0) == '/' ? '' : '/') + decodeURIComponent(match[1]);
+                this.$$path = (match[1].charAt(0) == '/' ? '': '/') + decodeURIComponent(match[1]);
             } else {
                 this.$$path = '';
             }
@@ -5474,11 +5474,11 @@
          */
         this.$$compose = function () {
             var search = toKeyValue(this.$$search),
-                hash = this.$$hash ? '#' + encodeUriSegment(this.$$hash) : '';
+                hash = this.$$hash ? '#' + encodeUriSegment(this.$$hash): '';
 
-            this.$$url = encodePath(this.$$path) + (search ? '?' + search : '') + hash;
+            this.$$url = encodePath(this.$$path) + (search ? '?' + search: '') + hash;
             this.$$absUrl = composeProtocolHostPort(this.$$protocol, this.$$host, this.$$port) +
-                basePath + (this.$$url ? '#' + hashPrefix + this.$$url : '');
+                basePath + (this.$$url ? '#' + hashPrefix + this.$$url: '');
         };
 
         this.$$rewriteAppUrl = function (absoluteLinkUrl) {
@@ -5603,7 +5603,7 @@
          * @return {string} path
          */
         path: locationGetterSetter('$$path', function (path) {
-            return path.charAt(0) == '/' ? path : '/' + path;
+            return path.charAt(0) == '/' ? path: '/' + path;
         }),
 
         /**
@@ -5635,7 +5635,7 @@
                     this.$$search[search] = paramValue;
                 }
             } else {
-                this.$$search = isString(search) ? parseKeyValue(search) : search;
+                this.$$search = isString(search) ? parseKeyValue(search): search;
             }
 
             this.$$compose();
@@ -5811,7 +5811,7 @@
                     appBaseUrl =
                         composeProtocolHostPort(initUrlParts.protocol, initUrlParts.host, initUrlParts.port) +
                             (initUrlParts.path || '') +
-                            (initUrlParts.search ? ('?' + initUrlParts.search) : '') +
+                            (initUrlParts.search ? ('?' + initUrlParts.search): '') +
                             '#' + hashPrefix + '/';
 
                     $location = new LocationHashbangUrl(initUrl, hashPrefix, appBaseUrl);
@@ -5980,7 +5980,7 @@
                     if (arg.stack) {
                         arg = (arg.message && arg.stack.indexOf(arg.message) === -1)
                             ? 'Error: ' + arg.message + '\n' + arg.stack
-                            : arg.stack;
+                           : arg.stack;
                     } else if (arg.sourceURL) {
                         arg = arg.message + '\n' + arg.sourceURL + ':' + arg.line;
                     }
@@ -6031,12 +6031,12 @@
                 }
                 return a;
             }
-            return isDefined(b) ? b : undefined;
+            return isDefined(b) ? b: undefined;
         },
         '-': function (self, locals, a, b) {
             a = a(self, locals);
             b = b(self, locals);
-            return (isDefined(a) ? a : 0) - (isDefined(b) ? b : 0);
+            return (isDefined(a) ? a: 0) - (isDefined(b) ? b: 0);
         },
         '*': function (self, locals, a, b) {
             return a(self, locals) * b(self, locals);
@@ -6148,7 +6148,7 @@
         }
 
         function peek() {
-            return index + 1 < text.length ? text.charAt(index + 1) : false;
+            return index + 1 < text.length ? text.charAt(index + 1): false;
         }
 
         function isNumber(ch) {
@@ -6175,7 +6175,7 @@
             throw Error("Lexer Error: " + error + " at column" +
                 (isDefined(start)
                     ? "s " + start + "-" + index + " [" + text.substring(start, end) + "]"
-                    : " " + end) +
+                   : " " + end) +
                 " in expression [" + text + "].");
         }
 
@@ -6427,7 +6427,7 @@
                     // TODO(size): maybe we should not support multiple statements?
                     return statements.length == 1
                         ? statements[0]
-                        : function (self, locals) {
+                       : function (self, locals) {
                         var value;
                         for (var i = 0; i < statements.length; i++) {
                             var statement = statements[i];
@@ -6656,7 +6656,7 @@
             consume(')');
             return function (scope, locals) {
                 var args = [],
-                    context = contextGetter ? contextGetter(scope, locals) : scope;
+                    context = contextGetter ? contextGetter(scope, locals): scope;
 
                 for (var i = 0; i < argsFn.length; i++) {
                     args.push(argsFn[i](scope, locals));
@@ -6665,7 +6665,7 @@
                 // IE stupidity!
                 return fnPtr.apply
                     ? fnPtr.apply(context, args)
-                    : fnPtr(args[0], args[1], args[2], args[3], args[4]);
+                   : fnPtr(args[0], args[1], args[2], args[3], args[4]);
             };
         }
 
@@ -6738,7 +6738,7 @@
      */
     function cspSafeGetterFn(key0, key1, key2, key3, key4) {
         return function (scope, locals) {
-            var pathVal = (locals && locals.hasOwnProperty(key0)) ? locals : scope,
+            var pathVal = (locals && locals.hasOwnProperty(key0)) ? locals: scope,
                 promise;
 
             if (pathVal === null || pathVal === undefined) return pathVal;
@@ -6822,7 +6822,7 @@
         if (csp) {
             fn = (pathKeysLength < 6)
                 ? cspSafeGetterFn(pathKeys[0], pathKeys[1], pathKeys[2], pathKeys[3], pathKeys[4])
-                : function (scope, locals) {
+               : function (scope, locals) {
                 var i = 0, val;
                 do {
                     val = cspSafeGetterFn(
@@ -6843,7 +6843,7 @@
                     // we simply dereference 's' on any .dot notation
                     ? 's'
                     // but if we are first then we check locals first, and if so read it first
-                    : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"]' + ';\n' +
+                   : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"]' + ';\n' +
                     'if (s && s.then) {\n' +
                     ' if (!("$$v" in s)) {\n' +
                     ' p=s;\n' +
@@ -6907,7 +6907,7 @@
                     case 'string':
                         return cache.hasOwnProperty(exp)
                             ? cache[exp]
-                            : cache[exp] = parser(exp, false, $filter, $sniffer.csp);
+                           : cache[exp] = parser(exp, false, $filter, $sniffer.csp);
                     case 'function':
                         return exp;
                     default:
@@ -7412,7 +7412,7 @@
             if (path) {
                 var redirectPath = (path[path.length - 1] == '/')
                     ? path.substr(0, path.length - 1)
-                    : path + '/';
+                   : path + '/';
 
                 routes[redirectPath] = {redirectTo: path};
             }
@@ -7669,7 +7669,7 @@
                         lastMatchedIndex = 0;
 
                     while ((paramMatch = re.exec(when)) !== null) {
-                        // Find each :param in `when` and replace it with a capturing group.
+                        // Find each:param in `when` and replace it with a capturing group.
                         // Append all other sections of when unchanged.
                         regex += when.slice(lastMatchedIndex, paramMatch.index);
                         regex += '([^\\/]*)';
@@ -7685,7 +7685,7 @@
                             dst[name] = match[index + 1];
                         });
                     }
-                    return match ? dst : null;
+                    return match ? dst: null;
                 }
 
                 function updateRoute() {
@@ -7722,7 +7722,7 @@
 
                                     forEach(next.resolve || {}, function (value, key) {
                                         keys.push(key);
-                                        values.push(isString(value) ? $injector.get(value) : $injector.invoke(value));
+                                        values.push(isString(value) ? $injector.get(value): $injector.invoke(value));
                                     });
                                     if (isDefined(template = next.template)) {
                                     } else if (isDefined(template = next.templateUrl)) {
@@ -8232,17 +8232,17 @@
                                             // circuit it with === operator, only when === fails do we use .equals
                                             if (watch && (value = watch.get(current)) !== (last = watch.last) && !(watch.eq
                                                 ? equals(value, last)
-                                                : (typeof value == 'number' && typeof last == 'number'
+                                               : (typeof value == 'number' && typeof last == 'number'
                                                 && isNaN(value) && isNaN(last)))) {
                                                 dirty = true;
-                                                watch.last = watch.eq ? copy(value) : value;
-                                                watch.fn(value, ((last === initWatchVal) ? value : last), current);
+                                                watch.last = watch.eq ? copy(value): value;
+                                                watch.fn(value, ((last === initWatchVal) ? value: last), current);
                                                 if (ttl < 5) {
                                                     logIdx = 4 - ttl;
                                                     if (!watchLog[logIdx]) watchLog[logIdx] = [];
                                                     logMsg = (isFunction(watch.exp))
                                                         ? 'fn: ' + (watch.exp.name || watch.exp.toString())
-                                                        : watch.exp;
+                                                       : watch.exp;
                                                     logMsg += '; newVal: ' + toJson(value) + '; oldVal: ' + toJson(last);
                                                     watchLog[logIdx].push(logMsg);
                                                 }
@@ -8790,7 +8790,7 @@
      *   - if called with no arguments returns an object containing all headers.
      */
     function headersGetter(headers) {
-        var headersObj = isObject(headers) ? headers : undefined;
+        var headersObj = isObject(headers) ? headers: undefined;
 
         return function (name) {
             if (!headersObj) headersObj = parseHeaders(headers);
@@ -8850,7 +8850,7 @@
 
             // transform outgoing request data
             transformRequest: [function (d) {
-                return isObject(d) && !isFile(d) ? toJson(d) : d;
+                return isObject(d) && !isFile(d) ? toJson(d): d;
             }],
 
             // default headers
@@ -8876,7 +8876,7 @@
                     responseInterceptors.push(
                         isString(interceptor)
                             ? $injector.get(interceptor)
-                            : $injector.invoke(interceptor)
+                           : $injector.invoke(interceptor)
                     );
                 });
 
@@ -9300,7 +9300,7 @@
                         });
                         return (isSuccess(response.status))
                             ? resp
-                            : $q.reject(resp);
+                           : $q.reject(resp);
                     }
                 }
 
@@ -9449,7 +9449,7 @@
 
 
                     if (config.cache && config.method == 'GET') {
-                        cache = isObject(config.cache) ? config.cache : defaultCache;
+                        cache = isObject(config.cache) ? config.cache: defaultCache;
                     }
 
                     if (cache) {
@@ -9510,7 +9510,7 @@
                         // normalize internal statuses to 0
                         status = Math.max(status, 0);
 
-                        (isSuccess(status) ? deferred.resolve : deferred.reject)({
+                        (isSuccess(status) ? deferred.resolve: deferred.reject)({
                             data: response,
                             status: status,
                             headers: headersGetter(headers),
@@ -9536,7 +9536,7 @@
                         }
                         parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
                     });
-                    return url + ((url.indexOf('?') == -1) ? '?' : '&') + parts.join('&');
+                    return url + ((url.indexOf('?') == -1) ? '?': '&') + parts.join('&');
                 }
 
 
@@ -9666,10 +9666,10 @@
                 var protocol = (url.match(URL_MATCH) || ['', locationProtocol])[1];
 
                 // fix status code for file protocol (it's always 0)
-                status = (protocol == 'file') ? (response ? 200 : 404) : status;
+                status = (protocol == 'file') ? (response ? 200: 404): status;
 
                 // normalize IE bug (http://bugs.jquery.com/ticket/1450)
-                status = status == 1223 ? 204 : status;
+                status = status == 1223 ? 204: status;
 
                 callback(status, response, headersString);
                 $browser.$$completeOutstandingRequest(noop);
@@ -10302,9 +10302,9 @@
             }
         }
 
-        parts.push(isNegative ? pattern.negPre : pattern.posPre);
+        parts.push(isNegative ? pattern.negPre: pattern.posPre);
         parts.push(formatedText);
-        parts.push(isNegative ? pattern.negSuf : pattern.posSuf);
+        parts.push(isNegative ? pattern.negSuf: pattern.posSuf);
         return parts.join('');
     }
 
@@ -10336,7 +10336,7 @@
     function dateStrGetter(name, shortForm) {
         return function (date, formats) {
             var value = date['get' + name]();
-            var get = uppercase(shortForm ? ('SHORT' + name) : name);
+            var get = uppercase(shortForm ? ('SHORT' + name): name);
 
             return formats[get][value];
         };
@@ -10344,16 +10344,16 @@
 
     function timeZoneGetter(date) {
         var zone = -1 * date.getTimezoneOffset();
-        var paddedZone = (zone >= 0) ? "+" : "";
+        var paddedZone = (zone >= 0) ? "+": "";
 
-        paddedZone += padNumber(Math[zone > 0 ? 'floor' : 'ceil'](zone / 60), 2) +
+        paddedZone += padNumber(Math[zone > 0 ? 'floor': 'ceil'](zone / 60), 2) +
             padNumber(Math.abs(zone % 60), 2);
 
         return paddedZone;
     }
 
     function ampmGetter(date, formats) {
-        return date.getHours() < 12 ? formats.AMPMS[0] : formats.AMPMS[1];
+        return date.getHours() < 12 ? formats.AMPMS[0]: formats.AMPMS[1];
     }
 
     var DATE_FORMATS = {
@@ -10524,7 +10524,7 @@
             forEach(parts, function (value) {
                 fn = DATE_FORMATS[value];
                 text += fn ? fn(date, $locale.DATETIME_FORMATS)
-                    : value.replace(/(^'|'$)/g, '').replace(/''/g, "'");
+                   : value.replace(/(^'|'$)/g, '').replace(/''/g, "'");
             });
 
             return text;
@@ -10765,7 +10765,7 @@
         return function (array, sortPredicate, reverseOrder) {
             if (!isArray(array)) return array;
             if (!sortPredicate) return array;
-            sortPredicate = isArray(sortPredicate) ? sortPredicate : [sortPredicate];
+            sortPredicate = isArray(sortPredicate) ? sortPredicate: [sortPredicate];
             sortPredicate = map(sortPredicate, function (predicate) {
                 var descending = false, get = predicate || identity;
                 if (isString(predicate)) {
@@ -10798,7 +10798,7 @@
                     ? function (a, b) {
                     return comp(b, a);
                 }
-                    : comp;
+                   : comp;
             }
 
             function compare(v1, v2) {
@@ -10810,9 +10810,9 @@
                         v2 = v2.toLowerCase();
                     }
                     if (v1 === v2) return 0;
-                    return v1 < v2 ? -1 : 1;
+                    return v1 < v2 ? -1: 1;
                 } else {
-                    return t1 < t2 ? -1 : 1;
+                    return t1 < t2 ? -1: 1;
                 }
             }
         }
@@ -11003,9 +11003,9 @@
      </doc:source>
      <doc:scenario>
      it('should toggle button', function() {
-          expect(element('.doc-example-live :button').prop('disabled')).toBeFalsy();
+          expect(element('.doc-example-live:button').prop('disabled')).toBeFalsy();
           input('checked').check();
-          expect(element('.doc-example-live :button').prop('disabled')).toBeTruthy();
+          expect(element('.doc-example-live:button').prop('disabled')).toBeTruthy();
         });
      </doc:scenario>
      </doc:example>
@@ -11099,9 +11099,9 @@
      </doc:source>
      <doc:scenario>
      it('should toggle readonly attr', function() {
-          expect(element('.doc-example-live :text').prop('readonly')).toBeFalsy();
+          expect(element('.doc-example-live:text').prop('readonly')).toBeFalsy();
           input('checked').check();
-          expect(element('.doc-example-live :text').prop('readonly')).toBeTruthy();
+          expect(element('.doc-example-live:text').prop('readonly')).toBeTruthy();
         });
      </doc:scenario>
      </doc:example>
@@ -11242,10 +11242,10 @@
 
         // convenience method for easy toggling of classes
         function toggleValidCss(isValid, validationErrorKey) {
-            validationErrorKey = validationErrorKey ? '-' + snake_case(validationErrorKey, '-') : '';
+            validationErrorKey = validationErrorKey ? '-' + snake_case(validationErrorKey, '-'): '';
             element.
-                removeClass((isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey).
-                addClass((isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey);
+                removeClass((isValid ? INVALID_CLASS: VALID_CLASS) + validationErrorKey).
+                addClass((isValid ? VALID_CLASS: INVALID_CLASS) + validationErrorKey);
         }
 
         /**
@@ -11476,7 +11476,7 @@
                                 var preventDefaultListener = function (event) {
                                     event.preventDefault
                                         ? event.preventDefault()
-                                        : event.returnValue = false; // IE
+                                       : event.returnValue = false; // IE
                                 };
 
                                 addEventListenerFn(formElement[0], 'submit', preventDefaultListener);
@@ -11510,7 +11510,7 @@
                 }
             };
 
-            return isNgForm ? extend(copy(formDirective), {restrict: 'EAC'}) : formDirective;
+            return isNgForm ? extend(copy(formDirective), {restrict: 'EAC'}): formDirective;
         }];
     };
 
@@ -11947,7 +11947,7 @@
 
 
         ctrl.$render = function () {
-            element.val(isEmpty(ctrl.$viewValue) ? '' : ctrl.$viewValue);
+            element.val(isEmpty(ctrl.$viewValue) ? '': ctrl.$viewValue);
         };
 
         // pattern validator
@@ -12027,7 +12027,7 @@
             var empty = isEmpty(value);
             if (empty || NUMBER_REGEXP.test(value)) {
                 ctrl.$setValidity('number', true);
-                return value === '' ? null : (empty ? value : parseFloat(value));
+                return value === '' ? null: (empty ? value: parseFloat(value));
             } else {
                 ctrl.$setValidity('number', false);
                 return undefined;
@@ -12035,7 +12035,7 @@
         });
 
         ctrl.$formatters.push(function (value) {
-            return isEmpty(value) ? '' : '' + value;
+            return isEmpty(value) ? '': '' + value;
         });
 
         if (attr.min) {
@@ -12160,7 +12160,7 @@
         });
 
         ctrl.$parsers.push(function (value) {
-            return value ? trueValue : falseValue;
+            return value ? trueValue: falseValue;
         });
     }
 
@@ -12468,10 +12468,10 @@
 
             // convenience method for easy toggling of classes
             function toggleValidCss(isValid, validationErrorKey) {
-                validationErrorKey = validationErrorKey ? '-' + snake_case(validationErrorKey, '-') : '';
+                validationErrorKey = validationErrorKey ? '-' + snake_case(validationErrorKey, '-'): '';
                 $element.
-                    removeClass((isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey).
-                    addClass((isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey);
+                    removeClass((isValid ? INVALID_CLASS: VALID_CLASS) + validationErrorKey).
+                    addClass((isValid ? VALID_CLASS: INVALID_CLASS) + validationErrorKey);
             }
 
             /**
@@ -12878,7 +12878,7 @@
     var ngBindDirective = ngDirective(function (scope, element, attr) {
         element.addClass('ng-binding').data('$binding', attr.ngBind);
         scope.$watch(attr.ngBind, function ngBindWatchAction(value) {
-            element.text(value == undefined ? '' : value);
+            element.text(value == undefined ? '': value);
         });
     });
 
@@ -13011,7 +13011,7 @@
                         if (v) return k
                     });
                 }
-                element.removeClass(isArray(classVal) ? classVal.join(' ') : classVal);
+                element.removeClass(isArray(classVal) ? classVal.join(' '): classVal);
             }
 
 
@@ -13022,7 +13022,7 @@
                     });
                 }
                 if (classVal) {
-                    element.addClass(isArray(classVal) ? classVal.join(' ') : classVal);
+                    element.addClass(isArray(classVal) ? classVal.join(' '): classVal);
                 }
             }
         });
@@ -13399,7 +13399,7 @@
      <doc:scenario>
      it('should check ng-click', function() {
          expect(binding('count')).toBe('0');
-         element('.doc-example-live :button').click();
+         element('.doc-example-live:button').click();
          expect(binding('count')).toBe('1');
        });
      </doc:scenario>
@@ -13419,7 +13419,7 @@
             ngEventDirectives[directiveName] = ['$parse', function ($parse) {
                 return function (scope, element, attr) {
                     var fn = $parse(attr[directiveName]);
-                    //  console.log('fn : ', fn(scope));
+                    //  console.log('fn: ', fn(scope));
                     element.bind(lowercase(name), function (event) {
                         scope.$apply(function () {
                             fn(scope, {$event: event});
@@ -14165,7 +14165,7 @@
 
                     // we are not using forEach for perf reasons (trying to avoid #call)
                     for (index = 0, length = array.length; index < length; index++) {
-                        key = (collection === array) ? index : array[index];
+                        key = (collection === array) ? index: array[index];
                         value = collection[key];
 
                         last = lastOrder.shift(value);
@@ -14267,7 +14267,7 @@
 //TODO(misko): refactor to remove element from the DOM
     var ngShowDirective = ngDirective(function (scope, element, attr) {
         scope.$watch(attr.ngShow, function ngShowWatchAction(value) {
-            element.css('display', toBoolean(value) ? '' : 'none');
+            element.css('display', toBoolean(value) ? '': 'none');
         });
     });
 
@@ -14307,7 +14307,7 @@
 //TODO(misko): refactor to remove element from the DOM
     var ngHideDirective = ngDirective(function (scope, element, attr) {
         scope.$watch(attr.ngHide, function ngHideWatchAction(value) {
-            element.css('display', toBoolean(value) ? 'none' : '');
+            element.css('display', toBoolean(value) ? 'none': '');
         });
     });
 
@@ -14340,9 +14340,9 @@
      <file name="scenario.js">
      it('should check ng-style', function() {
          expect(element('.doc-example-live span').css('color')).toBe('rgb(0, 0, 0)');
-         element('.doc-example-live :button[value=set]').click();
+         element('.doc-example-live:button[value=set]').click();
          expect(element('.doc-example-live span').css('color')).toBe('rgb(255, 0, 0)');
-         element('.doc-example-live :button[value=clear]').click();
+         element('.doc-example-live:button[value=clear]').click();
          expect(element('.doc-example-live span').css('color')).toBe('rgb(0, 0, 0)');
        });
      </file>
@@ -15043,7 +15043,7 @@
                         valueName = match[4] || match[6],
                         keyName = match[5],
                         groupByFn = $parse(match[3] || ''),
-                        valueFn = $parse(match[2] ? match[1] : valueName),
+                        valueFn = $parse(match[2] ? match[1]: valueName),
                         valuesFn = $parse(match[7]),
                     // This is an array of array of existing option groups in DOM. We try to reuse these if possible
                     // optionGroupsCache[0] is the options with no option group
@@ -15124,7 +15124,7 @@
                             existingParent, existingOptions, existingOption,
                             modelValue = ctrl.$modelValue,
                             values = valuesFn(scope) || [],
-                            keys = keyName ? sortedKeys(values) : values,
+                            keys = keyName ? sortedKeys(values): values,
                             groupLength, length,
                             groupIndex, index,
                             locals = {},
@@ -15140,7 +15140,7 @@
 
                         // We now build up the list of options we need (we merge later)
                         for (index = 0; length = keys.length, index < length; index++) {
-                            locals[valueName] = values[keyName ? locals[keyName] = keys[index] : index];
+                            locals[valueName] = values[keyName ? locals[keyName] = keys[index]: index];
                             optionGroupName = groupByFn(scope, locals) || '';
                             if (!(optionGroup = optionGroups[optionGroupName])) {
                                 optionGroup = optionGroups[optionGroupName] = [];
@@ -15153,9 +15153,9 @@
                                 selectedSet = selectedSet || selected; // see if at least one item is selected
                             }
                             label = displayFn(scope, locals); // what will be seen by the user
-                            label = label === undefined ? '' : label; // doing displayFn(scope, locals) || '' overwrites zero values
+                            label = label === undefined ? '': label; // doing displayFn(scope, locals) || '' overwrites zero values
                             optionGroup.push({
-                                id: keyName ? keys[index] : index,   // either the index into array or key from object
+                                id: keyName ? keys[index]: index,   // either the index into array or key from object
                                 label: label,
                                 selected: selected                   // determine if we should be selected
                             });
