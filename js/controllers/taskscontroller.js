@@ -88,7 +88,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             }
             $scope.$digest();
             setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
-            $('.timeago').timeago();
         });
     };
 
@@ -127,7 +126,13 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
     };
 
     $scope.parseDate = function (date) {
-        return $.timeago(new Date(date));
+        var today = moment(new Date());
+        var target = moment(date);
+        if (target.isSame(today)) {
+            return 'Сегодня';
+        } else {
+            return target.format('DD.MM.YYYY');
+        }
     };
 
     $scope.openTask = function (taskId) {
@@ -434,7 +439,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             setTimeout(function() {
                 $scope.$digest();
                 setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
-                $('.timeago').timeago();
             }, 200);
 
             if(!gtask)
@@ -458,6 +462,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
         networkManager.on('tasks:insert', function(data) {
             $scope.tasks.unshift(data);
             $scope.$digest();
+            player.play();
         });
 
         networkManager.on('tasks:update', function(data) {
@@ -472,6 +477,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                     break;
                 }
             }
+            player.play();
         });
 
         networkManager.on('tasks:remove', function(data) {
@@ -514,6 +520,7 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
                 }
             }
             $scope.$digest();
+            player.play();
         });
 
         networkManager.on('task comments:update', function (data) {
@@ -550,7 +557,6 @@ function tasksCntrl($scope, $compile, networkManager, universityDepProvider, fil
             $('.view.active').removeClass('active');
             $('.view.tasks').addClass('active');
             setTimeout(function() { fixTableWidth($('.view.tasks')); }, 50);
-            $('.timeago').timeago();
         }
     });
 

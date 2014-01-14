@@ -202,7 +202,13 @@ function profilesCtrl($scope, $rootScope, $compile, networkManager, profileProvi
     };
 
     $scope.parseDate = function (date) {
-        return $.timeago(date);
+        var today = moment(new Date());
+        var target = moment(date);
+        if (target.isSame(today)) {
+            return 'Сегодня'
+        } else {
+            return target.format('DD.MM.YYYY');
+        }
     };
 
     filtersProvider.events.addEventListener('filters set changed', function (event) {

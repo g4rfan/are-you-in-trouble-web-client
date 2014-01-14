@@ -41,6 +41,8 @@ if (!Object.keys) {
 
 var tlogin = false;
 
+var player = $('audio').get(0);
+
 var globalEvents = new EventEmitter({
     'login' : [],
     'logout' : [],

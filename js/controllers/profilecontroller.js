@@ -72,7 +72,13 @@ function profileCntrl ($scope, $compile, networkManager, profileProvider) {
     };
 
     $scope.parseDate = function (date) {
-        return $.timeago(date);
+        var today = moment(new Date());
+        var target = moment(date);
+        if (target.isSame(today)) {
+            return 'Сегодня'
+        } else {
+            return target.format('DD.MM.YYYY');
+        }
     };
 
     profileProvider.events.addEventListener('got profile', function () {
