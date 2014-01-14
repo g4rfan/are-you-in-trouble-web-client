@@ -16,6 +16,7 @@
     <div>Комментарии ({{ comments.length }}):</div>
     <div class = 'comments-container'>
         <div ng-repeat = 'co in comments' style="position: relative">
+            <b>{{ parseDate(co.date) }}</b>
             <b>{{ co.displayName }}: </b>
             <span>{{ co.content }}</span>
             <div ng-class = '{ hidden : profile[0].role != "department chief" }' class = "glyphicon glyphicon-remove-circle comment-remove" ng-click = "removeComment(co.id)"></div>

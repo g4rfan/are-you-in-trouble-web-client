@@ -16,10 +16,10 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/static/js/libs/jquery.js"></script>
     <script src="/static/js/libs/angular.js"></script>
-    <script src="/static/js/libs/timeago.jquery.js"></script>
     <script src="/static/js/libs/revalidator.js"></script>
-    <script src="/static/js/libs/ru.timeago.jquery.js"></script>
-    <script src="/static/js/validator.js" defer="defer"></script>
+    <script src="/static/js/libs/momentjs.js"></script>
+    <script src="/static/js/libs/ru.moment.js"></script>
+    <script src="/static/js/validator.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/helpers/templatehelper.js"></script>
     <script src="/static/js/helpers/interface.js"></script>
@@ -262,5 +262,11 @@
         <li><div class = 'glyphicon glyphicon-off iconp'></div> <div>Выход</div></li>
         <div class = 'arrow'></div>
     </ul>
+    <audio hidden="hidden" preload="auto">
+        <source src = "/static/resources/notification-sound.wav" type = "audio/ogg; codecs=vorbis">
+        <source src = "/static/resources/notification-sound.wav" type = "audio/mpeg">
+        <source src = "/static/resources/notification-sound.wav" type = "audio/wav">
+
+    </audio>
 </body>
 </html>
