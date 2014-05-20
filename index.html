@@ -1,56 +1,47 @@
-<!DOCTYPE html>
-<html ng-app = 'helpdesk'>
+<!doctype html>
+<html lang="en" ng-app = "helpdesk">
 <head>
-    <title>Are you in trouble?</title>
-    <meta charset="utf-8"/>
-    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+	<meta charset="UTF-8">
+	<title>Helpdesk</title>
+	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="/static/bootstrap/css/bootstrap-theme.css" rel="stylesheet"/>
 
-    <link href="/static/css/login.css" rel="stylesheet"/>
+
     <link href="/static/css/main.css" rel="stylesheet"/>
     <link href="/static/css/task.css" rel="stylesheet"/>
     <link href="/static/css/filter.css" rel="stylesheet"/>
-    <!--[if IE]>
-    <script src="/static/js/helpers/html5.js"></script>
-    <![endif]-->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/static/js/libs/jquery.js"></script>
-    <script src="/static/js/libs/angular.js"></script>
-    <script src="/static/js/libs/revalidator.js"></script>
-    <script src="/static/js/libs/momentjs.js"></script>
-    <script src="/static/js/libs/ru.moment.js"></script>
-    <script src="/static/js/validator.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/static/js/helpers/templatehelper.js"></script>
-    <script src="/static/js/helpers/interface.js"></script>
-    <script src="/static/js/helpers/eventemitter.js"></script>
-    <script src="/static/js/services/service.js"></script>
-    <script src="/static/js/services/networkservice.js"></script>
-    <script src="/static/js/services/filtersprovider.js"></script>
-    <script src="/static/js/services/subdepartprovider.js"></script>
-    <script src="/static/js/services/universitydepservice.js"></script>
-    <script src="/static/js/services/profilesprovider.js"></script>
-    <script src="/static/js/services/profileprovider.js"></script>
-    <script src="/static/js/services/taskTypesProvider.js"></script>
-    <script src="/static/js/controllers/profilescontroller.js"></script>
-    <script src="/static/js/controllers/taskscontroller.js"></script>
-    <script src="/static/js/controllers/filterscontroller.js"></script>
-    <script src="/static/js/controllers/subdepscontoller.js"></script>
-    <script src="/static/js/controllers/tasktypescontroller.js"></script>
-    <script src="/static/js/controllers/profilecontroller.js"></script>
-    <script src="/static/js/app.js"></script>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src = "/static/js/libs/jquery.js"></script>
+	<script type="text/javascript" src = "/static/js/libs/angular.js"></script>
+	<script type="text/javascript" src = "/static/js/helpers/templatehelper.js"></script>
+	<script type="text/javascript" src = "/static/js/services/service.js"></script>
+	<script type="text/javascript" src = "/static/js/services/me.js"></script>
+	<script type="text/javascript" src = "/static/js/services/networkservice.js"></script>
+	<script type="text/javascript" src = "/static/js/controllers/login.js"></script>
+	<script type="text/javascript" src = "/static/js/controllers/navbar.js"></script>
+	<script type="text/javascript" src = "/static/js/controllers/me.js"></script>
+	<script type="text/javascript" src = "/static/js/app.js"></script>
 </head>
 <body>
-    <nav class ='navbar' id = 'special'>
+	<div class = "login">
+		<div class="form" ng-controller="LoginCntrl">
+			<input type="text" placeholder="Логин">
+			<input type="text" placeholder="Пароль">
+			<button ng-click = "login()">Login</button>
+		</div>	
+	</div>
+	<nav class ='navbar' id = 'special'>
         <a class="navbar-brand" href="#"><img src="resources/logo.png"/> </a>
-        <div class = 'navbar-text navbar-right profile-control' ng-controller="profileCntrl">
-            {{ profile[0].displayName }} <span class = 'glyphicon glyphicon-cog'></span>
-        </div>
+        <div class = 'navbar-text navbar-right profile-control' ng-controller="MeCntrl">
+            {{ getMe().displayName }} <span class = 'glyphicon glyphicon-cog'></span>
+        </div> 
     </nav>
-    <aside ng-controller = "profileCntrl">
+
+    <aside ng-controller = "NavCntrl">
         <div class = "icon active" data-tab-name = 'tasks'>
             <div class = "glyphicon glyphicon-tasks"></div>
-            <div>Заявки {{ hop }}</div>
+            <div>Заявки</div>
         </div>
         <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="profiles">
             <div class = "glyphicon glyphicon-user"></div>
@@ -66,207 +57,26 @@
         </div>
     </aside>
 
-    <div class = 'view tasks active'  ng-controller="tasksCntrl">
-        <header>
-            <input type = "text" ng-model = 'taskName' placeholder="Поиск заявки..."/>
-            <div class = "btn-group closed-filter-container">
-                <button type = "button" class="btn closed-filter selected" ng-click = "showClosedTasks(false)">Открытые</button>
-                <button type = "button" class="btn closed-filter" ng-click = "showClosedTasks(true)">Все</button>
-            </div>
-            <div ng-class = "{ hidden: profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка</div>
-        </header>
-        <div class = "table-container">
-            <table class = 'table head'>
-                <thead>
-                    <th style="width: 5%">#</th>
-                    <th style="width: 30%">Заявка</th>
-                    <th style="width: 10%"><span class="glyphicon glyphicon-comment"></span></th>
-                    <th style="width: 10%"><span class="glyphicon glyphicon-user"></span></th>
-                    <th style="width: 17.5%">Отдел</th>
-                    <th style="width: 17.5%">Подразделение университета</th>
-                    <th style="width: 10%">Дата создания</th>
-                </thead>
-            </table>
-            <div class = "scrollable">
-                <table class = 'table table-striped'>
-                    <tbody>
-                        <tr ng-repeat="task in tasks | filter:taskName" ng-click = "openTask(task.id)">
-                            <td style="width: 5%">{{ task.id }}</td>
-                            <td style="width: 30%">{{ task.content.slice(0,100) }}</td>
-                            <td style="width: 10%">{{ task.commentCount }}</td>
-                            <td style="width: 10%">{{ task.helperIds.length }}</td>
-                            <td style="width: 17.5%">{{ getSubDep(task.subdepartmentId) }}</td>
-                            <td style="width: 17.5%">{{ getUniDep(task.universityDepartmentId) }}</td>
-                            <td style="width: 10%">{{ parseDate(task.createdAt) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <section class = 'filters' ng-controller = "filterCntrl">
-            <h4>Фильтры</h4>
-            <div><input type="text" ng-model = 'filterName' placeholder="Поиск по фильтрам..."/></div>
-            <div class = 'filters-caption'>Типы заявок</div>
-            <ul>
-                <li ng-repeat='filterItem in filters.taskTypes | filter: filterName ' ng-style="myStyle"
-                    ng-click="events.click($event, 'tasks')" data-section = 'taskTypes' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
-                    {{ filterItem.name }}
-                </li>
-            </ul>
-            <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = 'filters-caption'>Отделы</div>
-            <ul>
-                <li ng-repeat='filterItem in filters.subDeps | filter: filterName ' ng-style="myStyle"
-                    ng-click="events.click($event, 'tasks')" data-section = 'subDeps' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
-                    {{ filterItem.name }}
-                </li>
-            </ul>
-            <div ng-class = "{ hidden: profile[0].role == 'client'}" class = 'filters-caption'>Подразделения университета</div>
-            <ul>
-                <li ng-repeat='filterItem in filters.universityDep | filter: filterName' ng-style="myStyle"
-                    ng-click="events.click($event, 'tasks')" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
-                    {{ filterItem.name }}
-                </li>
-            </ul>
-        </section>
-        <section class="task new-task" ng-class = '{ lite: profile[0].role != "department chief" }'>
-            <header>
-                <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
-                <h4>НОВАЯ ЗАЯВКА</h4>
-                <div class = "glyphicon glyphicon-remove-circle close-button"></div>
-            </header>
-            <textarea></textarea>
-            <p ng-class = '{ hidden: profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
-            <p ng-class = '{ hidden: profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
-            <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
-            <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
-        </section>
-    </div>
-
-    <div class = 'view profiles'  ng-controller="profilesCtrl">
-        <header>
-            <input type = "text" ng-model = 'profileName' placeholder="Поиск профиля..."/>
-        </header>
-        <div class = 'table-container'>
-            <table class = 'table head'>
-                <thead>
-                    <th style="width: 5%">#</th>
-                    <th style="width: 20%">Имя</th>
-                    <th style="width: 10%">Email</th>
-                    <th style="width: 10%">Телефон</th>
-                    <th style="width: 20%">Отдел</th>
-                    <th style="width: 20%">Подразделение университета</th>
-                    <th style="width: 15%">Дата создания</th>
-                </thead>
-            </table>
-            <div class = 'scrollable'>
-                <table class = 'table table-striped'>
-                    <tbody>
-                        <tr ng-repeat="profile in profiles | filter: profileName" ng-click = "openProfile(profile.id)">
-                            <td style="width: 5%">{{ profile.id }}</td>
-                            <td style="width: 20%">{{ profile.displayName.slice(0,120) }}</td>
-                            <td style="width: 10%">{{ profile.email }}</td>
-                            <td style="width: 10%">{{ profile.phone}}</td>
-                            <td style="width: 20%">{{ getSubDep(profile.subdepartmentId) }}</td>
-                            <td style="width: 20%">{{ getUniDep(profile.universityDepartmentId) }}</td>
-                            <td class="timeago">{{ parseDate(profile.createdAt) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <section class = 'filters' ng-controller = "filterCntrl">
-            <h4>Фильтры</h4>
-            <div><input type="text" ng-model = 'filterName' placeholder="Поиск по фильтрам..."/></div>
-            <div class = 'filters-caption'>Отделы</div>
-            <ul>
-                <li ng-repeat='filterItem in filters.subDeps | filter: filterName ' ng-style="myStyle"
-                    ng-click="events.click($event, 'profile')" data-section = 'subDeps' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
-                    {{ filterItem.name }}
-                </li>
-            </ul>
-            <div class = 'filters-caption'>Подразделения университета</div>
-            <ul>
-                <li ng-repeat='filterItem in filters.universityDep | filter: filterName' ng-style="myStyle"
-                    ng-click="events.click($event, 'profile')" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> <!-- events.click($event) -->
-                    {{ filterItem.name }}
-                </li>
-            </ul>
-        </section>
-    </div>
-
-    <div class = 'view subdeps'  ng-controller="subDepsCntrl">
-        <header class = "no-filters">
-            <input type = "text" ng-model = 'subDepName' placeholder="Поиск отдела..."/>
-            <div class = 'button-new add-new-subdep-button'>Новый отдел</div>
-        </header>
-        <table class = 'table'>
-            <thead>
-            <th>#</th>
-            <th>Имя</th>
-            </thead>
-            <tbody>
-            <tr ng-repeat="sd in subDeps | filter: subDepName" ng-click = "openSubDep(sd.id)">
-                <td>{{ sd.id }}</td>
-                <td>{{ sd.name.slice(0,120) }}</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <section class = "new-subdep">
-            <header>
-                <h4>Новый отдел</h4>
-                <div class = "glyphicon glyphicon-remove-circle close-button"></div>
-            </header>
-            <textarea></textarea>
-            <div class = "button-save" ng-click = 'save()'>Сохранить</div>
-        </section>
-    </div>
-
-    <div class = 'view task-types'  ng-controller="taskTypesCntrl">
-        <header class = "no-filters">
-            <input type = "text" ng-model = 'taskTypeName' placeholder="Поиск заявки..."/>
-            <div class = 'button-new add-new-task-type-button'>Новый тип заявки</div>
-        </header>
-        <table class = 'table'>
-            <thead>
-                <th>#</th>
-                <th>Имя</th>
-            </thead>
-            <tbody>
-            <tr ng-repeat="tt in taskTypes | filter: taskTypeName" ng-click = 'openTaskType(tt.id)'>
-                <td>{{ tt.id }}</td>
-                <td>{{ tt.name.slice(0,120) }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <section class = "new-task-type">
-            <header>
-                <h4>Новый тип заявки</h4>
-                <div class = "glyphicon glyphicon-remove-circle close-button"></div>
-            </header>
-            <textarea></textarea>
-            <div class = "button-save" ng-click = 'save()'>Сохранить</div>
-        </section>
-    </div>
-
-    <div class = 'task opened-task'></div>
-    <div class = 'opened-profile'></div>
-    <div class = 'opened-subdep'></div>
-    <div class = 'opened-task-type'></div>
-    <div class = 'blackout'></div>
-    <div class = "error-block"></div>
-
-    <ul class = 'login-menu' ng-controller="profileCntrl">
-        <li ng-click="openProfile()"><div class = 'glyphicon glyphicon-edit iconp'></div> <div>Редактировать профиль</div></li>
-        <li><div class = 'glyphicon glyphicon-off iconp'></div> <div>Выход</div></li>
-        <div class = 'arrow'></div>
-    </ul>
-    <audio hidden="hidden" preload="auto">
-        <source src = "/static/resources/notification-sound.wav" type = "audio/ogg; codecs=vorbis">
-        <source src = "/static/resources/notification-sound.wav" type = "audio/mpeg">
-        <source src = "/static/resources/notification-sound.wav" type = "audio/wav">
-
-    </audio>
 </body>
+<style>
+	.login {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: #addfad;
+			z-index: 10000;
+	}
+
+	.login .form {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		height: 150px;
+		width: 180px;
+		margin-top: -75px;
+		margin-left: -90px;
+	}
+</style>
 </html>

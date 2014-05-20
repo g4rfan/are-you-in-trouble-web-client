@@ -11,8 +11,9 @@ var TemplateStorage = {
             callback(this.templates[templateName]);
             return;
         }
+
         $.ajax({
-            url: 'templates/' + templateName + '.html',
+            url: '/static/templates/' + templateName + '.html',
             type: 'get',
             success: function (data) {
                 self.templates[templateName] = data;

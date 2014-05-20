@@ -25,6 +25,17 @@ tr {
 }
 
 
+#special {
+    background: #24b592;
+    background-color: #24b592 !important;
+    background-image: none;
+    height: 45px;
+    box-shadow: none;
+    border-radius: 0;
+    border: none !important;
+}
+
+
 .profile a {
     color: white;
     text-decoration: underline;
