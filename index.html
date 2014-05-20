@@ -15,6 +15,9 @@
 	<script type="text/javascript" src = "/static/js/libs/jquery.js"></script>
 	<script type="text/javascript" src = "/static/js/libs/angular.js"></script>
 	<script type="text/javascript" src = "/static/js/helpers/templatehelper.js"></script>
+    <script type="text/javascript" src = "/static/js/directives/directives.js"></script>
+    <script type="text/javascript" src = "/static/js/directives/navbar.js"></script>
+    <script type="text/javascript" src = "/static/js/directives/taskstable.js"></script>
 	<script type="text/javascript" src = "/static/js/services/service.js"></script>
 	<script type="text/javascript" src = "/static/js/services/me.js"></script>
 	<script type="text/javascript" src = "/static/js/services/networkservice.js"></script>
@@ -34,29 +37,13 @@
 	<nav class ='navbar' id = 'special'>
         <a class="navbar-brand" href="#"><img src="resources/logo.png"/> </a>
         <div class = 'navbar-text navbar-right profile-control' ng-controller="MeCntrl">
-            {{ getMe().displayName }} <span class = 'glyphicon glyphicon-cog'></span>
+            {{ me.displayName }} <span class = 'glyphicon glyphicon-cog'></span>
         </div> 
     </nav>
 
-    <aside ng-controller = "NavCntrl">
-        <div class = "icon active" data-tab-name = 'tasks'>
-            <div class = "glyphicon glyphicon-tasks"></div>
-            <div>Заявки</div>
-        </div>
-        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="profiles">
-            <div class = "glyphicon glyphicon-user"></div>
-            <div>Профили</div>
-        </div>
-        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="subdeps">
-            <div class = "glyphicon glyphicon-bookmark"></div>
-            <div>Отделы</div>
-        </div>
-        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = "icon" data-tab-name="taskTypes">
-            <div class = "glyphicon glyphicon-book"></div>
-            <div>Типы заявок</div>
-        </div>
-    </aside>
+    <nav-bar></nav-bar>
 
+    <tasks-table></tasks-table>
 </body>
 <style>
 	.login {

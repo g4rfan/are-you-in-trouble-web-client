@@ -1,9 +1,6 @@
 function MeCntrl ($scope, me) {
-	$scope.getMe = function () {
-		if (me.me) {
-			return me.me;
-		} else {
-			return {};
-		}
-	}
+    $scope.me = {};
+    $scope.$watch(me.getMyself, function (newVal) {
+        $scope.me = newVal;
+    });
 }

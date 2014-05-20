@@ -43,5 +43,4 @@ if (!Object.keys) {
     }());
 }
 
-
-angular.module('helpdesk', ['helpdesk.service']);
+angular.module('helpdesk', ['helpdesk.service', 'helpdesk.directives']);

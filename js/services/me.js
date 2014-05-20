@@ -1,20 +1,20 @@
-angular.module('helpdesk.service').factory('me', function ($rootScope, networkManager) {
-	var me = null;
+angular.module('helpdesk.service').service('me', function ($rootScope, networkManager) {
+    var me = {};
 
 	function getMe() {
 		networkManager.request('profiles:retrieve', {}, function (data) {			
 			if (data.length) {
 				me = data[0];
-				console.log(me);
+				$rootScope.$apply();
 			}
-		})
+		});
 	}
 
 	$rootScope.$on('login', function () {	
 		getMe();
 	});
 
-	return {
-		me: me
-	}
+    this.getMyself = function () {
+        return me;
+    };
 });
