@@ -8,7 +8,7 @@ if (!Object.keys) {
             hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
             dontEnums = [
                 "toString",
-                'toLocaleString',
+                "toLocaleString",
                 'valueOf',
                 'hasOwnProperty',
                 'isPrototypeOf',
