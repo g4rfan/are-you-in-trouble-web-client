@@ -7,8 +7,8 @@ if (!Object.keys) {
         var hasOwnProperty = Object.prototype.hasOwnProperty,
             hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
             dontEnums = [
-                'toString',
-                'toLocaleString',
+                "toString",
+                "toLocaleString",
                 'valueOf',
                 'hasOwnProperty',
                 'isPrototypeOf',
