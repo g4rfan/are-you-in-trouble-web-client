@@ -1,0 +1,18 @@
+<aside>
+    <div class = "icon" ng-class = "{ active: isSet(1) }" ng-click = "setTab(1)">
+        <div class = "glyphicon glyphicon-tasks"></div>
+        <div>Заявки</div>
+    </div>
+    <div ng-class = "{ hidden: me.role != 'department chief', active: isSet(2) }" ng-click = "setTab(2)" class = "icon">
+        <div class = "glyphicon glyphicon-user"></div>
+        <div>Профили</div>
+    </div>
+    <div ng-class = "{ hidden: me.role != 'department chief', active: isSet(3) }" ng-click = "setTab(3)" class = "icon">
+        <div class = "glyphicon glyphicon-bookmark"></div>
+        <div>Отделы</div>
+    </div>
+    <div ng-class = "{ hidden: me.role != 'department chief', active: isSet(4)}" ng-click = "setTab(4)" class = "icon">
+        <div class = "glyphicon glyphicon-book"></div>
+        <div>Типы заявок</div>
+    </div>
+</aside>

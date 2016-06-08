@@ -1,0 +1,75 @@
+<div class = 'view tasks' ng-class = "{ active: isActiveTab }"  ng-controller="TasksController">
+    <header>
+        <input type = "text" ng-model = 'taskName' placeholder="Поиск заявки..."/>
+        <div class = "btn-group closed-filter-container">
+            <button type = "button" class="btn closed-filter selected" ng-click = "showClosedTasks(false)">Открытые</button>
+            <button type = "button" class="btn closed-filter" ng-click = "showClosedTasks(true)">Все</button>
+        </div>
+        <div ng-class = "{ hidden: profile[0].role != 'client' && profile[0].role != 'department chief' }" class = 'button-new add-new-task-button'>Новая заявка</div>
+    </header>
+    <div class = "table-container">
+        <table class = 'table head'>
+            <thead>
+                <th style="width: 5%">#</th>
+                <th style="width: 30%">Заявка</th>
+                <th style="width: 10%"><span class="glyphicon glyphicon-comment"></span></th>
+                <th style="width: 10%"><span class="glyphicon glyphicon-user"></span></th>
+                <th style="width: 17.5%">Отдел</th>
+                <th style="width: 17.5%">Подразделение университета</th>
+                <th style="width: 10%">Дата создания</th>
+            </thead>
+        </table>
+        <div class = "scrollable">
+            <table class = 'table table-striped'>
+                <tbody>
+                    <tr ng-repeat="task in tasks | filter:taskName">
+                        <td style="width: 5%">{{ task.id }}</td>
+                        <td style="width: 30%">{{ task.content.slice(0,100) }}</td>
+                        <td style="width: 10%">{{ task.commentCount }}</td>
+                        <td style="width: 10%">{{ task.helperIds.length }}</td>
+                        <td style="width: 17.5%">{{ getSubDep(task.subdepartmentId) }}</td>
+                        <td style="width: 17.5%">{{ getUniDep(task.universityDepartmentId) }}</td>
+                        <td style="width: 10%">{{ parseDate(task.createdAt) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--<section class = 'filters' ng-controller = "filterCntrl">
+        <h4>Фильтры</h4>
+        <div><input type="text" ng-model = 'filterName' placeholder="Поиск по фильтрам..."/></div>
+        <div class = 'filters-caption'>Типы заявок</div>
+        <ul>
+            <li ng-repeat='filterItem in filters.taskTypes | filter: filterName ' ng-style="myStyle"
+                ng-click="events.click($event, 'tasks')" data-section = 'taskTypes' data-id = '{{ filterItem.id }}'> &lt;!&ndash; events.click($event) &ndash;&gt;
+                                                                                                                     {{ filterItem.name }}
+            </li>
+        </ul>
+        <div ng-class = "{ hidden: profile[0].role != 'department chief'}" class = 'filters-caption'>Отделы</div>
+        <ul>
+            <li ng-repeat='filterItem in filters.subDeps | filter: filterName ' ng-style="myStyle"
+                ng-click="events.click($event, 'tasks')" data-section = 'subDeps' data-id = '{{ filterItem.id }}'> &lt;!&ndash; events.click($event) &ndash;&gt;
+                                                                                                                   {{ filterItem.name }}
+            </li>
+        </ul>
+        <div ng-class = "{ hidden: profile[0].role == 'client'}" class = 'filters-caption'>Подразделения университета</div>
+        <ul>
+            <li ng-repeat='filterItem in filters.universityDep | filter: filterName' ng-style="myStyle"
+                ng-click="events.click($event, 'tasks')" data-section = 'universityDep' data-id = '{{ filterItem.id }}'> &lt;!&ndash; events.click($event) &ndash;&gt;
+                                                                                                                         {{ filterItem.name }}
+            </li>
+        </ul>
+    </section>
+    <section class="task new-task" ng-class = '{ lite: profile[0].role != "department chief" }'>
+        <header>
+            <div class = "glyphicon glyphicon-edit add-new-task-inline"></div>
+            <h4>НОВАЯ ЗАЯВКА</h4>
+            <div class = "glyphicon glyphicon-remove-circle close-button"></div>
+        </header>
+        <textarea></textarea>
+        <p ng-class = '{ hidden: profile[0].role != "department chief" }'>Подразделение: <select ng-model = 'selectedUniDep' ng-options = 'uni.id as uni.name for uni in filters.universityDep'></select>
+        <p ng-class = '{ hidden: profile[0].role != "department chief" }'>Отдел:<select ng-model = 'selectedSub' ng-options = 'uni.id as uni.name for uni in subDeps'></select>
+        <p>Тип заявки: <select ng-model = 'selectedTaskType' ng-options = 'uni.id as uni.name for uni in filters.taskTypes'></select>
+        <div class = 'button-save' ng-click = 'save()'>Сохранить</div>
+    </section>-->
+</div>

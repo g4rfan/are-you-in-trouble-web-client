@@ -1,4 +1,4 @@
-angular.module('helpdesk.service').factory('ProfilesProvider', function (networkManager) {
+angular.module('helpdesk.service').factory('SubDepartmentsProvider', function (networkManager) {
     var storage = [];
 
     function insert (data) {
@@ -17,7 +17,7 @@ angular.module('helpdesk.service').factory('ProfilesProvider', function (network
         storage.insert(data);
     }
 
-    networkManager.on('task type:update', function (data) {
+    networkManager.on('subdepartments:update', function (data) {
         save(data);
     });
 

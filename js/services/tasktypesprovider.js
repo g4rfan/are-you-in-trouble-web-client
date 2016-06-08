@@ -1,4 +1,4 @@
-angular.module('helpdesk.service').factory('ProfilesProvider', function (networkManager) {
+angular.module('helpdesk.service').factory('TaskTypesProvider', function (networkManager) {
     var storage = [];
 
     function insert (data) {
